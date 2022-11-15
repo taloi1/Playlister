@@ -5,7 +5,7 @@ import { GlobalStoreContext } from '../store'
 
 import EditToolbar from './EditToolbar'
 
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -93,31 +93,32 @@ export default function AppBanner() {
         if (loggedIn) 
             return <div>{userInitials}</div>;
         else
-            return <AccountCircle />;
+            return <AccountCircleOutlined />;
     }
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+        <Box sx={{ flexGrow: 1}}>
+            <AppBar position="static" sx={{bgcolor:"#e6e6e6"}}>
                 <Toolbar>
                     <Typography                        
-                        variant="h4"
+                        variant="h5"
                         noWrap
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' } }}                        
                     >
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to='/' onClick={handleCloseList}>⌂</Link>
+                        <Link style={{ textDecoration: 'none', color: 'black' }} to='/' onClick={handleCloseList}>  
+                            <img src="/client/src/assets/Playlister-Logo.png" alt="⌂" /> 
+                        </Link>
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <IconButton
-                            size="large"
                             edge="end"
                             aria-label="account of current user"
                             aria-controls={menuId}
                             aria-haspopup="true"
                             onClick={handleProfileMenuOpen}
-                            color="inherit"
+                            sx={{color: "#000000", scale: "130%"}}
                         >
                             { getAccountMenu(auth.loggedIn) }
                         </IconButton>
