@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import AuthContext from '../auth';
 import { GlobalStoreContext } from '../store'
 
-import EditToolbar from './EditToolbar'
+import PlaylisterLogo from './assets/PlaylisterLogo.png';
+import EditToolbar from './EditToolbar';
 
 import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined';
 import AppBar from '@mui/material/AppBar';
@@ -104,10 +105,10 @@ export default function AppBanner() {
                         variant="h5"
                         noWrap
                         component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } }}                        
+                        sx={{ display: { xs: 'none', sm: 'block' }, marginTop: "7px" }}                        
                     >
                         <Link style={{ textDecoration: 'none', color: 'black' }} to='/' onClick={handleCloseList}>  
-                            <img src="/client/src/assets/Playlister-Logo.png" alt="⌂" /> 
+                            <img src={PlaylisterLogo} alt="⌂" style={{width: "40%", height: "auto", paddingTop: "2px"}}/> 
                         </Link>
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
