@@ -105,10 +105,10 @@ export default function AppBanner() {
                         variant="h5"
                         noWrap
                         component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' }, marginTop: "7px" }}                        
+                        sx={{ display: { xs: 'none', sm: 'block' }, marginTop: "9px" }}                        
                     >
                         <Link style={{ textDecoration: 'none', color: 'black' }} to='/' onClick={handleCloseList}>  
-                            <img src={PlaylisterLogo} alt="⌂" style={{width: "40%", height: "auto", paddingTop: "2px"}}/> 
+                            <img src={PlaylisterLogo} alt="⌂" style={{width: "40%", height: "auto", marginBottom: "-5px", marginLeft: "-3px"}}/> 
                         </Link>
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
@@ -119,7 +119,7 @@ export default function AppBanner() {
                             aria-controls={menuId}
                             aria-haspopup="true"
                             onClick={handleProfileMenuOpen}
-                            sx={{color: "#000000", scale: "130%"}}
+                            sx={{color: "#000000", scale: "140%"}}
                         >
                             { getAccountMenu(auth.loggedIn) }
                         </IconButton>

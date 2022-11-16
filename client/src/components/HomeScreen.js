@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
+import VideoArea from './VideoArea'
 
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab'
@@ -22,9 +23,9 @@ const HomeScreen = () => {
     function handleCreateNewList() {
         store.createNewList();
     }
-    let listCard = "";
+    let listCards = "";
     if (store) {
-        listCard = 
+        listCards = 
             <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper' }}>
             {
                 store.idNamePairs.map((pair) => (
@@ -52,9 +53,12 @@ const HomeScreen = () => {
             </div>
             <div id="list-selector-list">
                 {
-                    listCard
+                    listCards
                 }
                 <MUIDeleteModal />
+            </div>
+            <div id="video-area">
+                <VideoArea/>
             </div>
         </div>)
 }

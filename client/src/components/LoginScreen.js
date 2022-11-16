@@ -38,7 +38,7 @@ export default function LoginScreen() {
     return (
         <Container component="main" sx = {{width: "100%", height: "100%"}}>
             <CssBaseline />
-            <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+            <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square >
                 <Box
                     sx={{
                         paddingTop: 8,
