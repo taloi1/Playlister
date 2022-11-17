@@ -3,9 +3,12 @@ import { GlobalStoreContext } from '../store'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
 import VideoArea from './VideoArea'
+import Statusbar from './Statusbar'
 
 import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab'
+import { Box } from '@mui/material'
+import {IconButton} from '@mui/material'
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography'
 /*
@@ -26,7 +29,7 @@ const HomeScreen = () => {
     let listCards = "";
     if (store) {
         listCards = 
-            <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper' }}>
+            <List sx={{ width: '90%', left: '5%' }}>
             {
                 store.idNamePairs.map((pair) => (
                     <ListCard
@@ -40,16 +43,8 @@ const HomeScreen = () => {
     }
     return (
         <div id="playlist-selector">
-            <div id="list-selector-heading">
-            <Fab 
-                color="primary" 
-                aria-label="add"
-                id="add-list-button"
-                onClick={handleCreateNewList}
-            >
-                <AddIcon />
-            </Fab>
-                <Typography variant="h2">Your Lists</Typography>
+            <div id="a">
+
             </div>
             <div id="list-selector-list">
                 {
@@ -60,6 +55,17 @@ const HomeScreen = () => {
             <div id="video-area">
                 <VideoArea/>
             </div>
+            <Statusbar />   
+            <div id="list-selector-heading">
+                <Box sx={{ p: 1 }}>
+                    <IconButton 
+                    onClick={handleCreateNewList} 
+                    aria-label='add'>
+                        <AddIcon style={{fontSize:'48pt'}} sx={{color:'ffffff'}} />
+                    </IconButton>
+                </Box>
+                <Typography variant="h2">Your Lists</Typography>
+            </div>    
         </div>)
 }
 

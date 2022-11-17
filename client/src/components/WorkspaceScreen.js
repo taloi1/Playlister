@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import SongCard from './SongCard.js'
 import MUIEditSongModal from './MUIEditSongModal'
 import MUIRemoveSongModal from './MUIRemoveSongModal'
+import Statusbar from './Statusbar.js'
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import Modal from '@mui/material/Modal';
@@ -86,6 +87,7 @@ function WorkspaceScreen() {
          { songList }
          { modalJSX }
          { errorModal }
+         <Statusbar />      
          </Box>
     )
 }

@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
+import { bgcolor } from '@mui/system';
 
 /*
     This is a card in our list of playlists. It lets select
@@ -77,8 +78,8 @@ function ListCard(props) {
         <ListItem
             id={idNamePair._id}
             key={idNamePair._id}
-            sx={{ marginTop: '15px', display: 'flex', p: 1 }}
-            style={{ width: '100%', fontSize: '48pt' }}
+            sx={{ marginTop: '10px', display: 'flex', p: 1 }}
+            style={{ height:'10%', width: '100%', fontSize: '25pt', borderStyle: "solid", borderRadius: "10px", borderWidth: "2px",  backgroundColor: "#fffff1"}}
             button
             onClick={(event) => {
                 handleLoadList(event, idNamePair._id)
@@ -114,6 +115,7 @@ function ListCard(props) {
                 onChange={handleUpdateText}
                 defaultValue={idNamePair.name}
                 inputProps={{style: {fontSize: 48}}}
+                variant="filled"
                 InputLabelProps={{style: {fontSize: 24}}}
                 autoFocus
             />

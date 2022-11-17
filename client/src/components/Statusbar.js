@@ -12,10 +12,7 @@ function Statusbar() {
     const { store } = useContext(GlobalStoreContext);
     const { auth } = useContext(AuthContext);
     let text ="";
-    let statusName = "statusbar";
-    if (auth.user !== null) {
-        statusName = "statusbar-visible"
-    }
+    let statusName = "statusbar-visible";
     if (store.currentList)
         text = store.currentList.name;
     return (
