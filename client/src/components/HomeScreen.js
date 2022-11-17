@@ -6,7 +6,12 @@ import VideoArea from './VideoArea'
 import Statusbar from './Statusbar'
 
 import AddIcon from '@mui/icons-material/Add';
-import Fab from '@mui/material/Fab'
+import HomeIcon from '@mui/icons-material/Home';
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import {InputLabel} from '@mui/material'
+import {InputAdornment} from '@mui/material'
+import {TextField} from '@mui/material'
 import { Box } from '@mui/material'
 import {IconButton} from '@mui/material'
 import List from '@mui/material/List';
@@ -29,7 +34,7 @@ const HomeScreen = () => {
     let listCards = "";
     if (store) {
         listCards = 
-            <List sx={{ width: '90%', left: '5%' }}>
+            <List sx={{ width: '96%', left: '2%' }}>
             {
                 store.idNamePairs.map((pair) => (
                     <ListCard
@@ -43,8 +48,34 @@ const HomeScreen = () => {
     }
     return (
         <div id="playlist-selector">
-            <div id="a">
+            <div id="home-banner">
+                <Box sx={{ pt: 1}}>
+                    <IconButton 
+                    onClick={handleCreateNewList} 
+                    aria-label='add'>
+                        <HomeIcon style={{fontSize:'30pt'}} sx={{color:'ffffff'}} />
+                    </IconButton>
+                </Box>
 
+                <Box sx={{ pt: 1, pl:1 }}>
+                    <IconButton 
+                    onClick={handleCreateNewList} 
+                    aria-label='add'>
+                        <GroupsOutlinedIcon style={{fontSize:'30pt'}} sx={{color:'ffffff'}} />
+                    </IconButton>
+                </Box>
+
+                <Box sx={{ pt: 1, pl:1 }}>
+                    <IconButton 
+                    onClick={handleCreateNewList} 
+                    aria-label='add'>
+                        <PersonOutlineIcon style={{fontSize:'30pt'}} sx={{color:'ffffff'}} />
+                    </IconButton>
+                </Box>
+
+                <TextField  
+                    label={'Search'}  style={{ width:'55%', marginLeft:'7%', marginTop:'5px', backgroundColor: '#ffffff', borderRadius: '4px'}}> 
+                </TextField>
             </div>
             <div id="list-selector-list">
                 {

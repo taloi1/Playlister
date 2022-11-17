@@ -124,7 +124,7 @@ body {
   width: 80%;
   height: 10%;
   background-color: var(--swatch-primary);
-  color:whitesmoke;
+  color:rgb(8, 6, 6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -141,6 +141,21 @@ body {
 
 .statusbar-visible {
   visibility: visible;
+}
+
+#home-banner {
+  top: 111%;
+  bottom: 15%;
+  width: 90%;
+  height: 100%;
+  max-height: 61px;
+  margin-top: 6px;
+  margin-left: 1%;
+  font-size: large;
+  background-color: var(--swatch-primary);
+  color: #000000;
+  display: flex;
+  flex-direction:row;
 }
 
 #list-selector-heading {
@@ -166,8 +181,9 @@ body {
   max-height: 83%;
   position: absolute;
   left: 0%;
-  top: 10%;
+  top: 15%;
   width: 60%;
+  margin-top: 15px;
   height: 90%;
   display: flex;
   flex-direction: column;
@@ -178,10 +194,11 @@ body {
   max-height: 83%;
   position: absolute;
   left: 61%;
-  top: 10%;
+  top: 15%;
   width: 38%;
   height: 90%;
   display: flex;
+  margin-top: 15px;
   flex-direction: column;
   overflow: auto;
   border: solid 4px #37474F
