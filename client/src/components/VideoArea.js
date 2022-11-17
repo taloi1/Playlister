@@ -1,5 +1,6 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext} from 'react'
 import { GlobalStoreContext } from '../store'
+import YouTubePlayer from './YoutubePlayer';
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -13,6 +14,7 @@ const VideoArea = () => {
     return (
         <div>
             PLAYLIST AREA
+            <YouTubePlayer/>
         </div>)
 }
 
