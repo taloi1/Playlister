@@ -285,7 +285,6 @@ function GlobalStoreContextProvider(props) {
             payload: {}
         });
         tps.clearAllTransactions();
-        history.push("/");
     }
 
     // THIS FUNCTION CREATES A NEW LIST
@@ -528,6 +527,10 @@ function GlobalStoreContextProvider(props) {
     store.redo = function () {
         if (store.currentModal === CurrentModal.NONE)
             tps.doTransaction();
+    }
+    store.clearAllTransactions = function () {
+        if (store.currentModal === CurrentModal.NONE)
+            tps.clearAllTransactions();
     }
     store.canAddNewSong = function() {
         return ((store.currentList !== null) && store.currentModal === CurrentModal.NONE);

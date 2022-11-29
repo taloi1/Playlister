@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
@@ -31,6 +32,7 @@ function ListCard(props) {
     const { idNamePair, selected } = props;
 
     function handleLoadList(event, id) {
+        store.clearAllTransactions();
         console.log("handleLoadList for " + id);
         if (!event.target.disabled) {
             let _id = event.target.id;
@@ -43,6 +45,10 @@ function ListCard(props) {
             store.setCurrentList(id);
         }
     }   
+
+    function handleCloseList () {
+        store.closeCurrentList();
+    }
 
     function handleToggleEdit(event) {
         event.stopPropagation();
@@ -92,7 +98,7 @@ function ListCard(props) {
         cardCenter = <List 
         id="playlist-cards" 
         sx={{ width: '100%', bgcolor: 'background.paper', height: "40vh", overflowY: "auto"}}
-    >
+        >
         {
             store.currentList.songs.map((song, index) => (
                 <SongCard
@@ -114,6 +120,23 @@ function ListCard(props) {
     else if (store.isRemoveSongModalOpen()) {
         modalJSX = <MUIRemoveSongModal />;
     }
+
+    let listOpenCloseButton = "";
+    if (store.currentList && store.currentList._id === idNamePair._id) {
+        listOpenCloseButton = <IconButton onClick={(event) => {
+            handleCloseList(event, idNamePair._id)
+        }} aria-label='close'>
+        <KeyboardDoubleArrowUpIcon style={{fontSize:'48pt'}} />
+        </IconButton>
+    } else {
+        listOpenCloseButton = <IconButton onClick={(event) => {
+            handleLoadList(event, idNamePair._id)
+        }} aria-label='open'>
+        <KeyboardDoubleArrowDownIcon style={{fontSize:'48pt'}} />
+        </IconButton>
+    }
+
+
 
     let selectClass = "unselected-list-card";
     if (selected) {
@@ -160,11 +183,7 @@ function ListCard(props) {
             >
                 <Box sx={{ p: 1, flexGrow: 1, overflowX: 'auto' }}>published listens</Box>
                 <Box sx={{ p: 1 }}>
-                    <IconButton onClick={(event) => {
-                            handleLoadList(event, idNamePair._id)
-                        }} aria-label='open'>
-                        <KeyboardDoubleArrowDownIcon style={{fontSize:'48pt'}} />
-                    </IconButton>
+                    {listOpenCloseButton}
                 </Box>
             </Box>
 
