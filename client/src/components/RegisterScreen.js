@@ -21,6 +21,7 @@ export default function RegisterScreen() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         auth.registerUser(
+            formData.get('userName'),
             formData.get('firstName'),
             formData.get('lastName'),
             formData.get('email'),
@@ -57,9 +58,9 @@ export default function RegisterScreen() {
                                 <TextField
                                     required
                                     fullWidth
-                                    id="username"
+                                    id="userName"
                                     label="User Name"
-                                    name="username"
+                                    name="userName"
                                     autoComplete="username"
                                 />
                             </Grid>
