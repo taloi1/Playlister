@@ -6,6 +6,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { bgcolor } from '@mui/system';
 
 /*
@@ -33,11 +38,14 @@ function ListCard(props) {
             // CHANGE THE CURRENT LIST
             store.setCurrentList(id);
         }
-    }
+    }   
 
     function handleToggleEdit(event) {
         event.stopPropagation();
-        toggleEdit();
+        event.nativeEvent.stopImmediatePropagation();
+        if (event.detail === 2) {
+            toggleEdit();
+        }
     }
 
     function toggleEdit() {
@@ -65,6 +73,21 @@ function ListCard(props) {
     function handleUpdateText(event) {
         setText(event.target.value);
     }
+    
+    function handleLikeList(event, id) {
+        console.log("Like");
+    }
+
+    function handleDislikeList(event, id) {
+        console.log("Dislike");
+        console.log(idNamePair);
+    }
+
+    let cardCenter = "";
+    if (store.currentList && store.currentList._id === idNamePair._id) {
+        cardCenter = store.currentList._id;
+    }
+
 
     let selectClass = "unselected-list-card";
     if (selected) {
@@ -75,30 +98,51 @@ function ListCard(props) {
         cardStatus = true;
     }
     let cardElement =
-        <ListItem
-            id={idNamePair._id}
-            key={idNamePair._id}
-            sx={{ marginTop: '10px', display: 'flex', p: 1 }}
-            style={{ minHeight: '100px', height:'6%', width: '100%', fontSize: '25pt', borderStyle: "solid", borderRadius: "10px", borderWidth: "2px",  backgroundColor: "#fffff1"}}
-            button
-            onClick={(event) => {
-                handleLoadList(event, idNamePair._id)
-            }}
+        <ListItem 
+        sx={{ flexDirection: 'column' }}
+        id={idNamePair._id}
+        key={idNamePair._id}
         >
+            <Box //TOP
+            sx={{ marginTop: '10px', display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
+            style={{ minHeight: '100px', height:'6%', width: '100%', fontSize: '25pt', 
+            borderStyle: "solid", borderRadius: "10px 10px 0px 0px",  borderWidth: "2px", borderBottom: 0, backgroundColor: "#fffff1"}}    
+            onClick={handleToggleEdit}
+            >
             <Box sx={{ p: 1, flexGrow: 1, overflowX: 'auto' }}>{idNamePair.name}</Box>
             <Box sx={{ p: 1 }}>
-                <IconButton onClick={handleToggleEdit} aria-label='edit'>
-                    <EditIcon style={{fontSize:'48pt'}} />
+                <IconButton onClick={handleLikeList} aria-label='like'>
+                    <ThumbUpAltIcon style={{fontSize:'48pt'}} />
                 </IconButton>
             </Box>
             <Box sx={{ p: 1 }}>
                 <IconButton onClick={(event) => {
-                        handleDeleteList(event, idNamePair._id)
-                    }} aria-label='delete'>
-                    <DeleteIcon style={{fontSize:'48pt'}} />
+                        handleDislikeList()
+                    }} aria-label='dislike'>
+                    <ThumbDownAltIcon style={{fontSize:'48pt'}} />
                 </IconButton>
             </Box>
+            </Box>
+
+            {cardCenter}
+
+            <Box //BOTTOM
+                sx={{display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
+                style={{ minHeight: '100px', height:'6%', width: '100%', fontSize: '25pt', 
+                borderStyle: "solid", borderRadius: "0px 0px 10px 10px", borderWidth: "2px", borderTop: 0, backgroundColor: "#fffff1"}}
+                onClick={handleToggleEdit}
+            >
+                <Box sx={{ p: 1, flexGrow: 1, overflowX: 'auto' }}>published listens</Box>
+                <Box sx={{ p: 1 }}>
+                    <IconButton onClick={(event) => {
+                            handleLoadList(event, idNamePair._id)
+                        }} aria-label='open'>
+                        <KeyboardDoubleArrowDownIcon style={{fontSize:'48pt'}} />
+                    </IconButton>
+                </Box>
+            </Box>
         </ListItem>
+        
 
     if (editActive) {
         cardElement =

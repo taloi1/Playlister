@@ -99,7 +99,7 @@ body {
   margin-right: 6px;
 }
 
-#playlister-list-selector {
+#playtlist-selector {
   position: absolute;
   left: 0%;
   top: 10%;
@@ -178,27 +178,25 @@ body {
 }
 
 #list-selector-list {
-  max-height: 83%;
   position: absolute;
   left: 0%;
   top: 15%;
   width: 60%;
-  margin-top: 15px;
-  height: 90%;
+  margin-top: 2%;
+  height:70%;
   display: flex;
   flex-direction: column;
   overflow: scroll;
 }
 
 #video-area {
-  max-height: 83%;
   position: absolute;
   left: 61%;
   top: 15%;
   width: 38%;
-  height: 90%;
+  height: 70%;
   display: flex;
-  margin-top: 15px;
+  margin-top: 2%;
   flex-direction: column;
   overflow: auto;
   border: solid 4px #37474F
