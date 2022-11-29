@@ -1,6 +1,11 @@
 import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
+import SongCard from './SongCard'
+import MUIEditSongModal from './MUIEditSongModal'
+import MUIRemoveSongModal from './MUIRemoveSongModal'
+
 import Box from '@mui/material/Box';
+import { List } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
@@ -11,7 +16,6 @@ import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import { bgcolor } from '@mui/system';
 
 /*
     This is a card in our list of playlists. It lets select
@@ -85,9 +89,31 @@ function ListCard(props) {
 
     let cardCenter = "";
     if (store.currentList && store.currentList._id === idNamePair._id) {
-        cardCenter = store.currentList._id;
+        cardCenter = <List 
+        id="playlist-cards" 
+        sx={{ width: '100%', bgcolor: 'background.paper', height: "40vh", overflowY: "auto"}}
+    >
+        {
+            store.currentList.songs.map((song, index) => (
+                <SongCard
+                    id={'playlist-song-' + (index)}
+                    key={'playlist-song-' + (index)}
+                    index={index}
+                    song={song}
+                />
+            ))  
+            
+        }
+        </List>;          
     }
 
+    let modalJSX = "";
+    if (store.isEditSongModalOpen()) {
+        modalJSX = <MUIEditSongModal />;
+    }
+    else if (store.isRemoveSongModalOpen()) {
+        modalJSX = <MUIRemoveSongModal />;
+    }
 
     let selectClass = "unselected-list-card";
     if (selected) {
@@ -141,6 +167,8 @@ function ListCard(props) {
                     </IconButton>
                 </Box>
             </Box>
+
+            {modalJSX}
         </ListItem>
         
 
