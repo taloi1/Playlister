@@ -42,6 +42,20 @@ const HomeScreen = () => {
         store.setHomeScreenUsers();
     }
 
+    let HomeScreenBar = "";
+    if (store.currentHomeScreen === "HOME") {
+        HomeScreenBar = <div id="list-selector-heading">
+                <Box sx={{ p: 1 }}>
+                    <IconButton 
+                    onClick={handleCreateNewList} 
+                    aria-label='add'>
+                        <AddIcon style={{fontSize:'48pt'}} sx={{color:'ffffff'}} />
+                    </IconButton>
+                </Box>
+                <Typography variant="h2">Your Lists</Typography>
+            </div>   
+    }
+
     let listCards = "";
     if (store) {
         listCards = 
@@ -57,6 +71,7 @@ const HomeScreen = () => {
             }
             </List>;
     }
+
     return (
         <div id="playlist-selector">
             <div id="home-banner">
@@ -98,16 +113,7 @@ const HomeScreen = () => {
                 <VideoArea/>
             </div>
             <Statusbar />   
-            <div id="list-selector-heading">
-                <Box sx={{ p: 1 }}>
-                    <IconButton 
-                    onClick={handleCreateNewList} 
-                    aria-label='add'>
-                        <AddIcon style={{fontSize:'48pt'}} sx={{color:'ffffff'}} />
-                    </IconButton>
-                </Box>
-                <Typography variant="h2">Your Lists</Typography>
-            </div>    
+            {HomeScreenBar} 
         </div>)
 }
 
