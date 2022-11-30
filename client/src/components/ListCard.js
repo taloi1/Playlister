@@ -3,6 +3,7 @@ import { GlobalStoreContext } from '../store'
 import SongCard from './SongCard'
 import MUIEditSongModal from './MUIEditSongModal'
 import MUIRemoveSongModal from './MUIRemoveSongModal'
+import NewSongCard from './NewSongCard'
 
 import Box from '@mui/material/Box';
 import { List } from '@mui/material';
@@ -116,6 +117,7 @@ function ListCard(props) {
             ))  
             
         }
+        <NewSongCard/>
         </List>    
         </Box>
           
@@ -162,11 +164,11 @@ function ListCard(props) {
         >
             <Box //TOP
             sx={{ marginTop: '10px', display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
-            style={{ minHeight: '100px', height:'6%', width: '100%', fontSize: '20pt', position: 'relative'}}    
+            style={{ minHeight: '80px', height:'6%', width: '100%', fontSize: '20pt', position: 'relative'}}    
             onClick={handleToggleEdit}
             >
             <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '6%', left: '3%', position: 'absolute' }}>{idNamePair.name}</Box>
-            <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '40%', left: '3%', position: 'absolute', fontSize: '15pt' }}>By: Me :D</Box>
+            <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '56%', left: '3%', position: 'absolute', fontSize: '15pt' }}>By: Me :D</Box>
             <Box sx={{ top: '0%', left: '55%', position: 'absolute'}}>
                 <IconButton onClick={handleLikeList} aria-label='like'>
                     <ThumbUpAltIcon style={{fontSize:'40pt'}}> </ThumbUpAltIcon>
@@ -185,7 +187,7 @@ function ListCard(props) {
 
             <Box //BOTTOM
                 sx={{display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
-                style={{ minHeight: '100px', height:'6%', width: '100%', fontSize: '15pt', position: 'relative'}}
+                style={{ minHeight: '80px', height:'6%', width: '100%', fontSize: '15pt', position: 'relative'}}
                 onClick={handleToggleEdit}
             >
                 <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '3%', position: 'absolute' }}>Published: Jan 5, 2019</Box>
