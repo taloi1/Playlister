@@ -4,7 +4,6 @@ import AuthContext from '../auth';
 import { GlobalStoreContext } from '../store'
 
 import PlaylisterLogo from './assets/PlaylisterLogo.png';
-import EditToolbar from './EditToolbar';
 
 import AccountCircleOutlined from '@mui/icons-material/AccountCircleOutlined';
 import AppBar from '@mui/material/AppBar';
@@ -79,13 +78,9 @@ export default function AppBanner() {
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>        
 
-    let editToolbar = "";
     let menu = loggedOutMenu;
     if (auth.loggedIn) {
         menu = loggedInMenu;
-        if (store.currentList) {
-            editToolbar = <EditToolbar />;
-        }
     }
     
     function getAccountMenu(loggedIn) {
@@ -111,8 +106,7 @@ export default function AppBanner() {
                             <img src={PlaylisterLogo} alt="⌂" style={{width: "40%", height: "auto", marginBottom: "-5px", marginLeft: "-3px"}}/> 
                         </Link>
                     </Typography>
-                    <Box sx={{ flexGrow: 1 }}>{editToolbar}</Box>
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    <Box sx={{ display: { xs: 'none', md: 'flex', position: 'absolute', right: '2%' } }}>
                         <IconButton
                             edge="end"
                             aria-label="account of current user"

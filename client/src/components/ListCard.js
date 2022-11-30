@@ -4,6 +4,7 @@ import SongCard from './SongCard'
 import MUIEditSongModal from './MUIEditSongModal'
 import MUIRemoveSongModal from './MUIRemoveSongModal'
 import NewSongCard from './NewSongCard'
+import EditToolbar from './EditToolbar'
 
 import Box from '@mui/material/Box';
 import { List } from '@mui/material';
@@ -123,6 +124,11 @@ function ListCard(props) {
           
     }
 
+    let editToolbar = "";
+    if (store.currentList && store.currentList._id === idNamePair._id) {
+        editToolbar= <Box style={{width: '100%', marginTop: '2%', marginBottom: '2%' }}><EditToolbar></EditToolbar></Box>
+    }
+
     let modalJSX = "";
     if (store.isEditSongModalOpen()) {
         modalJSX = <MUIEditSongModal />;
@@ -184,6 +190,7 @@ function ListCard(props) {
             </Box>
 
             {cardCenter}
+            {editToolbar}
 
             <Box //BOTTOM
                 sx={{display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
