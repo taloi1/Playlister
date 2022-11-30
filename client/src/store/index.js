@@ -32,6 +32,7 @@ export const GlobalStoreActionType = {
     REMOVE_SONG: "REMOVE_SONG",
     HIDE_MODALS: "HIDE_MODALS",
     CHANGE_SCREEN: "CHANGE_SCREEN",
+    CHANGE_SORT_TYPE: "CHANGE_SORT_TYPE",
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -112,9 +113,9 @@ function GlobalStoreContextProvider(props) {
     // HANDLE EVERY TYPE OF STATE CHANGE
     const storeReducer = (action) => {
         const { type, payload } = action;
+        console.log("STATE UPDATE");
         console.log(type);
         console.log(payload);
-        console.log(store.currentModal);
         switch (type) {
             // LIST UPDATE OF ITS NAME
             case GlobalStoreActionType.CHANGE_LIST_NAME: {
@@ -279,6 +280,21 @@ function GlobalStoreContextProvider(props) {
                     currentModal : CurrentModal.NONE,
                     currentHomeScreen : payload,
                     sortType : SortType.LISTENS,
+                    idNamePairs: store.idNamePairs,
+                    currentList: null,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null
+                });
+            }
+            case GlobalStoreActionType.CHANGE_SORT_TYPE: {
+                return setStore({
+                    currentModal : CurrentModal.NONE,
+                    currentHomeScreen : store.currentHomeScreen,
+                    sortType : payload,
                     idNamePairs: store.idNamePairs,
                     currentList: null,
                     currentSongIndex: -1,
@@ -622,6 +638,37 @@ function GlobalStoreContextProvider(props) {
         storeReducer({
             type: GlobalStoreActionType.CHANGE_SCREEN,
             payload: CurrentHomeScreen.USERS
+        });
+    }
+
+    store.setSortName = function() {
+        storeReducer({
+            type: GlobalStoreActionType.CHANGE_SORT_TYPE,
+            payload: SortType.NAME
+        });
+    }
+    store.setSortPublishDate = function() {
+        storeReducer({
+            type: GlobalStoreActionType.CHANGE_SORT_TYPE,
+            payload: SortType.PUBLISH_DATE
+        });
+    }
+    store.setSortListens = function() {
+        storeReducer({
+            type: GlobalStoreActionType.CHANGE_SORT_TYPE,
+            payload: SortType.LISTENS
+        });
+    }
+    store.setSortLikes = function() {
+        storeReducer({
+            type: GlobalStoreActionType.CHANGE_SORT_TYPE,
+            payload: SortType.LIKES
+        });
+    }
+    store.setSortDislikes = function() {
+        storeReducer({
+            type: GlobalStoreActionType.CHANGE_SORT_TYPE,
+            payload: SortType.DISLIKES
         });
     }
 
