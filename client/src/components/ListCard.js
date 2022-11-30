@@ -30,6 +30,10 @@ function ListCard(props) {
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
     const { idNamePair, selected } = props;
+    const playlist = async() => {await store.getPlaylist(idNamePair._id)};
+    
+    
+    
 
     function handleLoadList(event, id) {
         store.clearAllTransactions();
@@ -85,6 +89,7 @@ function ListCard(props) {
     }
     
     function handleLikeList(event, id) {
+        console.log(playlist);
         console.log("Like");
     }
 
@@ -136,8 +141,6 @@ function ListCard(props) {
         </IconButton>
     }
 
-
-
     let selectClass = "unselected-list-card";
     if (selected) {
         selectClass = "selected-list-card";
@@ -159,6 +162,7 @@ function ListCard(props) {
             onClick={handleToggleEdit}
             >
             <Box sx={{ p: 1, flexGrow: 1, overflowX: 'auto' }}>{idNamePair.name}</Box>
+            <Box sx={{ p: 1, flexGrow: 1, overflowX: 'auto', top: '30%', position: 'absolute' }}>By</Box>
             <Box sx={{ p: 1 }}>
                 <IconButton onClick={handleLikeList} aria-label='like'>
                     <ThumbUpAltIcon style={{fontSize:'48pt'}} />

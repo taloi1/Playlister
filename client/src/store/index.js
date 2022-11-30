@@ -290,7 +290,7 @@ function GlobalStoreContextProvider(props) {
     // THIS FUNCTION CREATES A NEW LIST
     store.createNewList = async function () {
         let newListName = "Untitled" + store.newListCounter;
-        const response = await api.createPlaylist(newListName, [], auth.user.email);
+        const response = await api.createPlaylist(newListName, auth.user.email, auth.user.userName, 0, 0, 0, false, [], []);
         if (response.status === 201) {
             tps.clearAllTransactions();
             let newList = response.data.playlist;
@@ -299,9 +299,7 @@ function GlobalStoreContextProvider(props) {
                 payload: newList
             }
             );
-
-            // IF IT'S A VALID LIST THEN LET'S START EDITING IT
-            history.push("/playlist/" + newList._id);
+            store.loadIdNamePairs();
         }
         else {
             console.log("API FAILED TO CREATE A NEW LIST");
@@ -412,6 +410,16 @@ function GlobalStoreContextProvider(props) {
         asyncSetCurrentList(id);
     }
 
+    store.getPlaylist = function(id) {
+        async function asyncGetPlaylist(id) {
+            let response = await api.getPlaylistById(id);
+            if (response.data.success) {
+                console.log(response.data.playlist);
+                return response.data.playlist;
+            }
+        }
+        asyncGetPlaylist(id);
+    }
     store.getPlaylistSize = function() {
         return store.currentList.songs.length;
     }
