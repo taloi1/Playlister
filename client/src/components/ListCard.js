@@ -6,8 +6,6 @@ import MUIRemoveSongModal from './MUIRemoveSongModal'
 
 import Box from '@mui/material/Box';
 import { List } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
@@ -100,9 +98,12 @@ function ListCard(props) {
 
     let cardCenter = "";
     if (store.currentList && store.currentList._id === idNamePair._id) {
-        cardCenter = <List 
+        cardCenter = 
+        <Box sx={{ width: '100%', backgroundColor: "#fffff1", height: "40vh", overflowY: "auto", 
+        borderStyle: "solid", borderWidth: "2px", borderRadius: '10pt'}}>
+        <List 
         id="playlist-cards" 
-        sx={{ width: '100%', bgcolor: 'background.paper', height: "40vh", overflowY: "auto"}}
+        
         >
         {
             store.currentList.songs.map((song, index) => (
@@ -115,7 +116,9 @@ function ListCard(props) {
             ))  
             
         }
-        </List>;          
+        </List>    
+        </Box>
+          
     }
 
     let modalJSX = "";
@@ -130,13 +133,15 @@ function ListCard(props) {
     if (store.currentList && store.currentList._id === idNamePair._id) {
         listOpenCloseButton = <IconButton onClick={(event) => {
             handleCloseList(event, idNamePair._id)
-        }} aria-label='close'>
+        }} aria-label='close'
+        >
         <KeyboardDoubleArrowUpIcon style={{fontSize:'48pt'}} />
         </IconButton>
     } else {
         listOpenCloseButton = <IconButton onClick={(event) => {
             handleLoadList(event, idNamePair._id)
-        }} aria-label='open'>
+        }} aria-label='open'
+        >
         <KeyboardDoubleArrowDownIcon style={{fontSize:'48pt'}} />
         </IconButton>
     }
@@ -151,29 +156,28 @@ function ListCard(props) {
     }
     let cardElement =
         <ListItem 
-        sx={{ flexDirection: 'column' }}
+        sx={{ flexDirection: 'column', borderStyle: "solid", borderRadius: "10px",  borderWidth: "2px", backgroundColor: "#fffff1", marginTop: '2%' }}
         id={idNamePair._id}
         key={idNamePair._id}
         >
             <Box //TOP
             sx={{ marginTop: '10px', display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
-            style={{ minHeight: '100px', height:'6%', width: '100%', fontSize: '25pt', 
-            borderStyle: "solid", borderRadius: "10px 10px 0px 0px",  borderWidth: "2px", borderBottom: 0, backgroundColor: "#fffff1"}}    
+            style={{ minHeight: '100px', height:'6%', width: '100%', fontSize: '20pt', position: 'relative'}}    
             onClick={handleToggleEdit}
             >
-            <Box sx={{ p: 1, flexGrow: 1, overflowX: 'auto' }}>{idNamePair.name}</Box>
-            <Box sx={{ p: 1, flexGrow: 1, overflowX: 'auto', top: '30%', position: 'absolute' }}>By</Box>
-            <Box sx={{ p: 1 }}>
+            <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '6%', left: '3%', position: 'absolute' }}>{idNamePair.name}</Box>
+            <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '40%', left: '3%', position: 'absolute', fontSize: '15pt' }}>By: Me :D</Box>
+            <Box sx={{ top: '0%', left: '55%', position: 'absolute'}}>
                 <IconButton onClick={handleLikeList} aria-label='like'>
-                    <ThumbUpAltIcon style={{fontSize:'48pt'}} />
+                    <ThumbUpAltIcon style={{fontSize:'40pt'}}> </ThumbUpAltIcon>
                 </IconButton>
-            </Box>
-            <Box sx={{ p: 1 }}>
+                1000
                 <IconButton onClick={(event) => {
                         handleDislikeList()
-                    }} aria-label='dislike'>
-                    <ThumbDownAltIcon style={{fontSize:'48pt'}} />
+                    }} aria-label='dislike' style={{marginLeft: '1pt'}}>
+                    <ThumbDownAltIcon style={{fontSize:'40pt'}} />
                 </IconButton>
+                2
             </Box>
             </Box>
 
@@ -181,12 +185,12 @@ function ListCard(props) {
 
             <Box //BOTTOM
                 sx={{display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
-                style={{ minHeight: '100px', height:'6%', width: '100%', fontSize: '25pt', 
-                borderStyle: "solid", borderRadius: "0px 0px 10px 10px", borderWidth: "2px", borderTop: 0, backgroundColor: "#fffff1"}}
+                style={{ minHeight: '100px', height:'6%', width: '100%', fontSize: '15pt', position: 'relative'}}
                 onClick={handleToggleEdit}
             >
-                <Box sx={{ p: 1, flexGrow: 1, overflowX: 'auto' }}>published listens</Box>
-                <Box sx={{ p: 1 }}>
+                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '3%', position: 'absolute' }}>Published: Jan 5, 2019</Box>
+                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '55%', position: 'absolute'  }}>Listens: 727</Box>
+                <Box sx={{ bottom: '0%', right: '3%', position: 'absolute' }}>
                     {listOpenCloseButton}
                 </Box>
             </Box>
