@@ -1,8 +1,10 @@
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
 import RedoIcon from '@mui/icons-material/Redo';
 import UndoIcon from '@mui/icons-material/Undo';
+import CloseIcon from '@mui/icons-material/HighlightOff';
 
 /*
     This toolbar is a functional React component that
@@ -20,6 +22,11 @@ function EditToolbar() {
     function handleRedo() {
         store.redo();
     }
+    function handleDelete() {
+        if (store.currentList) {
+            store.markListForDeletion(store.currentList._id);
+        }
+    }
 
     return (
         <div id="edit-toolbar">
@@ -36,6 +43,13 @@ function EditToolbar() {
                 onClick={handleRedo}
                 variant="contained">
                     <RedoIcon />
+            </Button>
+            <Button 
+                disabled={!store.canClose()}
+                id='close-button'
+                onClick={handleDelete}
+                variant="contained">
+                    <CloseIcon />
             </Button>
         </div>
     )
