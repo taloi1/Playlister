@@ -31,6 +31,17 @@ const HomeScreen = () => {
     function handleCreateNewList() {
         store.createNewList();
     }
+
+    function handleChangeScreenHome() {
+        store.setHomeScreenHome();
+    }
+    function handleChangeScreenAllLists() {
+        store.setHomeScreenAllLists();
+    }
+    function handleChangeScreenUsers() {
+        store.setHomeScreenUsers();
+    }
+
     let listCards = "";
     if (store) {
         listCards = 
@@ -51,7 +62,7 @@ const HomeScreen = () => {
             <div id="home-banner">
                 <Box sx={{ pt: 1}}>
                     <IconButton 
-                    onClick={handleCreateNewList} 
+                    onClick={handleChangeScreenHome} 
                     aria-label='add'>
                         <HomeIcon style={{fontSize:'30pt'}} sx={{color:'ffffff'}} />
                     </IconButton>
@@ -59,7 +70,7 @@ const HomeScreen = () => {
 
                 <Box sx={{ pt: 1, pl:1 }}>
                     <IconButton 
-                    onClick={handleCreateNewList} 
+                    onClick={handleChangeScreenAllLists} 
                     aria-label='add'>
                         <GroupsOutlinedIcon style={{fontSize:'30pt'}} sx={{color:'ffffff'}} />
                     </IconButton>
@@ -67,7 +78,7 @@ const HomeScreen = () => {
 
                 <Box sx={{ pt: 1, pl:1 }}>
                     <IconButton 
-                    onClick={handleCreateNewList} 
+                    onClick={handleChangeScreenUsers} 
                     aria-label='add'>
                         <PersonOutlineIcon style={{fontSize:'30pt'}} sx={{color:'ffffff'}} />
                     </IconButton>

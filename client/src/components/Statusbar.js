@@ -13,7 +13,7 @@ function Statusbar() {
     const { auth } = useContext(AuthContext);
     let text ="";
     let statusName = "statusbar-visible";
-    if (store.currentList)
+    if (store.currentList && store.currentHomeScreen !== "HOME")
         text = store.currentList.name;
     return (
         <div id="playlister-statusbar" className={statusName}>
