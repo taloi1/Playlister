@@ -2,10 +2,6 @@ import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import RedoIcon from '@mui/icons-material/Redo';
-import UndoIcon from '@mui/icons-material/Undo';
-import CloseIcon from '@mui/icons-material/HighlightOff';
 
 /*
     This toolbar is a functional React component that
@@ -31,29 +27,41 @@ function EditToolbar() {
 
     return (
         <div id="edit-toolbar">
-            <Box style={{position:'absolute',left:'2%', width:'50%', top:'0%'}}>
+            <Box style={{position:'absolute',left:'2%', width:'auto', top:'0%'}}>
             <Button 
                 disabled={!store.canUndo()}
                 id='undo-button'
                 onClick={handleUndo}
                 variant="contained">
-                    <UndoIcon />
+                    Undo
             </Button>
             <Button 
                 disabled={!store.canRedo()}
                 id='redo-button'
                 onClick={handleRedo}
                 variant="contained">
-                    <RedoIcon />
+                    Redo
             </Button>
             </Box>
-            <Box style={{position:'absolute', right:'2%', width:'50%'}}>
+            <Box style={{position:'absolute', right:'2%', width:'auto'}}>
             <Button 
-                style={{position:'absolute', right:'0%'}}
                 id='close-button'
                 onClick={handleDelete}
                 variant="contained">
-                    <CloseIcon />
+                    Publish
+            </Button>
+            <Button 
+               
+                id='close-button'
+                onClick={handleDelete}
+                variant="contained">
+                    Delete
+            </Button>
+            <Button 
+                id='close-button'
+                onClick={handleDelete}
+                variant="contained">
+                    Duplicate
             </Button>
             </Box>
         </div>
