@@ -19,9 +19,19 @@ function EditToolbar() {
     function handleRedo() {
         store.redo();
     }
+    function handlePublish() {
+        if (store.currentList) {
+            store.markListForDeletion(store.currentList._id);
+        }
+    }
     function handleDelete() {
         if (store.currentList) {
             store.markListForDeletion(store.currentList._id);
+        }
+    }
+    function handleDuplicate() {
+        if (store.currentList) {
+            store.duplicateList(store.currentList._id);
         }
     }
 
@@ -46,7 +56,7 @@ function EditToolbar() {
             <Box style={{position:'absolute', right:'2%', width:'auto'}}>
             <Button 
                 id='close-button'
-                onClick={handleDelete}
+                onClick={handlePublish}
                 variant="contained">
                     Publish
             </Button>
@@ -59,7 +69,7 @@ function EditToolbar() {
             </Button>
             <Button 
                 id='close-button'
-                onClick={handleDelete}
+                onClick={handleDuplicate}
                 variant="contained">
                     Duplicate
             </Button>
