@@ -68,6 +68,9 @@ body {
 }
 
 #edit-toolbar {
+  position: relative;
+  z-index: 100;
+  width: 100%;
   background-color: transparent;
 }
 
@@ -334,6 +337,7 @@ input {
   opacity: 0;
   transition: all 0.35s ease-in;
   font-family: var(--font-primary);
+  z-index: 10000;
 }
 
 .modal.is-visible {

@@ -188,7 +188,7 @@ function GlobalStoreContextProvider(props) {
                     currentHomeScreen : store.currentHomeScreen,
                     sortType : store.sortType,
                     idNamePairs: store.idNamePairs,
-                    currentList: null,
+                    currentList: store.currentList,
                     currentSongIndex: -1,
                     currentSong: null,
                     newListCounter: store.newListCounter,

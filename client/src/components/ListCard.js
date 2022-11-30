@@ -101,7 +101,7 @@ function ListCard(props) {
     let cardCenter = "";
     if (store.currentList && store.currentList._id === idNamePair._id) {
         cardCenter = 
-        <Box sx={{ width: '100%', backgroundColor: "#fffff1", height: "40vh", overflowY: "auto", 
+        <Box sx={{ width: '100%', backgroundColor: "#fffff1", height: "35vh", overflowY: "auto", 
         borderStyle: "solid", borderWidth: "2px", borderRadius: '10pt'}}>
         <List 
         id="playlist-cards" 
@@ -143,14 +143,14 @@ function ListCard(props) {
             handleCloseList(event, idNamePair._id)
         }} aria-label='close'
         >
-        <KeyboardDoubleArrowUpIcon style={{fontSize:'48pt'}} />
+        <KeyboardDoubleArrowUpIcon style={{fontSize:'32pt'}} />
         </IconButton>
     } else {
         listOpenCloseButton = <IconButton onClick={(event) => {
             handleLoadList(event, idNamePair._id)
         }} aria-label='open'
         >
-        <KeyboardDoubleArrowDownIcon style={{fontSize:'48pt'}} />
+        <KeyboardDoubleArrowDownIcon style={{fontSize:'32pt'}} />
         </IconButton>
     }
 
@@ -171,9 +171,8 @@ function ListCard(props) {
             <Box //TOP
             sx={{ marginTop: '10px', display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
             style={{ minHeight: '80px', height:'6%', width: '100%', fontSize: '20pt', position: 'relative'}}    
-            onClick={handleToggleEdit}
             >
-            <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '6%', left: '3%', position: 'absolute' }}>{idNamePair.name}</Box>
+            <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '6%', left: '3%', position: 'absolute' }} onClick={handleToggleEdit}>{idNamePair.name}</Box>
             <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '56%', left: '3%', position: 'absolute', fontSize: '15pt' }}>By: Me :D</Box>
             <Box sx={{ top: '0%', left: '55%', position: 'absolute'}}>
                 <IconButton onClick={handleLikeList} aria-label='like'>
@@ -195,7 +194,6 @@ function ListCard(props) {
             <Box //BOTTOM
                 sx={{display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
                 style={{ minHeight: '80px', height:'6%', width: '100%', fontSize: '15pt', position: 'relative'}}
-                onClick={handleToggleEdit}
             >
                 <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '3%', position: 'absolute' }}>Published: Jan 5, 2019</Box>
                 <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '55%', position: 'absolute'  }}>Listens: 727</Box>
