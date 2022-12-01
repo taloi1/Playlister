@@ -28,7 +28,7 @@ const HomeScreen = () => {
     const isMenuOpen = Boolean(anchorEl);
 
     useEffect(() => {
-        store.loadIdNamePairs();
+        store.loadListInfo();
     }, []);
 
     function handleCreateNewList() {
@@ -117,10 +117,10 @@ const HomeScreen = () => {
         listCards = 
             <List sx={{ width: '96%', left: '2%' }}>
             {
-                store.idNamePairs.map((pair) => (
+                store.listInfo.map((info) => (
                     <ListCard
-                        key={pair._id}
-                        idNamePair={pair}
+                        key={info._id}
+                        listInfo={info}
                         selected={false}
                     />
                 ))

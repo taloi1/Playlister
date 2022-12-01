@@ -29,8 +29,7 @@ function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
-    const { idNamePair, selected } = props;
-    const playlist = async() => {await store.getPlaylist(idNamePair._id)};
+    const { listInfo, selected } = props;
     
     
     
@@ -89,17 +88,16 @@ function ListCard(props) {
     }
     
     function handleLikeList(event, id) {
-        console.log(playlist);
         console.log("Like");
     }
 
     function handleDislikeList(event, id) {
         console.log("Dislike");
-        console.log(idNamePair);
+        console.log(listInfo);
     }
 
     let cardCenter = "";
-    if (store.currentList && store.currentList._id === idNamePair._id) {
+    if (store.currentList && store.currentList._id === listInfo._id) {
         cardCenter = 
         <Box sx={{ width: '100%', backgroundColor: "#fffff1", height: "35vh", overflowY: "auto", 
         borderStyle: "solid", borderWidth: "2px", borderRadius: '10pt'}}>
@@ -125,8 +123,8 @@ function ListCard(props) {
     }
 
     let editToolbar = "";
-    if (store.currentList && store.currentList._id === idNamePair._id) {
-        editToolbar= <Box style={{width: '100%', marginTop: '2%', marginBottom: '2%' }}><EditToolbar></EditToolbar></Box>
+    if (store.currentList && store.currentList._id === listInfo._id) {
+        editToolbar= <Box style={{width: '100%', marginTop: '2%', marginBottom: '2%' }}><EditToolbar listInfo={listInfo}></EditToolbar></Box>
     }
 
     let modalJSX = "";
@@ -138,16 +136,16 @@ function ListCard(props) {
     }
 
     let listOpenCloseButton = "";
-    if (store.currentList && store.currentList._id === idNamePair._id) {
+    if (store.currentList && store.currentList._id === listInfo._id) {
         listOpenCloseButton = <IconButton onClick={(event) => {
-            handleCloseList(event, idNamePair._id)
+            handleCloseList(event, listInfo._id)
         }} aria-label='close'
         >
         <KeyboardDoubleArrowUpIcon style={{fontSize:'32pt'}} />
         </IconButton>
     } else {
         listOpenCloseButton = <IconButton onClick={(event) => {
-            handleLoadList(event, idNamePair._id)
+            handleLoadList(event, listInfo._id)
         }} aria-label='open'
         >
         <KeyboardDoubleArrowDownIcon style={{fontSize:'32pt'}} />
@@ -165,14 +163,14 @@ function ListCard(props) {
     let cardElement =
         <ListItem 
         sx={{ flexDirection: 'column', borderStyle: "solid", borderRadius: "10px",  borderWidth: "2px", backgroundColor: "#fffff1", marginTop: '2%' }}
-        id={idNamePair._id}
-        key={idNamePair._id}
+        id={listInfo._id}
+        key={listInfo._id}
         >
             <Box //TOP
             sx={{ marginTop: '10px', display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
             style={{ minHeight: '80px', height:'6%', width: '100%', fontSize: '20pt', position: 'relative'}}    
             >
-            <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '6%', left: '3%', position: 'absolute' }} onClick={handleToggleEdit}>{idNamePair.name}</Box>
+            <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '6%', left: '3%', position: 'absolute' }} onClick={handleToggleEdit}>{listInfo.name}</Box>
             <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '56%', left: '3%', position: 'absolute', fontSize: '15pt' }}>By: Me :D</Box>
             <Box sx={{ top: '0%', left: '55%', position: 'absolute'}}>
                 <IconButton onClick={handleLikeList} aria-label='like'>
@@ -212,14 +210,14 @@ function ListCard(props) {
                 margin="normal"
                 required
                 fullWidth
-                id={"list-" + idNamePair._id}
+                id={"list-" + listInfo._id}
                 label="Playlist Name"
                 name="name"
                 autoComplete="Playlist Name"
                 className='list-card'
                 onKeyPress={handleKeyPress}
                 onChange={handleUpdateText}
-                defaultValue={idNamePair.name}
+                defaultValue={listInfo.name}
                 inputProps={{style: {fontSize: 48}}}
                 variant="filled"
                 InputLabelProps={{style: {fontSize: 24}}}

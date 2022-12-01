@@ -9,7 +9,8 @@ import Button from '@mui/material/Button';
     
     @author McKilla Gorilla
 */
-function EditToolbar() {
+function EditToolbar(props) {
+    const { listInfo } = props;
     const { store } = useContext(GlobalStoreContext);
 
 
@@ -21,17 +22,17 @@ function EditToolbar() {
     }
     function handlePublish() {
         if (store.currentList) {
-            store.markListForDeletion(store.currentList._id);
+            store.markListForDeletion(listInfo._id);
         }
     }
     function handleDelete() {
         if (store.currentList) {
-            store.markListForDeletion(store.currentList._id);
+            store.markListForDeletion(listInfo._id);
         }
     }
     function handleDuplicate() {
         if (store.currentList) {
-            store.duplicateList(store.currentList._id);
+            store.duplicateList(listInfo._id);
         }
     }
 

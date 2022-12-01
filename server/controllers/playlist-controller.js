@@ -124,17 +124,24 @@ getPlaylistPairs = async (req, res) => {
                 }
                 else {
                     console.log("Send the Playlist pairs");
-                    // PUT ALL THE LISTS INTO ID, NAME PAIRS
-                    let pairs = [];
+                    // PUT ALL THE LISTS INTO INFO OBJECTS
+                    let playlistInfo = [];
                     for (let key in playlists) {
                         let list = playlists[key];
-                        let pair = {
+                        let info = {
                             _id: list._id,
-                            name: list.name
+                            ownerEmail: list.ownerEmail,
+                            ownerUserName: list.ownerUserName,
+                            name: list.name,
+                            likes: list.likes,
+                            dislikes: list.dislikes,
+                            listens: list.listens,
+                            isPublished: list.isPublished,
+                            publishDate: list.publishDate
                         };
-                        pairs.push(pair);
+                        playlistInfo.push(info);
                     }
-                    return res.status(200).json({ success: true, idNamePairs: pairs })
+                    return res.status(200).json({ success: true, listInfo: playlistInfo })
                 }
             }).catch(err => console.log(err))
         }
