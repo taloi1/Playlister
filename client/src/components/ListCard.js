@@ -153,7 +153,7 @@ function ListCard(props) {
 
     let listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px",  borderWidth: "2px", backgroundColor: "#fffff1", marginTop: '2%' };
     if (listInfo.isPublished) {
-        listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px",  borderWidth: "2px", backgroundColor: "#96afd9", marginTop: '2%' };
+        listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px",  borderWidth: "2px", backgroundColor: "#d4d4f5", marginTop: '2%' };
     }
 
     let published = "";

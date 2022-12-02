@@ -169,7 +169,7 @@ const HomeScreen = () => {
                 }
                 <MUIDeleteModal />
             </div>
-            <div id="video-area">
+            <div>
                 <VideoArea/>
             </div>
             <Statusbar />   
