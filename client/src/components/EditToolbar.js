@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { GlobalStoreContext } from '../store'
+import AuthContext from '../auth'
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
@@ -12,6 +13,7 @@ import Button from '@mui/material/Button';
 function EditToolbar(props) {
     const { listInfo } = props;
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
 
 
     function handleUndo() {
@@ -36,38 +38,53 @@ function EditToolbar(props) {
         }
     }
 
+    let deleteButton = <Button 
+    id='close-button'
+    onClick={handleDelete}
+    variant="contained">
+        Delete
+    </Button>;
+    if (auth.user.userName !== listInfo.ownerUserName) {
+        deleteButton = "";
+    }
+
+    let undoRedoBox = <Box style={{position:'absolute',left:'2%', width:'auto', top:'0%'}}>
+    <Button 
+        disabled={!store.canUndo()}
+        id='undo-button'
+        onClick={handleUndo}
+        variant="contained">
+            Undo
+    </Button>
+    <Button 
+        disabled={!store.canRedo()}
+        id='redo-button'
+        onClick={handleRedo}
+        variant="contained">
+            Redo
+    </Button>
+    </Box>;
+
+    let publishButton = <Button 
+    id='close-button'
+    onClick={handlePublish}
+    variant="contained">
+        Publish
+    </Button>;
+
+    if (listInfo.isPublished) {
+        undoRedoBox = "";
+        publishButton = "";
+    }
+    
+    
+
     return (
         <div id="edit-toolbar">
-            <Box style={{position:'absolute',left:'2%', width:'auto', top:'0%'}}>
-            <Button 
-                disabled={!store.canUndo()}
-                id='undo-button'
-                onClick={handleUndo}
-                variant="contained">
-                    Undo
-            </Button>
-            <Button 
-                disabled={!store.canRedo()}
-                id='redo-button'
-                onClick={handleRedo}
-                variant="contained">
-                    Redo
-            </Button>
-            </Box>
+            {undoRedoBox}
             <Box style={{position:'absolute', right:'2%', width:'auto'}}>
-            <Button 
-                id='close-button'
-                onClick={handlePublish}
-                variant="contained">
-                    Publish
-            </Button>
-            <Button 
-               
-                id='close-button'
-                onClick={handleDelete}
-                variant="contained">
-                    Delete
-            </Button>
+            {publishButton}
+            {deleteButton}
             <Button 
                 id='close-button'
                 onClick={handleDuplicate}

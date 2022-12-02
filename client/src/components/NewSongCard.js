@@ -8,6 +8,10 @@ function NewSongCard(props) {
         store.addNewSong();
     }
 
+    if (store.currentList.isPublished) {
+        return;
+    }
+
     let cardClass = "list-card unselected-list-card new-song-card";
     return (
         <div

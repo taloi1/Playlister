@@ -26,21 +26,39 @@ function SongCard(props) {
 
     function handleDrop(event) {
         event.preventDefault();
-        let targetIndex = index;
-        let sourceIndex = Number(event.dataTransfer.getData("song"));
-        setDraggedTo(false);
+        if (store.currentList.isPublished === false) {
+            let targetIndex = index;
+            let sourceIndex = Number(event.dataTransfer.getData("song"));
+            setDraggedTo(false);
 
-        // UPDATE THE LIST
-        store.addMoveSongTransaction(sourceIndex, targetIndex);
+            // UPDATE THE LIST
+            store.addMoveSongTransaction(sourceIndex, targetIndex);
+        }
     }
     function handleRemoveSong(event) {
         store.showRemoveSongModal(index, song);
     }
     function handleClick(event) {
         // DOUBLE CLICK IS FOR SONG EDITING
-        if (event.detail === 2) {
+        if (event.detail === 2 && store.currentList.isPublished === false) {
             store.showEditSongModal(index, song);
         }
+    }
+
+    let cardDraggable = "true";
+    if (store.currentList.isPublished === true) {
+        cardDraggable = "false";
+    }
+
+    let deleteSongButton = <input
+    type="button"
+    id={"remove-song-" + index}
+    className="list-card-button"
+    value={"\u2715"}
+    onClick={handleRemoveSong}
+    />
+    if (store.currentList.isPublished === true) {
+        deleteSongButton = "";
     }
 
     let cardClass = "list-card unselected-list-card";
@@ -54,7 +72,7 @@ function SongCard(props) {
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            draggable="true"
+            draggable={cardDraggable}
             onClick={handleClick}
         >
             {index + 1}.
@@ -64,13 +82,7 @@ function SongCard(props) {
                 >
                 {song.title} by {song.artist}
             </a>
-            <input
-                type="button"
-                id={"remove-song-" + index}
-                className="list-card-button"
-                value={"\u2715"}
-                onClick={handleRemoveSong}
-            />
+            {deleteSongButton}
         </div>
     );
 }

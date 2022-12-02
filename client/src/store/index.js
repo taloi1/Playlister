@@ -64,30 +64,7 @@ const SortType = {
 // WITH THIS WE'RE MAKING OUR GLOBAL DATA STORE
 // AVAILABLE TO THE REST OF THE APPLICATION
 function GlobalStoreContextProvider(props) {
-
-    // HANDLE KEY PRESSES. UNDO IF CTRL+Z, REDO IF CTRL+Y
-    const handleKeyPress = useCallback((event) => {
-        if (event.ctrlKey) {
-            if (event.key === 'z') {
-                store.undo()
-            }
-            if (event.key === 'y') {
-                store.redo()
-            }
-        }
-    }, []);
-
-    useEffect(() => {
-        // ATTACH THE EVENT LISTENER
-        document.addEventListener('keydown', handleKeyPress);
-
-        // REMOVE THE EVENT LISTENER
-        return () => {
-            document.removeEventListener('keydown', handleKeyPress);
-        };
-    }, [handleKeyPress]);
-
-
+    
     // THESE ARE ALL THE THINGS OUR DATA STORE WILL MANAGE
     const [store, setStore] = useState({
         currentModal: CurrentModal.NONE,

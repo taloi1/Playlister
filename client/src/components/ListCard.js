@@ -53,7 +53,7 @@ function ListCard(props) {
     function handleToggleEdit(event) {
         event.stopPropagation();
         event.nativeEvent.stopImmediatePropagation();
-        if (event.detail === 2) {
+        if (event.detail === 2 && !listInfo.isPublished) {
             toggleEdit();
         }
     }
@@ -151,10 +151,14 @@ function ListCard(props) {
         cardStatus = true;
     }
 
+    let listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px",  borderWidth: "2px", backgroundColor: "#fffff1", marginTop: '2%' };
+    if (listInfo.isPublished) {
+        listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px",  borderWidth: "2px", backgroundColor: "#96afd9", marginTop: '2%' };
+    }
     // FULL LIST CARD
     let cardElement =
         <ListItem 
-        sx={{ flexDirection: 'column', borderStyle: "solid", borderRadius: "10px",  borderWidth: "2px", backgroundColor: "#fffff1", marginTop: '2%' }}
+        sx={listItemStyle}
         id={listInfo._id}
         key={listInfo._id}
         >
@@ -185,7 +189,7 @@ function ListCard(props) {
                 sx={{display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
                 style={{ minHeight: '80px', height:'6%', width: '100%', fontSize: '15pt', position: 'relative'}}
             >
-                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '3%', position: 'absolute' }}>Published: {listInfo.isPublished ? 'yea' : 'nah'}</Box>
+                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '3%', position: 'absolute' }}>Published: {listInfo.publishDate ? listInfo.publishDate : 'NOPE'}</Box>
                 <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '55%', position: 'absolute'  }}>Listens: {listInfo.listens}</Box>
                 <Box sx={{ bottom: '0%', right: '3%', position: 'absolute' }}>
                     {listOpenCloseButton}
