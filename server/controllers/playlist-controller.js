@@ -137,11 +137,11 @@ getPlaylistPairs = async (req, res) => {
                             dislikes: list.dislikes,
                             listens: list.listens,
                             isPublished: list.isPublished,
-                            publishDate: list.publishDate
+                            publishDate: list.publishDate,
                         };
                         playlistInfo.push(info);
                     }
-                    return res.status(200).json({ success: true, listInfo: playlistInfo })
+                    return res.status(200).json({ success: true, listInfo: playlists })
                 }
             }).catch(err => console.log(err))
         }
@@ -191,8 +191,15 @@ updatePlaylist = async (req, res) => {
                     console.log("correct user!");
                     console.log("req.body.name: " + req.body.name);
 
-                    list.name = body.playlist.name;
-                    list.songs = body.playlist.songs;
+                    if (list.isPublished === false) {
+                        list.name = body.playlist.name;
+                        list.songs = body.playlist.songs;
+                        list.likes = body.playlist.likes;
+                        list.dislikes = body.playlist.dislikes;
+                        list.listens = body.playlist.listens;
+                        list.isPublished = body.playlist.isPublished;
+                        list.publishDate = body.playlist.publishDate;
+                    }
                     list
                         .save()
                         .then(() => {

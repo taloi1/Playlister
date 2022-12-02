@@ -22,7 +22,7 @@ function EditToolbar(props) {
     }
     function handlePublish() {
         if (store.currentList) {
-            store.markListForDeletion(listInfo._id);
+            store.publishList(listInfo._id);
         }
     }
     function handleDelete() {

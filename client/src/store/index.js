@@ -33,6 +33,7 @@ export const GlobalStoreActionType = {
     HIDE_MODALS: "HIDE_MODALS",
     CHANGE_SCREEN: "CHANGE_SCREEN",
     CHANGE_SORT_TYPE: "CHANGE_SORT_TYPE",
+    PUBLISH_LIST: "PUBLISH_LIST",
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -305,6 +306,21 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null
                 });
             }
+            case GlobalStoreActionType.PUBLISH_LIST: {
+                return setStore({
+                    currentModal: CurrentModal.NONE,
+                    currentHomeScreen: store.currentHomeScreen,
+                    sortType: store.sortType,
+                    listInfo: payload.listInfo,
+                    currentList: null,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null
+                });
+            }
             default:
                 return store;
         }
@@ -345,6 +361,45 @@ function GlobalStoreContextProvider(props) {
             }
         }
         asyncChangeListName(id);
+    }
+
+    store.publishList = function (id) {
+        console.log("PUIBLISHSHSDS");
+        async function asyncPublishList(id) {
+            let response = await api.getPlaylistById(id);
+            if (response.data.success) {
+                let playlist = response.data.playlist;
+                if (playlist.isPublished === false) {
+                    console.log("WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
+                    playlist.isPublished = true;
+                    playlist.publishDate = new Date();
+
+                    async function updateList(playlist) {
+                        response = await api.updatePlaylistById(playlist._id, playlist);
+                        if (response.data.success) {
+                            async function getListPairs(playlist) {
+                                response = await api.getPlaylistPairs();
+                                if (response.data.success) {
+                                    let playlists = response.data.listInfo;
+                                    console.log("HUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUH");
+                                    storeReducer({
+                                        type: GlobalStoreActionType.PUBLISH_LIST,
+                                        payload: {
+                                            listInfo: playlists,
+                                            playlist: playlist
+                                        }
+                                    });
+                                }
+                            }
+                            getListPairs(playlist);
+                        }
+                    }
+                    updateList(playlist);
+                }
+                
+            }
+        }
+        asyncPublishList(id)
     }
 
     // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST
@@ -402,6 +457,38 @@ function GlobalStoreContextProvider(props) {
             const response = await api.getPlaylistPairs();
             if (response.data.success) {
                 let infoArray = response.data.listInfo;
+
+                if (store.sortType === SortType.NAME) {
+                    infoArray.sort((a, b) => {
+                        const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+                        const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+                        if (nameA < nameB) {
+                          return -1;
+                        }
+                        if (nameA > nameB) {
+                          return 1;
+                        }
+                      
+                        // names must be equal
+                        return 0;
+                      });
+                    console.log("NAME SORT");
+                    console.log(infoArray);
+                }
+                if (store.sortType === SortType.PUBLISH_DATE) {
+                    console.log(infoArray);
+                }
+                if (store.sortType === SortType.LISTENS) {
+                    console.log(infoArray);
+                }
+                if (store.sortType === SortType.LIKES) {
+                    console.log(infoArray);
+                }
+                if (store.sortType === SortType.DISLIKES) {
+                    console.log(infoArray);
+                }
+
+
                 storeReducer({
                     type: GlobalStoreActionType.LOAD_LIST_INFO,
                     payload: infoArray
@@ -413,6 +500,7 @@ function GlobalStoreContextProvider(props) {
         }
         asyncLoadListInfo();
     }
+    
 
     // THE FOLLOWING 5 FUNCTIONS ARE FOR COORDINATING THE DELETION
     // OF A LIST, WHICH INCLUDES USING A VERIFICATION MODAL. THE
@@ -498,6 +586,25 @@ function GlobalStoreContextProvider(props) {
             }
         }
         asyncSetCurrentList(id);
+    }
+
+    store.addListen = function (id) {
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        console.log(id);
+        async function asyncaddListen(id) {
+            console.log("BBBBBBBBBBBBBBBBBBBBB");
+            let response = await api.getPlaylistById(id);
+            if (response.data.success) {
+                console.log("CCCCCCCCCCCCCCCCC");
+                let playlist = response.data.playlist;
+                playlist.listens++;
+                response = await api.updatePlaylistById(id, playlist);
+                if (response.data.success) {
+                    store.loadListInfo();
+                }
+            }
+        }
+        asyncaddListen(id);
     }
 
     store.getPlaylist = function (id) {

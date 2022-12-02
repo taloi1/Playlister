@@ -30,23 +30,20 @@ function ListCard(props) {
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
     const { listInfo, selected } = props;
-    
-    
-    
+
 
     function handleLoadList(event, id) {
         store.clearAllTransactions();
         console.log("handleLoadList for " + id);
-        if (!event.target.disabled) {
-            let _id = event.target.id;
-            if (_id.indexOf('list-card-text-') >= 0)
-                _id = ("" + _id).substring("list-card-text-".length);
+        let _id = event.target.id;
+        if (_id.indexOf('list-card-text-') >= 0)
+            _id = ("" + _id).substring("list-card-text-".length);
 
-            console.log("load " + event.target.id);
+        console.log("load " + event.target.id);
 
-            // CHANGE THE CURRENT LIST
-            store.setCurrentList(id);
-        }
+        
+        // CHANGE THE CURRENT LIST
+        store.setCurrentList(id);
     }   
 
     function handleCloseList () {
@@ -67,13 +64,6 @@ function ListCard(props) {
             store.setIsListNameEditActive();
         }
         setEditActive(newActive);
-    }
-
-    async function handleDeleteList(event, id) {
-        event.stopPropagation();
-        let _id = event.target.id;
-        _id = ("" + _id).substring("delete-list-".length);
-        store.markListForDeletion(id);
     }
 
     function handleKeyPress(event) {
@@ -160,6 +150,8 @@ function ListCard(props) {
     if (store.isListNameEditActive) {
         cardStatus = true;
     }
+
+    // FULL LIST CARD
     let cardElement =
         <ListItem 
         sx={{ flexDirection: 'column', borderStyle: "solid", borderRadius: "10px",  borderWidth: "2px", backgroundColor: "#fffff1", marginTop: '2%' }}
@@ -171,18 +163,18 @@ function ListCard(props) {
             style={{ minHeight: '80px', height:'6%', width: '100%', fontSize: '20pt', position: 'relative'}}    
             >
             <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '6%', left: '3%', position: 'absolute' }} onClick={handleToggleEdit}>{listInfo.name}</Box>
-            <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '56%', left: '3%', position: 'absolute', fontSize: '15pt' }}>By: Me :D</Box>
+            <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '56%', left: '3%', position: 'absolute', fontSize: '15pt' }}>By: {listInfo.ownerUserName}</Box>
             <Box sx={{ top: '0%', left: '55%', position: 'absolute'}}>
                 <IconButton onClick={handleLikeList} aria-label='like'>
                     <ThumbUpAltIcon style={{fontSize:'40pt'}}> </ThumbUpAltIcon>
                 </IconButton>
-                1000
+                {listInfo.likes}
                 <IconButton onClick={(event) => {
                         handleDislikeList()
                     }} aria-label='dislike' style={{marginLeft: '1pt'}}>
                     <ThumbDownAltIcon style={{fontSize:'40pt'}} />
                 </IconButton>
-                2
+                {listInfo.dislikes}
             </Box>
             </Box>
 
@@ -193,8 +185,8 @@ function ListCard(props) {
                 sx={{display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
                 style={{ minHeight: '80px', height:'6%', width: '100%', fontSize: '15pt', position: 'relative'}}
             >
-                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '3%', position: 'absolute' }}>Published: Jan 5, 2019</Box>
-                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '55%', position: 'absolute'  }}>Listens: 727</Box>
+                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '3%', position: 'absolute' }}>Published: {listInfo.isPublished ? 'yea' : 'nah'}</Box>
+                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '55%', position: 'absolute'  }}>Listens: {listInfo.listens}</Box>
                 <Box sx={{ bottom: '0%', right: '3%', position: 'absolute' }}>
                     {listOpenCloseButton}
                 </Box>
@@ -224,6 +216,7 @@ function ListCard(props) {
                 autoFocus
             />
     }
+
     return (
         cardElement
     );
