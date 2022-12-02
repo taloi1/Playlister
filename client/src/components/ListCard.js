@@ -182,6 +182,26 @@ function ListCard(props) {
         likeDislikeArea = "";
     }
 
+    let listName = <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '6%', left: '3%', position: 'absolute', maxWidth: '52%' }} onClick={handleToggleEdit}>{listInfo.name}</Box>;
+    if (editActive) {
+        listName = <TextField
+        required
+        id={"list-" + listInfo._id}
+        label="Playlist Name"
+        name="name"
+        autoComplete="Playlist Name"
+        className='list-card'
+        onKeyPress={handleKeyPress}
+        onChange={handleUpdateText}
+        defaultValue={listInfo.name}
+        inputProps={{style: {fontSize: 18}}}
+        variant="filled"
+        InputLabelProps={{style: {fontSize: 16}}}
+        autoFocus
+        sx={{flexGrow: 1, overflowX: 'auto', top: '-15%', left: '0%', position: 'absolute', width: '80%'}}
+        />
+    }
+
     // FULL LIST CARD
     let cardElement =
         <ListItem 
@@ -193,7 +213,7 @@ function ListCard(props) {
                 sx={{ marginTop: '10px', display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
                 style={{ minHeight: '80px', height:'6%', width: '100%', fontSize: '20pt', position: 'relative'}}    
             >
-                <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '6%', left: '3%', position: 'absolute', maxWidth: '52%' }} onClick={handleToggleEdit}>{listInfo.name}</Box>
+                {listName}
                 <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '56%', left: '3%', position: 'absolute', fontSize: '15pt' }}>By: {listInfo.ownerUserName}</Box>
                 {likeDislikeArea}
             </Box>
@@ -215,28 +235,6 @@ function ListCard(props) {
 
             {modalJSX}
         </ListItem>
-        
-
-    if (editActive) {
-        cardElement =
-            <TextField
-                margin="normal"
-                required
-                fullWidth
-                id={"list-" + listInfo._id}
-                label="Playlist Name"
-                name="name"
-                autoComplete="Playlist Name"
-                className='list-card'
-                onKeyPress={handleKeyPress}
-                onChange={handleUpdateText}
-                defaultValue={listInfo.name}
-                inputProps={{style: {fontSize: 48}}}
-                variant="filled"
-                InputLabelProps={{style: {fontSize: 24}}}
-                autoFocus
-            />
-    }
 
     return (
         cardElement
