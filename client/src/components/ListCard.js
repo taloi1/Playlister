@@ -155,6 +155,33 @@ function ListCard(props) {
     if (listInfo.isPublished) {
         listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px",  borderWidth: "2px", backgroundColor: "#96afd9", marginTop: '2%' };
     }
+
+    let published = "";
+    if (listInfo.publishDate && listInfo.isPublished) {
+        published = "Published: " + listInfo.publishDate.slice(0, 10);
+    }
+
+    let listens = "";
+    if (listInfo.isPublished) {
+        listens = "Listens: " + listInfo.listens;
+    }
+
+    let likeDislikeArea = <Box sx={{ top: '0%', left: '55%', position: 'absolute'}}>
+    <IconButton onClick={handleLikeList} aria-label='like'>
+        <ThumbUpAltIcon style={{fontSize:'40pt'}}> </ThumbUpAltIcon>
+    </IconButton>
+    {listInfo.likes}
+    <IconButton onClick={(event) => {
+            handleDislikeList()
+        }} aria-label='dislike' style={{marginLeft: '1pt'}}>
+        <ThumbDownAltIcon style={{fontSize:'40pt'}} />
+    </IconButton>
+    {listInfo.dislikes}
+    </Box>;
+    if (listInfo.isPublished === false) {
+        likeDislikeArea = "";
+    }
+
     // FULL LIST CARD
     let cardElement =
         <ListItem 
@@ -163,34 +190,24 @@ function ListCard(props) {
         key={listInfo._id}
         >
             <Box //TOP
-            sx={{ marginTop: '10px', display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
-            style={{ minHeight: '80px', height:'6%', width: '100%', fontSize: '20pt', position: 'relative'}}    
+                sx={{ marginTop: '10px', display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
+                style={{ minHeight: '80px', height:'6%', width: '100%', fontSize: '20pt', position: 'relative'}}    
             >
-            <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '6%', left: '3%', position: 'absolute' }} onClick={handleToggleEdit}>{listInfo.name}</Box>
-            <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '56%', left: '3%', position: 'absolute', fontSize: '15pt' }}>By: {listInfo.ownerUserName}</Box>
-            <Box sx={{ top: '0%', left: '55%', position: 'absolute'}}>
-                <IconButton onClick={handleLikeList} aria-label='like'>
-                    <ThumbUpAltIcon style={{fontSize:'40pt'}}> </ThumbUpAltIcon>
-                </IconButton>
-                {listInfo.likes}
-                <IconButton onClick={(event) => {
-                        handleDislikeList()
-                    }} aria-label='dislike' style={{marginLeft: '1pt'}}>
-                    <ThumbDownAltIcon style={{fontSize:'40pt'}} />
-                </IconButton>
-                {listInfo.dislikes}
-            </Box>
+                <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '6%', left: '3%', position: 'absolute', maxWidth: '52%' }} onClick={handleToggleEdit}>{listInfo.name}</Box>
+                <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '56%', left: '3%', position: 'absolute', fontSize: '15pt' }}>By: {listInfo.ownerUserName}</Box>
+                {likeDislikeArea}
             </Box>
 
             {cardCenter}
+
             {editToolbar}
 
             <Box //BOTTOM
                 sx={{display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
                 style={{ minHeight: '80px', height:'6%', width: '100%', fontSize: '15pt', position: 'relative'}}
             >
-                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '3%', position: 'absolute' }}>Published: {listInfo.publishDate ? listInfo.publishDate : 'NOPE'}</Box>
-                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '55%', position: 'absolute'  }}>Listens: {listInfo.listens}</Box>
+                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '3%', position: 'absolute' }}>{published}</Box>
+                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '55%', position: 'absolute'  }}>{listens}</Box>
                 <Box sx={{ bottom: '0%', right: '3%', position: 'absolute' }}>
                     {listOpenCloseButton}
                 </Box>

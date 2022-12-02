@@ -191,14 +191,18 @@ updatePlaylist = async (req, res) => {
                     console.log("correct user!");
                     console.log("req.body.name: " + req.body.name);
 
+                    // Only change name and songs, or publish a list if a list is unpublished
                     if (list.isPublished === false) {
                         list.name = body.playlist.name;
                         list.songs = body.playlist.songs;
+                        list.isPublished = body.playlist.isPublished;
+                        list.publishDate = body.playlist.publishDate;
+                    }
+                    // Only change likes, dislikes, and listens when a list is already published
+                    if (list.isPublished === true) {
                         list.likes = body.playlist.likes;
                         list.dislikes = body.playlist.dislikes;
                         list.listens = body.playlist.listens;
-                        list.isPublished = body.playlist.isPublished;
-                        list.publishDate = body.playlist.publishDate;
                     }
                     list
                         .save()
