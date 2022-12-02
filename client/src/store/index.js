@@ -256,9 +256,9 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.CHANGE_SCREEN: {
                 return setStore({
                     currentModal: CurrentModal.NONE,
-                    currentHomeScreen: payload,
+                    currentHomeScreen: payload.screen,
                     sortType: SortType.LISTENS,
-                    listInfo: store.listInfo,
+                    listInfo: payload.listData,
                     currentList: null,
                     currentSongIndex: -1,
                     currentSong: null,
@@ -419,6 +419,7 @@ function GlobalStoreContextProvider(props) {
                     payload: newList
                 }
                 );
+                store.setHomeScreenHome();
                 store.loadListInfo();
             }
             else {
@@ -728,22 +729,43 @@ function GlobalStoreContextProvider(props) {
     }
 
     store.setHomeScreenHome = function () {
-        storeReducer({
-            type: GlobalStoreActionType.CHANGE_SCREEN,
-            payload: CurrentHomeScreen.HOME
-        });
+        async function asyncSetHomeScreenHome() {
+            let response = await api.getPlaylistPairs();
+            if (response.data.success) {
+                console.log(response.data);
+                storeReducer({
+                    type: GlobalStoreActionType.CHANGE_SCREEN,
+                    payload: {screen: CurrentHomeScreen.HOME, listData: response.data.listInfo }
+                });
+            }
+        }
+        asyncSetHomeScreenHome();        
     }
     store.setHomeScreenAllLists = function () {
-        storeReducer({
-            type: GlobalStoreActionType.CHANGE_SCREEN,
-            payload: CurrentHomeScreen.ALL_LISTS
-        });
+        async function asyncSetHomeScreenAllLists() {
+            let response = await api.getPublishedPlaylists();
+            if (response.data.success) {
+                console.log(response.data);
+                storeReducer({
+                    type: GlobalStoreActionType.CHANGE_SCREEN,
+                    payload: {screen: CurrentHomeScreen.ALL_LISTS, listData: response.data.data }
+                });
+            }
+        }
+        asyncSetHomeScreenAllLists();        
     }
     store.setHomeScreenUsers = function () {
-        storeReducer({
-            type: GlobalStoreActionType.CHANGE_SCREEN,
-            payload: CurrentHomeScreen.USERS
-        });
+        async function asyncSetHomeScreenUsers() {
+            let response = await api.getPublishedPlaylists();
+            if (response.data.success) {
+                console.log(response.data);
+                storeReducer({
+                    type: GlobalStoreActionType.CHANGE_SCREEN,
+                    payload: {screen: CurrentHomeScreen.USERS, listData: response.data.data }
+                });
+            }
+        }
+        asyncSetHomeScreenUsers();  
     }
 
     store.setSortName = function () {

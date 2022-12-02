@@ -123,24 +123,8 @@ getPlaylistPairs = async (req, res) => {
                         .json({ success: false, error: 'Playlists not found' })
                 }
                 else {
-                    console.log("Send the Playlist pairs");
-                    // PUT ALL THE LISTS INTO INFO OBJECTS
-                    let playlistInfo = [];
-                    for (let key in playlists) {
-                        let list = playlists[key];
-                        let info = {
-                            _id: list._id,
-                            ownerEmail: list.ownerEmail,
-                            ownerUserName: list.ownerUserName,
-                            name: list.name,
-                            likes: list.likes,
-                            dislikes: list.dislikes,
-                            listens: list.listens,
-                            isPublished: list.isPublished,
-                            publishDate: list.publishDate,
-                        };
-                        playlistInfo.push(info);
-                    }
+                    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                    console.log(playlists);
                     return res.status(200).json({ success: true, listInfo: playlists })
                 }
             }).catch(err => console.log(err))
@@ -148,8 +132,8 @@ getPlaylistPairs = async (req, res) => {
         asyncFindList(user.email);
     }).catch(err => console.log(err))
 }
-getPlaylists = async (req, res) => {
-    await Playlist.find({}, (err, playlists) => {
+getPublishedPlaylists = async (req, res) => {
+    await Playlist.find({isPublished: true}, (err, playlists) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
@@ -158,6 +142,7 @@ getPlaylists = async (req, res) => {
                 .status(404)
                 .json({ success: false, error: `Playlists not found` })
         }
+        console.log(playlists);
         return res.status(200).json({ success: true, data: playlists })
     }).catch(err => console.log(err))
 }
@@ -236,6 +221,6 @@ module.exports = {
     deletePlaylist,
     getPlaylistById,
     getPlaylistPairs,
-    getPlaylists,
+    getPublishedPlaylists,
     updatePlaylist
 }
