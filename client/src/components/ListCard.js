@@ -7,7 +7,7 @@ import NewSongCard from './NewSongCard'
 import EditToolbar from './EditToolbar'
 
 import Box from '@mui/material/Box';
-import { List } from '@mui/material';
+import { List, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
@@ -59,9 +59,7 @@ function ListCard(props) {
 
     function handleToggleEdit(event) {
         event.stopPropagation();
-        if (event.detail === 1) {
-            handleLoadList(event, listInfo._id, false)
-        }
+        handleLoadList(event, listInfo._id, false)
         if (event.detail === 2 && !listInfo.isPublished) {
             toggleEdit();
         }
@@ -168,18 +166,18 @@ function ListCard(props) {
     if (listInfo.isPublished) {
         listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px", borderWidth: "2px", backgroundColor: "#d4d4f5", marginTop: '2%' };
     }
-    if (store.currentList && store.currentList._id === listInfo._id) {
+    if (store.currentList && store.currentList._id === listInfo._id && listInfo.isPublished) {
         listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px", borderWidth: "2px", backgroundColor: "#d4af37", marginTop: '2%' };
     }
 
     let published = "";
     if (listInfo.publishDate && listInfo.isPublished) {
-        published = "Published: " + listInfo.publishDate.slice(0, 10);
+        published = <Typography display="inline" style={{color: '#65b358', fontWeight: 'bold'}}> {listInfo.publishDate.slice(0, 10)} </Typography>;
     }
 
     let listens = "";
     if (listInfo.isPublished) {
-        listens = "Listens: " + listInfo.listens;
+        listens = <Typography display="inline" style={{color: '#b33037', fontWeight: 'bold'}}> {listInfo.listens} </Typography>;
     }
 
     let likeDislikeArea = <Box sx={{ top: '0%', left: '55%', position: 'absolute' }}>
@@ -231,7 +229,8 @@ function ListCard(props) {
                 onClick={handleToggleEdit}
             >
                 {listName}
-                <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '56%', left: '3%', position: 'absolute', fontSize: '15pt' }}>By: {listInfo.ownerUserName}</Box>
+                <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '56%', left: '3%', position: 'absolute', fontSize: '15pt' }}> 
+                    By: <Typography display="inline" style={{color: '#1310ec', textDecoration: 'underline', fontWeight: 'bold'}}> {' '} {listInfo.ownerUserName}</Typography> </Box>
                 {likeDislikeArea}
             </Box>
 
@@ -244,8 +243,8 @@ function ListCard(props) {
                 style={{ minHeight: '80px', height: '6%', width: '100%', fontSize: '15pt', position: 'relative' }}
                 onClick={handleToggleEdit}
             >
-                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '3%', position: 'absolute' }}>{published}</Box>
-                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '55%', position: 'absolute' }}>{listens}</Box>
+                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '3%', position: 'absolute' }}> Published: {' '} {published}</Box>
+                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '55%', position: 'absolute' }}>Listens: {' '} {listens}</Box>
                 <Box sx={{ bottom: '0%', right: '3%', position: 'absolute' }}>
                     {listOpenCloseButton}
                 </Box>
