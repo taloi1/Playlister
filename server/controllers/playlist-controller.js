@@ -68,7 +68,7 @@ deletePlaylist = async (req, res) => {
                     }).catch(err => console.log(err))
                 }
                 else {
-                    console.log("incorrect user!");
+                    console.log("incorrect user!1");
                     return res.status(400).json({ 
                         errorMessage: "authentication error" 
                     });
@@ -101,7 +101,7 @@ getPlaylistById = async (req, res) => {
                     return res.status(200).json({ success: true, playlist: list })
                 }
                 else {
-                    console.log("incorrect user!");
+                    console.log("incorrect user!2");
                     return res.status(400).json({ success: false, description: "authentication error" });
                 }
             });
@@ -175,12 +175,8 @@ updatePlaylist = async (req, res) => {
             await User.findOne({ email: list.ownerEmail }, (err, user) => {
                 console.log("user._id: " + user._id);
                 console.log("req.userId: " + req.userId);
-                if (user._id == req.userId) {
-                    console.log("correct user!");
-                    console.log("req.body.name: " + req.body.name);
-
                     // Only change name and songs, or publish a list if a list is unpublished
-                    if (list.isPublished === false) {
+                    if (list.isPublished === false && user._id == req.userId) {
                         list.name = body.playlist.name;
                         list.songs = body.playlist.songs;
                         list.isPublished = body.playlist.isPublished;
@@ -209,11 +205,7 @@ updatePlaylist = async (req, res) => {
                                 message: 'Playlist not updated!',
                             })
                         })
-                }
-                else {
-                    console.log("incorrect user!");
-                    return res.status(400).json({ success: false, description: "authentication error" });
-                }
+                
             });
         }
         asyncFindUser(playlist);
