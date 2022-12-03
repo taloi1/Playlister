@@ -29,10 +29,15 @@ function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
+    const [open, setOpen] = useState(false);
     const { listInfo, selected } = props;
 
+    if (open === true && store.currentList && store.currentList._id !== listInfo._id) {
+        setOpen(false);
+    }
 
-    function handleLoadList(event, id) {
+
+    function handleLoadList(event, id, openState) {
         store.clearAllTransactions();
         console.log("handleLoadList for " + id);
         let _id = event.target.id;
@@ -41,18 +46,22 @@ function ListCard(props) {
 
         console.log("load " + event.target.id);
 
-        
+        if (open === false && openState === true) {
+            setOpen(true);
+        }
         // CHANGE THE CURRENT LIST
         store.setCurrentList(id);
-    }   
+    }
 
-    function handleCloseList () {
-        store.closeCurrentList();
+    function handleCloseList() {
+        setOpen(false);
     }
 
     function handleToggleEdit(event) {
         event.stopPropagation();
-        event.nativeEvent.stopImmediatePropagation();
+        if (event.detail === 1) {
+            handleLoadList(event, listInfo._id, false)
+        }
         if (event.detail === 2 && !listInfo.isPublished) {
             toggleEdit();
         }
@@ -76,7 +85,7 @@ function ListCard(props) {
     function handleUpdateText(event) {
         setText(event.target.value);
     }
-    
+
     function handleLikeList(event, id) {
         console.log("Like");
     }
@@ -87,34 +96,36 @@ function ListCard(props) {
     }
 
     let cardCenter = "";
-    if (store.currentList && store.currentList._id === listInfo._id) {
-        cardCenter = 
-        <Box sx={{ width: '100%', backgroundColor: "#fffff1", height: "35vh", overflowY: "auto", 
-        borderStyle: "solid", borderWidth: "2px", borderRadius: '10pt'}}>
-        <List 
-        id="playlist-cards" 
-        
-        >
-        {
-            store.currentList.songs.map((song, index) => (
-                <SongCard
-                    id={'playlist-song-' + (index)}
-                    key={'playlist-song-' + (index)}
-                    index={index}
-                    song={song}
-                />
-            ))  
-            
-        }
-        <NewSongCard/>
-        </List>    
-        </Box>
-          
+    if (store.currentList && store.currentList._id === listInfo._id && open) {
+        cardCenter =
+            <Box sx={{
+                width: '100%', backgroundColor: "#fffff1", height: "35vh", overflowY: "auto",
+                borderStyle: "solid", borderWidth: "2px", borderRadius: '10pt'
+            }}>
+                <List
+                    id="playlist-cards"
+
+                >
+                    {
+                        store.currentList.songs.map((song, index) => (
+                            <SongCard
+                                id={'playlist-song-' + (index)}
+                                key={'playlist-song-' + (index)}
+                                index={index}
+                                song={song}
+                            />
+                        ))
+
+                    }
+                    <NewSongCard />
+                </List>
+            </Box>
+
     }
 
     let editToolbar = "";
-    if (store.currentList && store.currentList._id === listInfo._id) {
-        editToolbar= <Box style={{width: '100%', marginTop: '2%', marginBottom: '2%' }}><EditToolbar listInfo={listInfo}></EditToolbar></Box>
+    if (store.currentList && store.currentList._id === listInfo._id && open) {
+        editToolbar = <Box style={{ width: '100%', marginTop: '2%', marginBottom: '2%' }}><EditToolbar listInfo={listInfo}></EditToolbar></Box>
     }
 
     let modalJSX = "";
@@ -126,19 +137,21 @@ function ListCard(props) {
     }
 
     let listOpenCloseButton = "";
-    if (store.currentList && store.currentList._id === listInfo._id) {
+    if (store.currentList && store.currentList._id === listInfo._id && open) {
         listOpenCloseButton = <IconButton onClick={(event) => {
             handleCloseList(event, listInfo._id)
+            setOpen(false);
         }} aria-label='close'
         >
-        <KeyboardDoubleArrowUpIcon style={{fontSize:'32pt'}} />
+            <KeyboardDoubleArrowUpIcon style={{ fontSize: '32pt' }} />
         </IconButton>
     } else {
         listOpenCloseButton = <IconButton onClick={(event) => {
-            handleLoadList(event, listInfo._id)
+            setOpen(true);
+            handleLoadList(event, listInfo._id, true);
         }} aria-label='open'
         >
-        <KeyboardDoubleArrowDownIcon style={{fontSize:'32pt'}} />
+            <KeyboardDoubleArrowDownIcon style={{ fontSize: '32pt' }} />
         </IconButton>
     }
 
@@ -151,9 +164,12 @@ function ListCard(props) {
         cardStatus = true;
     }
 
-    let listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px",  borderWidth: "2px", backgroundColor: "#fffff1", marginTop: '2%' };
+    let listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px", borderWidth: "2px", backgroundColor: "#fffff1", marginTop: '2%' };
     if (listInfo.isPublished) {
-        listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px",  borderWidth: "2px", backgroundColor: "#d4d4f5", marginTop: '2%' };
+        listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px", borderWidth: "2px", backgroundColor: "#d4d4f5", marginTop: '2%' };
+    }
+    if (store.currentList && store.currentList._id === listInfo._id) {
+        listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px", borderWidth: "2px", backgroundColor: "#d4af37", marginTop: '2%' };
     }
 
     let published = "";
@@ -166,52 +182,53 @@ function ListCard(props) {
         listens = "Listens: " + listInfo.listens;
     }
 
-    let likeDislikeArea = <Box sx={{ top: '0%', left: '55%', position: 'absolute'}}>
-    <IconButton onClick={handleLikeList} aria-label='like'>
-        <ThumbUpAltIcon style={{fontSize:'40pt'}}> </ThumbUpAltIcon>
-    </IconButton>
-    {listInfo.likes}
-    <IconButton onClick={(event) => {
+    let likeDislikeArea = <Box sx={{ top: '0%', left: '55%', position: 'absolute' }}>
+        <IconButton onClick={handleLikeList} aria-label='like'>
+            <ThumbUpAltIcon style={{ fontSize: '40pt' }}> </ThumbUpAltIcon>
+        </IconButton>
+        {listInfo.likes}
+        <IconButton onClick={(event) => {
             handleDislikeList()
-        }} aria-label='dislike' style={{marginLeft: '1pt'}}>
-        <ThumbDownAltIcon style={{fontSize:'40pt'}} />
-    </IconButton>
-    {listInfo.dislikes}
+        }} aria-label='dislike' style={{ marginLeft: '1pt' }}>
+            <ThumbDownAltIcon style={{ fontSize: '40pt' }} />
+        </IconButton>
+        {listInfo.dislikes}
     </Box>;
     if (listInfo.isPublished === false) {
         likeDislikeArea = "";
     }
 
-    let listName = <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '6%', left: '3%', position: 'absolute', maxWidth: '52%' }} onClick={handleToggleEdit}>{listInfo.name}</Box>;
+    let listName = <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '6%', left: '3%', position: 'absolute', maxWidth: '52%' }} >{listInfo.name}</Box>;
     if (editActive) {
         listName = <TextField
-        required
-        id={"list-" + listInfo._id}
-        label="Playlist Name"
-        name="name"
-        autoComplete="Playlist Name"
-        className='list-card'
-        onKeyPress={handleKeyPress}
-        onChange={handleUpdateText}
-        defaultValue={listInfo.name}
-        inputProps={{style: {fontSize: 18}}}
-        variant="filled"
-        InputLabelProps={{style: {fontSize: 16}}}
-        autoFocus
-        sx={{flexGrow: 1, overflowX: 'auto', top: '-15%', left: '0%', position: 'absolute', width: '80%'}}
+            required
+            id={"list-" + listInfo._id}
+            label="Playlist Name"
+            name="name"
+            autoComplete="Playlist Name"
+            className='list-card'
+            onKeyPress={handleKeyPress}
+            onChange={handleUpdateText}
+            defaultValue={listInfo.name}
+            inputProps={{ style: { fontSize: 18 } }}
+            variant="filled"
+            InputLabelProps={{ style: { fontSize: 16 } }}
+            autoFocus
+            sx={{ flexGrow: 1, overflowX: 'auto', top: '-15%', left: '0%', position: 'absolute', width: '80%' }}
         />
     }
 
     // FULL LIST CARD
     let cardElement =
-        <ListItem 
-        sx={listItemStyle}
-        id={listInfo._id}
-        key={listInfo._id}
+        <ListItem
+            sx={listItemStyle}
+            id={listInfo._id}
+            key={listInfo._id}
         >
             <Box //TOP
-                sx={{ marginTop: '10px', display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
-                style={{ minHeight: '80px', height:'6%', width: '100%', fontSize: '20pt', position: 'relative'}}    
+                sx={{ marginTop: '10px', display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0 }}
+                style={{ minHeight: '80px', height: '6%', width: '100%', fontSize: '20pt', position: 'relative' }}
+                onClick={handleToggleEdit}
             >
                 {listName}
                 <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '56%', left: '3%', position: 'absolute', fontSize: '15pt' }}>By: {listInfo.ownerUserName}</Box>
@@ -223,11 +240,12 @@ function ListCard(props) {
             {editToolbar}
 
             <Box //BOTTOM
-                sx={{display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0}}
-                style={{ minHeight: '80px', height:'6%', width: '100%', fontSize: '15pt', position: 'relative'}}
+                sx={{ display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0 }}
+                style={{ minHeight: '80px', height: '6%', width: '100%', fontSize: '15pt', position: 'relative' }}
+                onClick={handleToggleEdit}
             >
                 <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '3%', position: 'absolute' }}>{published}</Box>
-                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '55%', position: 'absolute'  }}>{listens}</Box>
+                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '55%', position: 'absolute' }}>{listens}</Box>
                 <Box sx={{ bottom: '0%', right: '3%', position: 'absolute' }}>
                     {listOpenCloseButton}
                 </Box>

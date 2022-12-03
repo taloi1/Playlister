@@ -578,7 +578,7 @@ function GlobalStoreContextProvider(props) {
                 playlist.listens++;
                 response = await api.updatePlaylistById(id, playlist);
                 if (response.data.success) {
-                    store.loadListInfo();
+                    //store.loadListInfo();
                 }
             }
         }

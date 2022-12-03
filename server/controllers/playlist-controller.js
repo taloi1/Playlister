@@ -87,6 +87,10 @@ getPlaylistById = async (req, res) => {
         }
         console.log("Found list: " + JSON.stringify(list));
 
+        if (list.isPublished === true) {
+            console.log("Published List!");
+            return res.status(200).json({ success: true, playlist: list })
+        }
         // DOES THIS LIST BELONG TO THIS USER?
         async function asyncFindUser(list) {
             await User.findOne({ email: list.ownerEmail }, (err, user) => {
@@ -123,7 +127,6 @@ getPlaylistPairs = async (req, res) => {
                         .json({ success: false, error: 'Playlists not found' })
                 }
                 else {
-                    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     console.log(playlists);
                     return res.status(200).json({ success: true, listInfo: playlists })
                 }
