@@ -167,14 +167,26 @@ function ListCard(props) {
         listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px", borderWidth: "2px", backgroundColor: "#d4d4f5", marginTop: '2%' };
     }
     if (store.currentList && store.currentList._id === listInfo._id && listInfo.isPublished) {
-        listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px", borderWidth: "2px", backgroundColor: "#d4af37", marginTop: '2%' };
+        listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px", borderWidth: "4px", backgroundColor: "#d4af37", marginTop: '2%' };
+    }
+    if (store.currentList && store.currentList._id === listInfo._id && !listInfo.isPublished) {
+        listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px", borderWidth: "4px", backgroundColor: "#fffff1", marginTop: '2%' };
     }
 
+
+    let publishText = "";
+    if (listInfo.publishDate && listInfo.isPublished) {
+        publishText = "Published: "
+    }
     let published = "";
     if (listInfo.publishDate && listInfo.isPublished) {
         published = <Typography display="inline" style={{color: '#65b358', fontWeight: 'bold'}}> {listInfo.publishDate.slice(0, 10)} </Typography>;
     }
 
+    let listensText = "";
+    if (listInfo.isPublished) {
+        listensText = "Listens: "
+    }
     let listens = "";
     if (listInfo.isPublished) {
         listens = <Typography display="inline" style={{color: '#b33037', fontWeight: 'bold'}}> {listInfo.listens} </Typography>;
@@ -222,6 +234,7 @@ function ListCard(props) {
             sx={listItemStyle}
             id={listInfo._id}
             key={listInfo._id}
+            
         >
             <Box //TOP
                 sx={{ marginTop: '10px', display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0 }}
@@ -243,8 +256,8 @@ function ListCard(props) {
                 style={{ minHeight: '80px', height: '6%', width: '100%', fontSize: '15pt', position: 'relative' }}
                 onClick={handleToggleEdit}
             >
-                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '3%', position: 'absolute' }}> Published: {' '} {published}</Box>
-                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '55%', position: 'absolute' }}>Listens: {' '} {listens}</Box>
+                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '3%', position: 'absolute' }}> {publishText} {published}</Box>
+                <Box sx={{ flexGrow: 1, overflowX: 'auto', bottom: '6%', left: '55%', position: 'absolute' }}>{listensText} {listens}</Box>
                 <Box sx={{ bottom: '0%', right: '3%', position: 'absolute' }}>
                     {listOpenCloseButton}
                 </Box>

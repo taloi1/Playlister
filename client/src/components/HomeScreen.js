@@ -25,6 +25,7 @@ import Typography from '@mui/material/Typography'
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [text, setText] = useState("");
     const isMenuOpen = Boolean(anchorEl);
 
     useEffect(() => {
@@ -72,6 +73,15 @@ const HomeScreen = () => {
     function handleChangeSortDislikes() {
         handleMenuClose();
         store.setSortDislikes();
+    }
+
+    function handleKeyPress(event) {
+        if (event.code === "Enter") {
+            store.changeSearchBar(text);
+        }
+    }
+    function handleUpdateText(event) {
+        setText(event.target.value);
     }
 
     const menuId = 'primary-search-sort-menu';
@@ -150,7 +160,10 @@ const HomeScreen = () => {
                 </Box>
 
                 <TextField  
-                    label={'Search'}  style={{ width:'55%', marginLeft:'7%', marginTop:'5px', backgroundColor: '#ffffff', borderRadius: '4px'}}> 
+                    label={'Search'}  
+                    style={{ width:'55%', marginLeft:'7%', marginTop:'5px', backgroundColor: '#ffffff', borderRadius: '4px'}}
+                    onKeyPress={handleKeyPress}
+                    onChange={handleUpdateText}> 
                 </TextField>
 
                 <Box sx={{ pt: 1, pl:1 }} style={{right:'2%', position: 'absolute', fontWeight: 'bold', fontSize: 25, fontStyle: 'oblique'}}>

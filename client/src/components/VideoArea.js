@@ -3,6 +3,9 @@ import { GlobalStoreContext } from '../store'
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import YouTubePlayer from './YoutubePlayer';
+import List from '@mui/material/List';
+import { ListItem } from '@mui/material';
+import TextField from '@mui/material/TextField';
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -11,6 +14,7 @@ import YouTubePlayer from './YoutubePlayer';
 const VideoArea = () => {
     const { store } = useContext(GlobalStoreContext);
     const [commentsEnabled, setCommentsEnabled] = useState(false);
+    const [text, setText] = useState("");
 
 
     function handleChangeComments () {
@@ -21,9 +25,34 @@ const VideoArea = () => {
         setCommentsEnabled(false);
     }
 
+    function handleKeyPress(event) {
+        if (event.code === "Enter") {
+            store.addComment(text)
+            setText("");
+        }
+    }
+    function handleUpdateText(event) {
+        setText(event.target.value);
+    }
+
     let videoAreaContent = "";
-    if (commentsEnabled) {
-        videoAreaContent = "COMMENTS"
+    if (commentsEnabled && store.currentList) {
+        videoAreaContent = 
+        <List>
+            {
+                store.currentList.comments.map((comment) => (
+                    <ListItem>{comment.userName} {': '} {comment.content}</ListItem>
+                ))
+            }
+            <TextField  
+                label={'Add Comment'}  
+                style={{ width:'55%', marginLeft:'7%', marginTop:'5px', backgroundColor: '#ffffff', borderRadius: '4px'}}
+                onKeyPress={handleKeyPress}
+                onChange={handleUpdateText}
+                value={text}> 
+            </TextField>
+        </List>
+        
     } else {
         videoAreaContent = <YouTubePlayer/>
     }
