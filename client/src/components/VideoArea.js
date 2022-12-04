@@ -37,22 +37,24 @@ const VideoArea = () => {
 
     let videoAreaContent = "";
     if (commentsEnabled && store.currentList) {
-        videoAreaContent = 
-        <List>
-            {
-                store.currentList.comments.map((comment) => (
-                    <ListItem>{comment.userName} {': '} {comment.content}</ListItem>
-                ))
-            }
-            <TextField  
-                label={'Add Comment'}  
-                style={{ width:'55%', marginLeft:'7%', marginTop:'5px', backgroundColor: '#ffffff', borderRadius: '4px'}}
-                onKeyPress={handleKeyPress}
-                onChange={handleUpdateText}
-                value={text}> 
-            </TextField>
-        </List>
+        if (store.currentList.isPublished) {
+            videoAreaContent = 
+            <List>
+                {
+                    store.currentList.comments.map((comment) => (
+                        <ListItem>{comment.userName} {': '} {comment.content}</ListItem>
+                    ))
+                }
+                <TextField  
+                    label={'Add Comment'}  
+                    style={{ width:'55%', marginLeft:'7%', marginTop:'5px', backgroundColor: '#ffffff', borderRadius: '4px'}}
+                    onKeyPress={handleKeyPress}
+                    onChange={handleUpdateText}
+                    value={text}> 
+                </TextField>
+            </List>
         
+        }
     } else {
         videoAreaContent = <YouTubePlayer/>
     }

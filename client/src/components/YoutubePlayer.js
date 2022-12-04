@@ -1,10 +1,13 @@
-import { useContext} from 'react'
+import { useContext, useState} from 'react'
 import { GlobalStoreContext } from '../store'
 import React from 'react';
 import YouTube from 'react-youtube';
+import { Box } from '@mui/material';
+import Typography from '@mui/material/Typography';
 
 export default function YouTubePlayer() {
     const { store } = useContext(GlobalStoreContext);
+    const [listData, setListData] = useState({name: "", songNum: "", title: "", artist: ""});
     // THIS EXAMPLE DEMONSTRATES HOW TO DYNAMICALLY MAKE A
     // YOUTUBE PLAYER AND EMBED IT IN YOUR SITE. IT ALSO
     // DEMONSTRATES HOW TO IMPLEMENT A PLAYLIST THAT MOVES
@@ -37,6 +40,12 @@ export default function YouTubePlayer() {
         let song = playlist[currentSong];
         player.loadVideoById(song);
         player.playVideo();
+        setListData({
+            name: store.currentList.name,
+            songNum: currentSong+1,
+            title: store.currentList.songs[currentSong].title,
+            artist: store.currentList.songs[currentSong].artist
+        })
     }
 
     // THIS FUNCTION INCREMENTS THE PLAYLIST SONG TO THE NEXT ONE
@@ -80,12 +89,23 @@ export default function YouTubePlayer() {
         }
     }
 
+    let songInfo = <Box style={{left:'5%', position:'absolute'}}> 
+        <Typography style={{fontWeight:'bold'}}>Playlist: {' '} {listData.name}</Typography> 
+        <Typography style={{fontWeight:'bold'}}>Song #: {' '} {listData.songNum}</Typography> 
+        <Typography style={{fontWeight:'bold'}}>Title: {' '} {listData.title}</Typography> 
+        <Typography style={{fontWeight:'bold'}}>Artist: {' '} {listData.artist}</Typography> 
+    </Box>
+
     if (playlist !== null) {
-        return <YouTube
-        videoId={playlist[currentSong]}
-        opts={playerOptions}
-        onReady={onPlayerReady}
-        onStateChange={onPlayerStateChange} />;
+        return <div>
+            <YouTube
+            videoId={playlist[currentSong]}
+            opts={playerOptions}
+            onReady={onPlayerReady}
+            onStateChange={onPlayerStateChange} />
+        
+            {songInfo}
+        </div>;
     } else {
         return "";
     }
