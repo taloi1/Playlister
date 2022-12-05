@@ -13,11 +13,20 @@ function Statusbar() {
     const { auth } = useContext(AuthContext);
     let text ="";
     let statusName = "statusbar-visible";
-    if (store.currentList && store.currentHomeScreen !== "HOME")
+    let statusBarContent = "";
+    if (store.currentList && store.currentHomeScreen !== "HOME") {
         text = store.currentList.name;
+    }
+    if (store.currentHomeScreen === "ALL_LISTS") {
+        statusBarContent=<Typography variant="h4">{store.searchBar} {' '} Playlists</Typography>;
+    }
+    if (store.currentHomeScreen === "USERS") {
+        statusBarContent=<Typography variant="h4">{store.searchBar} {' '} Lists</Typography>;
+    }
+
     return (
         <div id="playlister-statusbar" className={statusName}>
-            <Typography variant="h4">{text}</Typography>
+            {statusBarContent}
         </div> 
     );
 }

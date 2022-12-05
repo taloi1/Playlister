@@ -58,6 +58,7 @@ const CurrentHomeScreen = {
 const SortType = {
     NAME: "NAME",
     PUBLISH_DATE: "PUBLISH_DATE",
+    EDIT_DATE: "EDIT_DATE",
     LISTENS: "LISTENS",
     LIKES: "LIKES",
     DISLIKES: "DISLIKES"
@@ -320,7 +321,7 @@ function GlobalStoreContextProvider(props) {
                     currentModal: CurrentModal.NONE,
                     currentHomeScreen: store.currentHomeScreen,
                     sortType: store.sortType,
-                    listInfo: store.listInfo,
+                    listInfo: payload.listInfo,
                     currentList: null,
                     currentSongIndex: -1,
                     currentSong: null,
@@ -328,7 +329,7 @@ function GlobalStoreContextProvider(props) {
                     listNameActive: false,
                     listIdMarkedForDeletion: null,
                     listMarkedForDeletion: null,
-                    searchBar: payload,
+                    searchBar: payload.search,
                 });
             }
             default:
@@ -365,6 +366,9 @@ function GlobalStoreContextProvider(props) {
                     if (store.sortType === SortType.PUBLISH_DATE) {
                         console.log(infoArray);
                     }
+                    if (store.sortType === SortType.EDIT_DATE) {
+                        console.log(infoArray);
+                    }
                     if (store.sortType === SortType.LISTENS) {
                         console.log(infoArray);
                     }
@@ -392,39 +396,39 @@ function GlobalStoreContextProvider(props) {
             else {
                 let response = await api.getPublishedPlaylists();
 
-                    if (response.data.success) {
-                        let infoArray = response.data.data;
+                if (response.data.success) {
+                    let infoArray = response.data.data;
 
-                        if (store.sortType === SortType.NAME) {
-                            console.log(infoArray);
-                        }
-                        if (store.sortType === SortType.PUBLISH_DATE) {
-                            console.log(infoArray);
-                        }
-                        if (store.sortType === SortType.LISTENS) {
-                            console.log(infoArray);
-                        }
-                        if (store.sortType === SortType.LIKES) {
-                            console.log(infoArray);
-                        }
-                        if (store.sortType === SortType.DISLIKES) {
-                            console.log(infoArray);
-                        }
-
-                        if (store.currentHomeScreen === CurrentHomeScreen.ALL_LISTS && store.searchBar) {
-                            infoArray = infoArray.filter(list => list.name.toLowerCase().includes(store.searchBar.toLowerCase()));
-                        }
-                        if (store.currentHomeScreen === CurrentHomeScreen.USERS && store.searchBar) {
-                            infoArray = infoArray.filter(list => list.ownerUserName.toLowerCase().includes(store.searchBar.toLowerCase()));
-                        }
-                        storeReducer({
-                            type: GlobalStoreActionType.LOAD_LIST_INFO,
-                            payload: infoArray
-                        });
-
-                    } else {
-                        console.log("API FAILED TO GET THE LIST INFO");
+                    if (store.sortType === SortType.NAME) {
+                        console.log(infoArray);
                     }
+                    if (store.sortType === SortType.PUBLISH_DATE) {
+                        console.log(infoArray);
+                    }
+                    if (store.sortType === SortType.LISTENS) {
+                        console.log(infoArray);
+                    }
+                    if (store.sortType === SortType.LIKES) {
+                        console.log(infoArray);
+                    }
+                    if (store.sortType === SortType.DISLIKES) {
+                        console.log(infoArray);
+                    }
+
+                    if (store.currentHomeScreen === CurrentHomeScreen.ALL_LISTS && store.searchBar) {
+                        infoArray = infoArray.filter(list => list.name.toLowerCase().includes(store.searchBar.toLowerCase()));
+                    }
+                    if (store.currentHomeScreen === CurrentHomeScreen.USERS && store.searchBar) {
+                        infoArray = infoArray.filter(list => list.ownerUserName.toLowerCase().includes(store.searchBar.toLowerCase()));
+                    }
+                    storeReducer({
+                        type: GlobalStoreActionType.LOAD_LIST_INFO,
+                        payload: infoArray
+                    });
+
+                } else {
+                    console.log("API FAILED TO GET THE LIST INFO");
+                }
             }
         }
         asyncLoadListInfo();
@@ -505,11 +509,44 @@ function GlobalStoreContextProvider(props) {
     }
 
     store.changeSearchBar = function (text) {
-        storeReducer({
-            type: GlobalStoreActionType.CHANGE_SEARCH_BAR,
-            payload: text
-        });
-        store.loadListInfo();
+        async function asyncChangeSearchBar(text) {
+            if (store.currentHomeScreen === CurrentHomeScreen.HOME) {
+                const response = await api.getPlaylistPairs();
+                if (response.data.success) {
+                    let infoArray = response.data.listInfo;
+
+                    
+                    if (text) {
+                        infoArray = infoArray.filter(list => list.name.toLowerCase().includes(text.toLowerCase()));
+                    }
+
+                    storeReducer({
+                        type: GlobalStoreActionType.CHANGE_SEARCH_BAR,
+                        payload: { search: text, listInfo: infoArray }
+                    });
+                }
+
+            } else {
+                let response = await api.getPublishedPlaylists();
+                if (response.data.success) {
+                    let infoArray = response.data.data;
+
+
+                    if (store.currentHomeScreen === CurrentHomeScreen.ALL_LISTS && text) {
+                        infoArray = infoArray.filter(list => list.name.toLowerCase().includes(text.toLowerCase()));
+                    }
+                    if (store.currentHomeScreen === CurrentHomeScreen.USERS && text) {
+                        infoArray = infoArray.filter(list => list.ownerUserName.toLowerCase().includes(text.toLowerCase()));
+                    }
+
+                    storeReducer({
+                        type: GlobalStoreActionType.CHANGE_SEARCH_BAR,
+                        payload: { search: text, listInfo: infoArray }
+                    });
+                }
+            }
+        }
+        asyncChangeSearchBar(text);
     }
 
     // THIS FUNCTION PROCESSES CLOSING THE CURRENTLY LOADED LIST
