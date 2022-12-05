@@ -142,8 +142,8 @@ getPlaylistInfo = async (req, res) => {
                     if (req.query.sortType) {
                         if (req.query.sortType === "NAME") {
                             playlists.sort((a, b) => {
-                                const nameA = a.name.toUpperCase(); 
-                                const nameB = b.name.toUpperCase(); 
+                                const nameA = a.name.toLowerCase(); 
+                                const nameB = b.name.toLowerCase(); 
                                 if (nameA < nameB) {
                                     return -1;
                                 }
@@ -158,19 +158,69 @@ getPlaylistInfo = async (req, res) => {
                             console.log(playlists);
                         }
                         if (req.query.sortType === "PUBLISH_DATE") {
+                            playlists.sort((a, b) => {
+                                if (a.publishDate > b.publishDate) {
+                                    return -1;
+                                }
+                                if (a.publishDate < b.publishDate) {
+                                    return 1;
+                                }
+                                return 0;
+                            });
                             console.log("PUBLISH");
+                            console.log(playlists);
                         }
                         if (req.query.sortType === "EDIT_DATE") {
+                            playlists.sort((a, b) => {
+                                if (a.updatedAt > b.updatedAt) {
+                                    return -1;
+                                }
+                                if (a.updatedAt < b.updatedAt) {
+                                    return 1;
+                                }
+                                return 0;
+                            });
                             console.log("EDIT");
+                            console.log(playlists);
                         }
                         if (req.query.sortType === "LISTENS") {
+                            playlists.sort((a, b) => {
+                                if (a.listens > b.listens) {
+                                    return -1;
+                                }
+                                if (a.listens < b.listens) {
+                                    return 1;
+                                }
+                                return 0;
+                            });
                             console.log("LISTENS");
+                            console.log(playlists);
                         }
                         if (req.query.sortType === "LIKES") {
+                            playlists.sort((a, b) => {
+                                if (a.likes > b.likes) {
+                                    return -1;
+                                }
+                                if (a.likes < b.likes) {
+                                    return 1;
+                                }
+                                return 0;
+                            });
                             console.log("LIKES");
+                            console.log(playlists);
                         }
                         if (req.query.sortType === "DISLIKES") {
+                            playlists.sort((a, b) => {
+                                if (a.dislikes > b.dislikes) {
+                                    return -1;
+                                }
+                                if (a.dislikes < b.dislikes) {
+                                    return 1;
+                                }
+                                return 0;
+                            });
                             console.log("DISLIKES");
+                            console.log(playlists);
                         }
                     }
                     
@@ -200,6 +250,92 @@ getPublishedPlaylists = async (req, res) => {
             }
             if (req.query.screen === 'USERS') {
                 playlists = playlists.filter(list => list.ownerUserName.toLowerCase().includes(req.query.search.toLowerCase()));
+            }
+        }
+
+        // SORT FROM SELECTED SORT TYPE
+        if (req.query.sortType) {
+            if (req.query.sortType === "NAME") {
+                playlists.sort((a, b) => {
+                    const nameA = a.name.toLowerCase(); 
+                    const nameB = b.name.toLowerCase(); 
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+
+                    // names must be equal
+                    return 0;
+                });
+                console.log("NAME");
+                console.log(playlists);
+            }
+            if (req.query.sortType === "PUBLISH_DATE") {
+                playlists.sort((a, b) => {
+                    if (a.publishDate > b.publishDate) {
+                        return -1;
+                    }
+                    if (a.publishDate < b.publishDate) {
+                        return 1;
+                    }
+                    return 0;
+                });
+                console.log("PUBLISH");
+                console.log(playlists);
+            }
+            if (req.query.sortType === "EDIT_DATE") {
+                playlists.sort((a, b) => {
+                    if (a.updatedAt > b.updatedAt) {
+                        return -1;
+                    }
+                    if (a.updatedAt < b.updatedAt) {
+                        return 1;
+                    }
+                    return 0;
+                });
+                console.log("EDIT");
+                console.log(playlists);
+            }
+            if (req.query.sortType === "LISTENS") {
+                playlists.sort((a, b) => {
+                    if (a.listens > b.listens) {
+                        return -1;
+                    }
+                    if (a.listens < b.listens) {
+                        return 1;
+                    }
+                    return 0;
+                });
+                console.log("LISTENS");
+                console.log(playlists);
+            }
+            if (req.query.sortType === "LIKES") {
+                playlists.sort((a, b) => {
+                    if (a.likes > b.likes) {
+                        return -1;
+                    }
+                    if (a.likes < b.likes) {
+                        return 1;
+                    }
+                    return 0;
+                });
+                console.log("LIKES");
+                console.log(playlists);
+            }
+            if (req.query.sortType === "DISLIKES") {
+                playlists.sort((a, b) => {
+                    if (a.dislikes > b.dislikes) {
+                        return -1;
+                    }
+                    if (a.dislikes < b.dislikes) {
+                        return 1;
+                    }
+                    return 0;
+                });
+                console.log("DISLIKES");
+                console.log(playlists);
             }
         }
         return res.status(200).json({ success: true, data: playlists })

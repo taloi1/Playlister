@@ -287,8 +287,8 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     currentModal: CurrentModal.NONE,
                     currentHomeScreen: store.currentHomeScreen,
-                    sortType: payload,
-                    listInfo: store.listInfo,
+                    sortType: payload.type,
+                    listInfo: payload.listInfo,
                     currentList: null,
                     currentSongIndex: -1,
                     currentSong: null,
@@ -453,7 +453,6 @@ function GlobalStoreContextProvider(props) {
                         payload: { search: text, listInfo: infoArray }
                     });
                 }
-
             } else {
                 let response = await api.getPublishedPlaylists(text, store.currentHomeScreen, store.sortType);
                 if (response.data.success) {
@@ -816,40 +815,46 @@ function GlobalStoreContextProvider(props) {
     }
 
     store.setSortName = function () {
-        storeReducer({
-            type: GlobalStoreActionType.CHANGE_SORT_TYPE,
-            payload: SortType.NAME
-        });
+        store.setSortType(SortType.NAME);
     }
     store.setSortPublishDate = function () {
-        storeReducer({
-            type: GlobalStoreActionType.CHANGE_SORT_TYPE,
-            payload: SortType.PUBLISH_DATE
-        });
+        store.setSortType(SortType.PUBLISH_DATE);
     }
     store.setSortEditDate = function () {
-        storeReducer({
-            type: GlobalStoreActionType.CHANGE_SORT_TYPE,
-            payload: SortType.EDIT_DATE
-        });
+        store.setSortType(SortType.EDIT_DATE);
     }
     store.setSortListens = function () {
-        storeReducer({
-            type: GlobalStoreActionType.CHANGE_SORT_TYPE,
-            payload: SortType.LISTENS
-        });
+        store.setSortType(SortType.LISTENS);
     }
     store.setSortLikes = function () {
-        storeReducer({
-            type: GlobalStoreActionType.CHANGE_SORT_TYPE,
-            payload: SortType.LIKES
-        });
+        store.setSortType(SortType.LIKES);
     }
     store.setSortDislikes = function () {
-        storeReducer({
-            type: GlobalStoreActionType.CHANGE_SORT_TYPE,
-            payload: SortType.DISLIKES
-        });
+        store.setSortType(SortType.DISLIKES);
+    }
+    store.setSortType = function (type) {
+        async function asyncSetSortType(text) {
+            if (store.currentHomeScreen === CurrentHomeScreen.HOME) {
+                const response = await api.getUserPlaylistInfo(store.searchBar, store.currentHomeScreen, type);
+                if (response.data.success) {
+                    let infoArray = response.data.listInfo;
+                    storeReducer({
+                        type: GlobalStoreActionType.CHANGE_SORT_TYPE,
+                        payload: {type: type, listInfo: infoArray}
+                    });
+                }
+            } else {
+                let response = await api.getPublishedPlaylists(store.searchBar, store.currentHomeScreen, type);
+                if (response.data.success) {
+                    let infoArray = response.data.data;
+                    storeReducer({
+                        type: GlobalStoreActionType.CHANGE_SORT_TYPE,
+                        payload: {type: type, listInfo: infoArray}
+                    });
+                }
+            }
+        }
+        asyncSetSortType(type);
     }
 
     // THIS FUNCTION ENABLES THE PROCESS OF EDITING A LIST NAME
