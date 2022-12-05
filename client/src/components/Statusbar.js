@@ -17,10 +17,10 @@ function Statusbar() {
     if (store.currentList && store.currentHomeScreen !== "HOME") {
         text = store.currentList.name;
     }
-    if (store.currentHomeScreen === "ALL_LISTS") {
+    if (store.currentHomeScreen === "ALL_LISTS" && store.searchBar !== "" && store.searchBar) {
         statusBarContent=<Typography variant="h4">{store.searchBar} {' '} Playlists</Typography>;
     }
-    if (store.currentHomeScreen === "USERS") {
+    if (store.currentHomeScreen === "USERS" && store.searchBar !== "" && store.searchBar) {
         statusBarContent=<Typography variant="h4">{store.searchBar} {' '} Lists</Typography>;
     }
 

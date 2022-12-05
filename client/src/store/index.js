@@ -341,7 +341,7 @@ function GlobalStoreContextProvider(props) {
     store.loadListInfo = function () {
         async function asyncLoadListInfo() {
             if (store.currentHomeScreen === CurrentHomeScreen.HOME) {
-                const response = await api.getPlaylistPairs();
+                const response = await api.getPlaylistPairs(store.searchBar, store.currentHomeScreen, store.sortType);
 
                 if (response.data.success) {
                     let infoArray = response.data.listInfo;
@@ -379,10 +379,6 @@ function GlobalStoreContextProvider(props) {
                         console.log(infoArray);
                     }
 
-                    if (store.searchBar) {
-                        infoArray = infoArray.filter(list => list.name.toLowerCase().includes(store.searchBar.toLowerCase()));
-                    }
-
                     storeReducer({
                         type: GlobalStoreActionType.LOAD_LIST_INFO,
                         payload: infoArray
@@ -394,7 +390,7 @@ function GlobalStoreContextProvider(props) {
 
             }
             else {
-                let response = await api.getPublishedPlaylists();
+                let response = await api.getPublishedPlaylists(store.searchBar, store.currentHomeScreen, store.sortType);
 
                 if (response.data.success) {
                     let infoArray = response.data.data;
@@ -415,12 +411,6 @@ function GlobalStoreContextProvider(props) {
                         console.log(infoArray);
                     }
 
-                    if (store.currentHomeScreen === CurrentHomeScreen.ALL_LISTS && store.searchBar) {
-                        infoArray = infoArray.filter(list => list.name.toLowerCase().includes(store.searchBar.toLowerCase()));
-                    }
-                    if (store.currentHomeScreen === CurrentHomeScreen.USERS && store.searchBar) {
-                        infoArray = infoArray.filter(list => list.ownerUserName.toLowerCase().includes(store.searchBar.toLowerCase()));
-                    }
                     storeReducer({
                         type: GlobalStoreActionType.LOAD_LIST_INFO,
                         payload: infoArray
@@ -450,7 +440,7 @@ function GlobalStoreContextProvider(props) {
                     response = await api.updatePlaylistById(playlist._id, playlist);
                     if (response.data.success) {
                         async function getListPairs(playlist) {
-                            response = await api.getPlaylistPairs();
+                            response = await api.getPlaylistPairs(store.searchBar, store.currentHomeScreen, store.sortType);
                             if (response.data.success) {
                                 let pairsArray = response.data.listInfo;
                                 storeReducer({
@@ -484,7 +474,7 @@ function GlobalStoreContextProvider(props) {
                         response = await api.updatePlaylistById(playlist._id, playlist);
                         if (response.data.success) {
                             async function getListPairs(playlist) {
-                                response = await api.getPlaylistPairs();
+                                response = await api.getPlaylistPairs(store.searchBar, store.currentHomeScreen, store.sortType);
                                 if (response.data.success) {
                                     let playlists = response.data.listInfo;
 
@@ -511,14 +501,26 @@ function GlobalStoreContextProvider(props) {
     store.changeSearchBar = function (text) {
         async function asyncChangeSearchBar(text) {
             if (store.currentHomeScreen === CurrentHomeScreen.HOME) {
-                const response = await api.getPlaylistPairs();
+                const response = await api.getPlaylistPairs(text, store.currentHomeScreen, store.sortType);
                 if (response.data.success) {
                     let infoArray = response.data.listInfo;
 
-                    
-                    if (text) {
-                        infoArray = infoArray.filter(list => list.name.toLowerCase().includes(text.toLowerCase()));
+                    if (store.sortType === SortType.NAME) {
+                        console.log(infoArray);
                     }
+                    if (store.sortType === SortType.PUBLISH_DATE) {
+                        console.log(infoArray);
+                    }
+                    if (store.sortType === SortType.LISTENS) {
+                        console.log(infoArray);
+                    }
+                    if (store.sortType === SortType.LIKES) {
+                        console.log(infoArray);
+                    }
+                    if (store.sortType === SortType.DISLIKES) {
+                        console.log(infoArray);
+                    }
+
 
                     storeReducer({
                         type: GlobalStoreActionType.CHANGE_SEARCH_BAR,
@@ -527,17 +529,26 @@ function GlobalStoreContextProvider(props) {
                 }
 
             } else {
-                let response = await api.getPublishedPlaylists();
+                let response = await api.getPublishedPlaylists(text, store.currentHomeScreen, store.sortType);
                 if (response.data.success) {
                     let infoArray = response.data.data;
 
+                    if (store.sortType === SortType.NAME) {
+                        console.log(infoArray);
+                    }
+                    if (store.sortType === SortType.PUBLISH_DATE) {
+                        console.log(infoArray);
+                    }
+                    if (store.sortType === SortType.LISTENS) {
+                        console.log(infoArray);
+                    }
+                    if (store.sortType === SortType.LIKES) {
+                        console.log(infoArray);
+                    }
+                    if (store.sortType === SortType.DISLIKES) {
+                        console.log(infoArray);
+                    }
 
-                    if (store.currentHomeScreen === CurrentHomeScreen.ALL_LISTS && text) {
-                        infoArray = infoArray.filter(list => list.name.toLowerCase().includes(text.toLowerCase()));
-                    }
-                    if (store.currentHomeScreen === CurrentHomeScreen.USERS && text) {
-                        infoArray = infoArray.filter(list => list.ownerUserName.toLowerCase().includes(text.toLowerCase()));
-                    }
 
                     storeReducer({
                         type: GlobalStoreActionType.CHANGE_SEARCH_BAR,
@@ -858,7 +869,7 @@ function GlobalStoreContextProvider(props) {
 
     store.setHomeScreenHome = function () {
         async function asyncSetHomeScreenHome() {
-            let response = await api.getPlaylistPairs();
+            let response = await api.getPlaylistPairs("", CurrentHomeScreen.HOME, store.sortType);
             if (response.data.success) {
                 console.log(response.data);
                 storeReducer({
@@ -871,7 +882,7 @@ function GlobalStoreContextProvider(props) {
     }
     store.setHomeScreenAllLists = function () {
         async function asyncSetHomeScreenAllLists() {
-            let response = await api.getPublishedPlaylists();
+            let response = await api.getPublishedPlaylists("", CurrentHomeScreen.ALL_LISTS, store.sortType);
             if (response.data.success) {
                 console.log(response.data);
                 storeReducer({
@@ -884,7 +895,7 @@ function GlobalStoreContextProvider(props) {
     }
     store.setHomeScreenUsers = function () {
         async function asyncSetHomeScreenUsers() {
-            let response = await api.getPublishedPlaylists();
+            let response = await api.getPublishedPlaylists("", CurrentHomeScreen.USERS, store.sortType);
             if (response.data.success) {
                 console.log(response.data);
                 storeReducer({

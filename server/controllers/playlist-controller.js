@@ -109,7 +109,7 @@ getPlaylistById = async (req, res) => {
         asyncFindUser(list);
     }).catch(err => console.log(err))
 }
-getPlaylistPairs = async (req, res) => {
+getPlaylistInfo = async (req, res) => {
     console.log("getPlaylistPairs");
     await User.findOne({ _id: req.userId }, (err, user) => {
         console.log("find user with id " + req.userId);
@@ -127,7 +127,15 @@ getPlaylistPairs = async (req, res) => {
                         .json({ success: false, error: 'Playlists not found' })
                 }
                 else {
+
+                    console.log("HERE!!!!!!!!!!!!");
                     console.log(playlists);
+                    console.log(req.query);
+                    console.log("HERE????");
+                    if (req.query.search) {
+                        playlists = playlists.filter(list => list.name.toLowerCase().includes(req.query.search.toLowerCase()));
+                    }
+
                     return res.status(200).json({ success: true, listInfo: playlists })
                 }
             }).catch(err => console.log(err))
@@ -146,6 +154,15 @@ getPublishedPlaylists = async (req, res) => {
                 .json({ success: false, error: `Playlists not found` })
         }
         console.log(playlists);
+        console.log(req.query);
+        if (req.query.search && req.query.screen) {
+            if (req.query.screen === 'ALL_LISTS') {
+                playlists = playlists.filter(list => list.name.toLowerCase().includes(req.query.search.toLowerCase()));
+            }
+            if (req.query.screen === 'USERS') {
+                playlists = playlists.filter(list => list.ownerUserName.toLowerCase().includes(req.query.search.toLowerCase()));
+            }
+        }
         return res.status(200).json({ success: true, data: playlists })
     }).catch(err => console.log(err))
 }
@@ -216,7 +233,7 @@ module.exports = {
     createPlaylist,
     deletePlaylist,
     getPlaylistById,
-    getPlaylistPairs,
+    getPlaylistInfo,
     getPublishedPlaylists,
     updatePlaylist
 }
