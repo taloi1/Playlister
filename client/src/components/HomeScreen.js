@@ -62,6 +62,10 @@ const HomeScreen = () => {
         handleMenuClose();
         store.setSortPublishDate();
     }
+    function handleChangeSortEditDate() {
+        handleMenuClose();
+        store.setSortEditDate();
+    }
     function handleChangeSortListens() {
         handleMenuClose();
         store.setSortListens();
@@ -103,6 +107,7 @@ const HomeScreen = () => {
     >
         <MenuItem style={{fontWeight:'bold'}} onClick={handleChangeSortName}>Name (A - Z)</MenuItem>
         <MenuItem style={{fontWeight:'bold'}} onClick={handleChangeSortPublishDate}>Publish Date (Newest)</MenuItem>
+        <MenuItem style={{fontWeight:'bold'}} onClick={handleChangeSortEditDate}>Edit Date (Newest)</MenuItem>
         <MenuItem style={{fontWeight:'bold'}} onClick={handleChangeSortListens}>Listens (High - Low)</MenuItem>
         <MenuItem style={{fontWeight:'bold'}} onClick={handleChangeSortLikes}>Likes (High - Low)</MenuItem>
         <MenuItem style={{fontWeight:'bold'}} onClick={handleChangeSortDislikes}>Dislikes (High - Low)</MenuItem>

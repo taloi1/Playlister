@@ -919,6 +919,12 @@ function GlobalStoreContextProvider(props) {
             payload: SortType.PUBLISH_DATE
         });
     }
+    store.setSortEditDate = function () {
+        storeReducer({
+            type: GlobalStoreActionType.CHANGE_SORT_TYPE,
+            payload: SortType.EDIT_DATE
+        });
+    }
     store.setSortListens = function () {
         storeReducer({
             type: GlobalStoreActionType.CHANGE_SORT_TYPE,

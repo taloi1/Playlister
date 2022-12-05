@@ -69,8 +69,8 @@ deletePlaylist = async (req, res) => {
                 }
                 else {
                     console.log("incorrect user!1");
-                    return res.status(400).json({ 
-                        errorMessage: "authentication error" 
+                    return res.status(400).json({
+                        errorMessage: "authentication error"
                     });
                 }
             });
@@ -132,10 +132,49 @@ getPlaylistInfo = async (req, res) => {
                     console.log(playlists);
                     console.log(req.query);
                     console.log("HERE????");
+
+                    // FILTER FROM SEARCH BAR
                     if (req.query.search) {
                         playlists = playlists.filter(list => list.name.toLowerCase().includes(req.query.search.toLowerCase()));
                     }
 
+                    // SORT FROM SELECTED SORT TYPE
+                    if (req.query.sortType) {
+                        if (req.query.sortType === "NAME") {
+                            playlists.sort((a, b) => {
+                                const nameA = a.name.toUpperCase(); 
+                                const nameB = b.name.toUpperCase(); 
+                                if (nameA < nameB) {
+                                    return -1;
+                                }
+                                if (nameA > nameB) {
+                                    return 1;
+                                }
+    
+                                // names must be equal
+                                return 0;
+                            });
+                            console.log("NAME");
+                            console.log(playlists);
+                        }
+                        if (req.query.sortType === "PUBLISH_DATE") {
+                            console.log("PUBLISH");
+                        }
+                        if (req.query.sortType === "EDIT_DATE") {
+                            console.log("EDIT");
+                        }
+                        if (req.query.sortType === "LISTENS") {
+                            console.log("LISTENS");
+                        }
+                        if (req.query.sortType === "LIKES") {
+                            console.log("LIKES");
+                        }
+                        if (req.query.sortType === "DISLIKES") {
+                            console.log("DISLIKES");
+                        }
+                    }
+                    
+                    // RETURN FILTERED AND SORTED PLAYLISTS
                     return res.status(200).json({ success: true, listInfo: playlists })
                 }
             }).catch(err => console.log(err))
@@ -144,7 +183,7 @@ getPlaylistInfo = async (req, res) => {
     }).catch(err => console.log(err))
 }
 getPublishedPlaylists = async (req, res) => {
-    await Playlist.find({isPublished: true}, (err, playlists) => {
+    await Playlist.find({ isPublished: true }, (err, playlists) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
@@ -192,38 +231,38 @@ updatePlaylist = async (req, res) => {
             await User.findOne({ email: list.ownerEmail }, (err, user) => {
                 console.log("user._id: " + user._id);
                 console.log("req.userId: " + req.userId);
-                    // Only change name and songs, or publish a list if a list is unpublished
-                    if (list.isPublished === false && user._id == req.userId) {
-                        list.name = body.playlist.name;
-                        list.songs = body.playlist.songs;
-                        list.isPublished = body.playlist.isPublished;
-                        list.publishDate = body.playlist.publishDate;
-                    }
-                    // Only change likes, dislikes, and listens when a list is already published
-                    if (list.isPublished === true) {
-                        list.likes = body.playlist.likes;
-                        list.dislikes = body.playlist.dislikes;
-                        list.listens = body.playlist.listens;
-                    }
-                    list.comments = body.playlist.comments;
-                    list
-                        .save()
-                        .then(() => {
-                            console.log("SUCCESS!!!");
-                            return res.status(200).json({
-                                success: true,
-                                id: list._id,
-                                message: 'Playlist updated!',
-                            })
+                // Only change name and songs, or publish a list if a list is unpublished
+                if (list.isPublished === false && user._id == req.userId) {
+                    list.name = body.playlist.name;
+                    list.songs = body.playlist.songs;
+                    list.isPublished = body.playlist.isPublished;
+                    list.publishDate = body.playlist.publishDate;
+                }
+                // Only change likes, dislikes, and listens when a list is already published
+                if (list.isPublished === true) {
+                    list.likes = body.playlist.likes;
+                    list.dislikes = body.playlist.dislikes;
+                    list.listens = body.playlist.listens;
+                }
+                list.comments = body.playlist.comments;
+                list
+                    .save()
+                    .then(() => {
+                        console.log("SUCCESS!!!");
+                        return res.status(200).json({
+                            success: true,
+                            id: list._id,
+                            message: 'Playlist updated!',
                         })
-                        .catch(error => {
-                            console.log("FAILURE: " + JSON.stringify(error));
-                            return res.status(404).json({
-                                error,
-                                message: 'Playlist not updated!',
-                            })
+                    })
+                    .catch(error => {
+                        console.log("FAILURE: " + JSON.stringify(error));
+                        return res.status(404).json({
+                            error,
+                            message: 'Playlist not updated!',
                         })
-                
+                    })
+
             });
         }
         asyncFindUser(playlist);
