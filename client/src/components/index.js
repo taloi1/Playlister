@@ -14,6 +14,7 @@ import SplashScreen from './SplashScreen'
 import Statusbar from './Statusbar'
 import WorkspaceScreen from './WorkspaceScreen'
 import VideoArea from './VideoArea'
+import CommentCard from './CommentCard'
 /*
     This serves as a module so that we can import
     all the other components as we wish.
@@ -22,6 +23,7 @@ import VideoArea from './VideoArea'
 */
 export { 
     AppBanner,  
+    CommentCard,
     EditToolbar, 
     HomeScreen,
     HomeWrapper,

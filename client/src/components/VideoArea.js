@@ -6,6 +6,7 @@ import YouTubePlayer from './YoutubePlayer';
 import List from '@mui/material/List';
 import { ListItem } from '@mui/material';
 import TextField from '@mui/material/TextField';
+import CommentCard from './CommentCard';
 /*
     This React component lists all the top5 lists in the UI.
     
@@ -47,7 +48,7 @@ const VideoArea = () => {
                     <List style={{ position: 'absolute', width: '96%', height: '80%', top: '2%', left: '2%', overflowY: "auto", }}>
                         {
                             store.currentList.comments.map((comment) => (
-                                <ListItem>{comment.userName} {': '} {comment.content}</ListItem>
+                                <CommentCard comment={comment}></CommentCard>
                             ))
                         }
                     </List>
