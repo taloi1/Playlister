@@ -15,16 +15,28 @@ export default function YouTubePlayer() {
     const [listData, setListData] = useState({name: "", songNum: "", title: "", artist: ""});
     const [player, setPlayer] = useState(null);
     const [currentSong, setCurrentSong] = useState(0);
+    const [currentList, setCurrentList] = useState(null);
     // THIS EXAMPLE DEMONSTRATES HOW TO DYNAMICALLY MAKE A
     // YOUTUBE PLAYER AND EMBED IT IN YOUR SITE. IT ALSO
     // DEMONSTRATES HOW TO IMPLEMENT A PLAYLIST THAT MOVES
     // FROM ONE SONG TO THE NEXT
 
     // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
+    if (currentList !== store.currentList) {
+        let asyncChangeList = async function () {
+            let list = store.currentList
+            setCurrentList(list);
+        }
+        asyncChangeList();
+        setCurrentSong(0);
+        console.log("?????????????????????????????????????????????? ?????????????????????????????");
+        console.log(currentList);
+    }
+
     let playlist = null;
-    if (store.currentList) {
-        if (store.currentList.songs.length !== 0) {
-            playlist = store.currentList.songs.map(song => song.youTubeId);
+    if (currentList) {
+        if (currentList.songs.length !== 0) {
+            playlist = currentList.songs.map(song => song.youTubeId);
             console.log(playlist);
         }
     }
@@ -47,17 +59,17 @@ export default function YouTubePlayer() {
         player.loadVideoById(song);
         player.playVideo();
         setListData({
-            name: store.currentList.name,
+            name: currentList.name,
             songNum: currentSong+1,
-            title: store.currentList.songs[currentSong].title,
-            artist: store.currentList.songs[currentSong].artist
+            title: currentList.songs[currentSong].title,
+            artist: currentList.songs[currentSong].artist
         })
     }
 
     // THIS FUNCTION INCREMENTS THE PLAYLIST SONG TO THE NEXT ONE
     function incSong() {
         setCurrentSong(currentSong + 1);
-        if (currentSong >= playlist.length) {
+        if (currentSong >= (playlist.length - 1)) {
             setCurrentSong(0);
         }
     }
@@ -115,10 +127,10 @@ export default function YouTubePlayer() {
         player.loadVideoById(song);
         player.playVideo();
         setListData({
-            name: store.currentList.name,
+            name: currentList.name,
             songNum: currentSong+1,
-            title: store.currentList.songs[currentSong].title,
-            artist: store.currentList.songs[currentSong].artist
+            title: currentList.songs[currentSong].title,
+            artist: currentList.songs[currentSong].artist
         })
     }
     function handlePause () {
