@@ -341,81 +341,26 @@ function GlobalStoreContextProvider(props) {
     store.loadListInfo = function () {
         async function asyncLoadListInfo() {
             if (store.currentHomeScreen === CurrentHomeScreen.HOME) {
-                const response = await api.getPlaylistPairs(store.searchBar, store.currentHomeScreen, store.sortType);
-
+                const response = await api.getUserPlaylistInfo(store.searchBar, store.currentHomeScreen, store.sortType);
                 if (response.data.success) {
                     let infoArray = response.data.listInfo;
-
-                    if (store.sortType === SortType.NAME) {
-                        infoArray.sort((a, b) => {
-                            const nameA = a.name.toUpperCase(); // ignore upper and lowercase
-                            const nameB = b.name.toUpperCase(); // ignore upper and lowercase
-                            if (nameA < nameB) {
-                                return -1;
-                            }
-                            if (nameA > nameB) {
-                                return 1;
-                            }
-
-                            // names must be equal
-                            return 0;
-                        });
-                        console.log("NAME SORT");
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.PUBLISH_DATE) {
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.EDIT_DATE) {
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.LISTENS) {
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.LIKES) {
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.DISLIKES) {
-                        console.log(infoArray);
-                    }
-
                     storeReducer({
                         type: GlobalStoreActionType.LOAD_LIST_INFO,
                         payload: infoArray
                     });
-
                 } else {
                     console.log("API FAILED TO GET THE LIST INFO");
                 }
-
             }
             else {
                 let response = await api.getPublishedPlaylists(store.searchBar, store.currentHomeScreen, store.sortType);
 
                 if (response.data.success) {
                     let infoArray = response.data.data;
-
-                    if (store.sortType === SortType.NAME) {
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.PUBLISH_DATE) {
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.LISTENS) {
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.LIKES) {
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.DISLIKES) {
-                        console.log(infoArray);
-                    }
-
                     storeReducer({
                         type: GlobalStoreActionType.LOAD_LIST_INFO,
                         payload: infoArray
                     });
-
                 } else {
                     console.log("API FAILED TO GET THE LIST INFO");
                 }
@@ -439,20 +384,20 @@ function GlobalStoreContextProvider(props) {
                 async function updateList(playlist) {
                     response = await api.updatePlaylistById(playlist._id, playlist);
                     if (response.data.success) {
-                        async function getListPairs(playlist) {
-                            response = await api.getPlaylistPairs(store.searchBar, store.currentHomeScreen, store.sortType);
+                        async function getListInfo(playlist) {
+                            response = await api.getUserPlaylistInfo(store.searchBar, store.currentHomeScreen, store.sortType);
                             if (response.data.success) {
-                                let pairsArray = response.data.listInfo;
+                                let infoArray = response.data.listInfo;
                                 storeReducer({
                                     type: GlobalStoreActionType.CHANGE_LIST_NAME,
                                     payload: {
-                                        listInfo: pairsArray,
+                                        listInfo: infoArray,
                                         playlist: playlist
                                     }
                                 });
                             }
                         }
-                        getListPairs(playlist);
+                        getListInfo(playlist);
                     }
                 }
                 updateList(playlist);
@@ -473,8 +418,8 @@ function GlobalStoreContextProvider(props) {
                     async function updateList(playlist) {
                         response = await api.updatePlaylistById(playlist._id, playlist);
                         if (response.data.success) {
-                            async function getListPairs(playlist) {
-                                response = await api.getPlaylistPairs(store.searchBar, store.currentHomeScreen, store.sortType);
+                            async function getListInfo(playlist) {
+                                response = await api.getUserPlaylistInfo(store.searchBar, store.currentHomeScreen, store.sortType);
                                 if (response.data.success) {
                                     let playlists = response.data.listInfo;
 
@@ -487,7 +432,7 @@ function GlobalStoreContextProvider(props) {
                                     });
                                 }
                             }
-                            getListPairs(playlist);
+                            getListInfo(playlist);
                         }
                     }
                     updateList(playlist);
@@ -501,27 +446,9 @@ function GlobalStoreContextProvider(props) {
     store.changeSearchBar = function (text) {
         async function asyncChangeSearchBar(text) {
             if (store.currentHomeScreen === CurrentHomeScreen.HOME) {
-                const response = await api.getPlaylistPairs(text, store.currentHomeScreen, store.sortType);
+                const response = await api.getUserPlaylistInfo(text, store.currentHomeScreen, store.sortType);
                 if (response.data.success) {
                     let infoArray = response.data.listInfo;
-
-                    if (store.sortType === SortType.NAME) {
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.PUBLISH_DATE) {
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.LISTENS) {
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.LIKES) {
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.DISLIKES) {
-                        console.log(infoArray);
-                    }
-
-
                     storeReducer({
                         type: GlobalStoreActionType.CHANGE_SEARCH_BAR,
                         payload: { search: text, listInfo: infoArray }
@@ -532,24 +459,6 @@ function GlobalStoreContextProvider(props) {
                 let response = await api.getPublishedPlaylists(text, store.currentHomeScreen, store.sortType);
                 if (response.data.success) {
                     let infoArray = response.data.data;
-
-                    if (store.sortType === SortType.NAME) {
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.PUBLISH_DATE) {
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.LISTENS) {
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.LIKES) {
-                        console.log(infoArray);
-                    }
-                    if (store.sortType === SortType.DISLIKES) {
-                        console.log(infoArray);
-                    }
-
-
                     storeReducer({
                         type: GlobalStoreActionType.CHANGE_SEARCH_BAR,
                         payload: { search: text, listInfo: infoArray }
@@ -869,7 +778,7 @@ function GlobalStoreContextProvider(props) {
 
     store.setHomeScreenHome = function () {
         async function asyncSetHomeScreenHome() {
-            let response = await api.getPlaylistPairs("", CurrentHomeScreen.HOME, store.sortType);
+            let response = await api.getUserPlaylistInfo("", CurrentHomeScreen.HOME, store.sortType);
             if (response.data.success) {
                 console.log(response.data);
                 storeReducer({
