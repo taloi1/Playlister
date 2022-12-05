@@ -49,7 +49,6 @@ const CurrentModal = {
 }
 
 const CurrentHomeScreen = {
-    SPLASH_SCREEN: "SPLASH_SCREEN",
     HOME: "HOME",
     ALL_LISTS: "ALL_LISTS",
     USERS: "USERS"
@@ -71,7 +70,7 @@ function GlobalStoreContextProvider(props) {
     // THESE ARE ALL THE THINGS OUR DATA STORE WILL MANAGE
     const [store, setStore] = useState({
         currentModal: CurrentModal.NONE,
-        currentHomeScreen: CurrentHomeScreen.SPLASH_SCREEN,
+        currentHomeScreen: CurrentHomeScreen.HOME,
         sortType: SortType.LISTENS,
         listInfo: [],
         currentList: null,

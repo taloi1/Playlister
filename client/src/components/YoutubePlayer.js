@@ -1,4 +1,4 @@
-import { useContext, useState, useReducer} from 'react'
+import { useContext, useState, useReducer } from 'react'
 import { GlobalStoreContext } from '../store'
 import React from 'react';
 import YouTube from 'react-youtube';
@@ -12,7 +12,7 @@ import FastRewindIcon from '@mui/icons-material/FastRewind';
 
 export default function YouTubePlayer() {
     const { store } = useContext(GlobalStoreContext);
-    const [listData, setListData] = useState({name: "", songNum: "", title: "", artist: ""});
+    const [listData, setListData] = useState({ name: "", songNum: "", title: "", artist: "" });
     const [player, setPlayer] = useState(null);
     const [currentSong, setCurrentSong] = useState(0);
     const [currentList, setCurrentList] = useState(null);
@@ -22,33 +22,62 @@ export default function YouTubePlayer() {
     // DEMONSTRATES HOW TO IMPLEMENT A PLAYLIST THAT MOVES
     // FROM ONE SONG TO THE NEXT
 
-    // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
-    if (currentList !== store.currentList) {
-        console.log(currentList);
-        console.log(store.currentList);
-        setCurrentList(store.currentList);   
-        let asyncChangeList = async function () {
-            let list = store.currentList
-            await setCurrentList(list);
-            forceUpdate();
-        }
-        asyncChangeList();
-        setCurrentSong(0);
-        console.log("?????????????????????????????????????????????? ?????????????????????????????");
-        console.log(player);
-        forceUpdate();
-    }
-
     let playlist = null;
     if (currentList) {
         if (currentList.songs.length !== 0) {
             playlist = currentList.songs.map(song => song.youTubeId);
-            console.log("AADSADAFYGEYUIGEUHYIGESUIHGESIUHGHESUI");
-            console.log(playlist);
+            // console.log("AADSADAFYGEYUIGEUHYIGESUIHGESIUHGHESUI");
+            // console.log(playlist);
         }
     }
+    // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
 
-    // THIS IS THE INDEX OF THE SONG CURRENTLY IN USE IN THE PLAYLIST
+    if (currentList !== store.currentList && store.currentList) {
+        console.log(currentList);
+        console.log(store.currentList);
+        if (store.currentList.songs) {
+            if (store.currentList.songs.length >= 1 && playlist) {
+                if (store.currentList.songs[0].youTubeId === playlist[currentSong]) {
+                    console.log("WJAOIFFJIOEHIOUJGERSHIUJBGSRIUHEGHUIRSDGHUIRSHUIGSRHUIGIHUSRGUHISRGUIHRSUIHGUISHRGHIUSRGUHISRUIHG");
+                    console.log(store.currentList.songs[0].youTubeId);
+                    // console.log(player.getVideoData().video_id);
+                    player.loadVideoById(store.currentList.songs[0].youTubeId);
+                    player.playVideo();
+                }
+            }
+        }
+
+
+        setCurrentList(store.currentList);
+        let asyncChangeList = async function () {
+            let list = store.currentList
+            await setCurrentList(list);
+            setListData({
+                name: currentList.name,
+                songNum: currentSong + 1,
+                title: currentList.songs[currentSong].title,
+                artist: currentList.songs[currentSong].artist
+            })
+            forceUpdate();
+        }
+        asyncChangeList();
+        setCurrentSong(0);
+        if (currentList) {
+            if (currentList.songs.length >=1) {
+                setListData({
+                    name: currentList.name,
+                    songNum: currentSong + 1,
+                    title: currentList.songs[currentSong].title,
+                    artist: currentList.songs[currentSong].artist
+                })
+            }
+        }
+
+
+        console.log("?????????????????????????????????????????????? ?????????????????????????????");
+        console.log(player);
+        forceUpdate();
+    }
 
     const playerOptions = {
         height: '390',
@@ -67,7 +96,7 @@ export default function YouTubePlayer() {
         player.playVideo();
         setListData({
             name: currentList.name,
-            songNum: currentSong+1,
+            songNum: currentSong + 1,
             title: currentList.songs[currentSong].title,
             artist: currentList.songs[currentSong].artist
         })
@@ -128,67 +157,67 @@ export default function YouTubePlayer() {
         }
     }
 
-    function handleBack () {
+    function handleBack() {
         decSong();
         let song = playlist[currentSong];
         player.loadVideoById(song);
         player.playVideo();
         setListData({
             name: currentList.name,
-            songNum: currentSong+1,
+            songNum: currentSong + 1,
             title: currentList.songs[currentSong].title,
             artist: currentList.songs[currentSong].artist
         })
     }
-    function handlePause () {
+    function handlePause() {
         player.pauseVideo();
     }
-    function handlePlay () {
+    function handlePlay() {
         player.playVideo();
     }
-    function handleForward () {
+    function handleForward() {
         playerStateChange(0);
     }
 
-    let songInfo = <Box style={{left:'5%', position:'absolute'}}> 
-        <Typography style={{fontWeight:'bold'}}>Playlist: {' '} {listData.name}</Typography> 
-        <Typography style={{fontWeight:'bold'}}>Song #: {' '} {listData.songNum}</Typography> 
-        <Typography style={{fontWeight:'bold'}}>Title: {' '} {listData.title}</Typography> 
-        <Typography style={{fontWeight:'bold'}}>Artist: {' '} {listData.artist}</Typography> 
+    let songInfo = <Box style={{ left: '5%', position: 'absolute' }}>
+        <Typography style={{ fontWeight: 'bold' }}>Playlist: {' '} {listData.name}</Typography>
+        <Typography style={{ fontWeight: 'bold' }}>Song #: {' '} {listData.songNum}</Typography>
+        <Typography style={{ fontWeight: 'bold' }}>Title: {' '} {listData.title}</Typography>
+        <Typography style={{ fontWeight: 'bold' }}>Artist: {' '} {listData.artist}</Typography>
     </Box>
 
     if (playlist !== null) {
         return <div>
             <YouTube
-            videoId={playlist[currentSong]}
-            opts={playerOptions}
-            onReady={onPlayerReady}
-            onStateChange={onPlayerStateChange} />
-        
+                videoId={playlist[currentSong]}
+                opts={playerOptions}
+                onReady={onPlayerReady}
+                onStateChange={onPlayerStateChange} />
+
             {songInfo}
 
-            <Box sx={{position: 'absolute', bottom: '0%', left: '0%', justifyContent: 'center', display: 'flex', width:'100%', height: 'auto'}}>
-                    <IconButton 
-                    onClick={handleBack} 
+            <Box sx={{ position: 'absolute', bottom: '0%', left: '0%', justifyContent: 'center', display: 'flex', width: '100%', height: 'auto' }}>
+                <IconButton
+                    onClick={handleBack}
                     aria-label='back'>
-                        <FastRewindIcon style={{fontSize:'26pt', flex: 'none'}} sx={{color:'ffffff'}} />
-                    </IconButton>
-                    <IconButton 
-                    onClick={handlePause} 
+                    <FastRewindIcon style={{ fontSize: '26pt', flex: 'none' }} sx={{ color: 'ffffff' }} />
+                </IconButton>
+                <IconButton
+                    onClick={handlePause}
                     aria-label='pause'>
-                        <StopIcon style={{fontSize:'26pt', flex: 'none'}} sx={{color:'ffffff'}} />
-                    </IconButton>
-                    <IconButton 
-                    onClick={handlePlay} 
+                    <StopIcon style={{ fontSize: '26pt', flex: 'none' }} sx={{ color: 'ffffff' }} />
+                </IconButton>
+                <IconButton
+                    onClick={handlePlay}
                     aria-label='play'>
-                        <PlayArrowIcon style={{fontSize:'26pt', flex: 'none'}} sx={{color:'ffffff'}} />
-                    </IconButton>
-                    <IconButton 
-                    onClick={handleForward} 
+                    <PlayArrowIcon style={{ fontSize: '26pt', flex: 'none' }} sx={{ color: 'ffffff' }} />
+                </IconButton>
+                <IconButton
+                    onClick={handleForward}
                     aria-label='forward'>
-                        <FastForwardIcon style={{fontSize:'26pt', flex: 'none'}} sx={{color:'ffffff'}} />
-                    </IconButton>
-                </Box>
+                    <FastForwardIcon style={{ fontSize: '26pt', flex: 'none' }} sx={{ color: 'ffffff' }} />
+                </IconButton>
+            </Box>
         </div>;
     } else {
         return "";
