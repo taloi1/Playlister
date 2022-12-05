@@ -1,4 +1,4 @@
-import { useContext, useState} from 'react'
+import { useContext, useState, useReducer} from 'react'
 import { GlobalStoreContext } from '../store'
 import React from 'react';
 import YouTube from 'react-youtube';
@@ -16,6 +16,7 @@ export default function YouTubePlayer() {
     const [player, setPlayer] = useState(null);
     const [currentSong, setCurrentSong] = useState(0);
     const [currentList, setCurrentList] = useState(null);
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
     // THIS EXAMPLE DEMONSTRATES HOW TO DYNAMICALLY MAKE A
     // YOUTUBE PLAYER AND EMBED IT IN YOUR SITE. IT ALSO
     // DEMONSTRATES HOW TO IMPLEMENT A PLAYLIST THAT MOVES
@@ -23,20 +24,26 @@ export default function YouTubePlayer() {
 
     // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
     if (currentList !== store.currentList) {
+        console.log(currentList);
+        console.log(store.currentList);
+        setCurrentList(store.currentList);   
         let asyncChangeList = async function () {
             let list = store.currentList
-            setCurrentList(list);
+            await setCurrentList(list);
+            forceUpdate();
         }
         asyncChangeList();
         setCurrentSong(0);
         console.log("?????????????????????????????????????????????? ?????????????????????????????");
-        console.log(currentList);
+        console.log(player);
+        forceUpdate();
     }
 
     let playlist = null;
     if (currentList) {
         if (currentList.songs.length !== 0) {
             playlist = currentList.songs.map(song => song.youTubeId);
+            console.log("AADSADAFYGEYUIGEUHYIGESUIHGESIUHGHESUI");
             console.log(playlist);
         }
     }
