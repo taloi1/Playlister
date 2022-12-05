@@ -162,8 +162,8 @@ function GlobalStoreContextProvider(props) {
                     currentSong: store.currentSong,
                     newListCounter: store.newListCounter,
                     listNameActive: store.listNameActive,
-                    listIdMarkedForDeletion: store.listIdMarkedForDeletion,
-                    listMarkedForDeletion: store.listMarkedForDeletion,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null,
                     searchBar: store.searchBar,
                 });
             }
@@ -539,7 +539,6 @@ function GlobalStoreContextProvider(props) {
             let response = await api.deletePlaylistById(id);
             if (response.data.success) {
                 store.loadListInfo();
-                history.push("/");
             }
         }
         processDelete(id);
