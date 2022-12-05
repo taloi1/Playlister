@@ -88,6 +88,32 @@ const HomeScreen = () => {
         setText(event.target.value);
     }
 
+    let nameStyle = {fontWeight:'bold', backgroundColor: '#cccccc'};
+    if (store.sortType !== "NAME") {
+        nameStyle = {fontWeight:'bold'};
+    }  
+    let publishStyle = {fontWeight:'bold'};
+    if (store.sortType === "PUBLISH_DATE") {
+        publishStyle = {fontWeight:'bold', backgroundColor: '#cccccc'};
+    }
+    let editStyle = {fontWeight:'bold'};
+    if (store.sortType === "EDIT_DATE") {
+        editStyle = {fontWeight:'bold', backgroundColor: '#cccccc'};
+    }
+    let listensStyle = {fontWeight:'bold'};
+    if (store.sortType === "LISTENS") {
+        listensStyle = {fontWeight:'bold', backgroundColor: '#cccccc'};
+    }
+    let likesStyle = {fontWeight:'bold'};
+    if (store.sortType === "LIKES") {
+        likesStyle = {fontWeight:'bold', backgroundColor: '#cccccc'};
+    }
+    let dislikesStyle = {fontWeight:'bold'};
+    if (store.sortType === "DISLIKES") {
+        dislikesStyle = {fontWeight:'bold', backgroundColor: '#cccccc'};
+    }
+
+
     const menuId = 'primary-search-sort-menu';
     const sortMenu = 
     <Menu
@@ -103,14 +129,14 @@ const HomeScreen = () => {
             horizontal: 'right',
         }}
         open={isMenuOpen}
-        onClose={handleMenuClose}   
+        onClose={handleMenuClose}  
     >
-        <MenuItem style={{fontWeight:'bold'}} onClick={handleChangeSortName}>Name (A - Z)</MenuItem>
-        <MenuItem style={{fontWeight:'bold'}} onClick={handleChangeSortPublishDate}>Publish Date (Newest)</MenuItem>
-        <MenuItem style={{fontWeight:'bold'}} onClick={handleChangeSortEditDate}>Edit Date (Newest)</MenuItem>
-        <MenuItem style={{fontWeight:'bold'}} onClick={handleChangeSortListens}>Listens (High - Low)</MenuItem>
-        <MenuItem style={{fontWeight:'bold'}} onClick={handleChangeSortLikes}>Likes (High - Low)</MenuItem>
-        <MenuItem style={{fontWeight:'bold'}} onClick={handleChangeSortDislikes}>Dislikes (High - Low)</MenuItem>
+        <MenuItem style={nameStyle} onClick={handleChangeSortName}>Name (A - Z)</MenuItem>
+        <MenuItem style={publishStyle} onClick={handleChangeSortPublishDate}>Publish Date (Newest)</MenuItem>
+        <MenuItem style={editStyle} onClick={handleChangeSortEditDate}>Edit Date (Newest)</MenuItem>
+        <MenuItem style={listensStyle} onClick={handleChangeSortListens}>Listens (High - Low)</MenuItem>
+        <MenuItem style={likesStyle} onClick={handleChangeSortLikes}>Likes (High - Low)</MenuItem>
+        <MenuItem style={dislikesStyle} onClick={handleChangeSortDislikes}>Dislikes (High - Low)</MenuItem>
     </Menu>        
 
     let HomeScreenBar = "";

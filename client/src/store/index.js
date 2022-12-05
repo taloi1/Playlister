@@ -71,7 +71,7 @@ function GlobalStoreContextProvider(props) {
     const [store, setStore] = useState({
         currentModal: CurrentModal.NONE,
         currentHomeScreen: CurrentHomeScreen.HOME,
-        sortType: SortType.LISTENS,
+        sortType: SortType.NAME,
         listInfo: [],
         currentList: null,
         currentSongIndex: -1,
@@ -271,7 +271,7 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     currentModal: CurrentModal.NONE,
                     currentHomeScreen: payload.screen,
-                    sortType: SortType.LISTENS,
+                    sortType: SortType.NAME,
                     listInfo: payload.listData,
                     currentList: null,
                     currentSongIndex: -1,

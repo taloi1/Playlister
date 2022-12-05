@@ -32,12 +32,17 @@ function ListCard(props) {
     const [open, setOpen] = useState(false);
     const { listInfo, selected } = props;
 
-    if (open === true && store.currentList && store.currentList._id !== listInfo._id) {
-        setOpen(false);
+    // if (open === true && store.currentList && store.currentList._id !== listInfo._id) {
+    //     setOpen(false);
+    // }
+
+    function handleOpenList(event) {
+        setOpen(true);
+        handleLoadList(event, listInfo._id);
     }
 
-
-    function handleLoadList(event, id, openState) {
+    function handleLoadList(event, id) {
+        event.stopPropagation();
         store.clearAllTransactions();
         console.log("handleLoadList for " + id);
         let _id = event.target.id;
@@ -45,10 +50,6 @@ function ListCard(props) {
             _id = ("" + _id).substring("list-card-text-".length);
 
         console.log("load " + event.target.id);
-
-        if (open === false && openState === true) {
-            setOpen(true);
-        }
         // CHANGE THE CURRENT LIST
         store.setCurrentList(id);
     }
@@ -59,7 +60,7 @@ function ListCard(props) {
 
     function handleToggleEdit(event) {
         event.stopPropagation();
-        handleLoadList(event, listInfo._id, false)
+        handleLoadList(event, listInfo._id)
         if (event.detail === 2 && !listInfo.isPublished) {
             toggleEdit();
         }
@@ -113,7 +114,6 @@ function ListCard(props) {
                                 song={song}
                             />
                         ))
-
                     }
                     <NewSongCard />
                 </List>
@@ -146,7 +146,7 @@ function ListCard(props) {
     } else {
         listOpenCloseButton = <IconButton onClick={(event) => {
             setOpen(true);
-            handleLoadList(event, listInfo._id, true);
+            handleOpenList(event);
         }} aria-label='open'
         >
             <KeyboardDoubleArrowDownIcon style={{ fontSize: '32pt' }} />

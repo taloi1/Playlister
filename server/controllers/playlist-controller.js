@@ -371,8 +371,10 @@ updatePlaylist = async (req, res) => {
                 if (list.isPublished === false && user._id == req.userId) {
                     list.name = body.playlist.name;
                     list.songs = body.playlist.songs;
-                    list.isPublished = body.playlist.isPublished;
                     list.publishDate = body.playlist.publishDate;
+                    if (list.songs.length > 0) {
+                        list.isPublished = body.playlist.isPublished;
+                    }
                 }
                 // Only change likes, dislikes, and listens when a list is already published
                 if (list.isPublished === true) {

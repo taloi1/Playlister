@@ -61,7 +61,12 @@ const VideoArea = () => {
                     </TextField>
                 </List>
             </Box>
-
+        }
+        if (!store.currentList.isPublished) {
+            commentsArea =
+            <Box style={{ p: 0, width: '95%', height: '90%', position: 'absolute', top: '8%', borderWidth: '3px', borderRadius: '10px', borderStyle: 'solid', borderColor: 'ffff41', backgroundColor: '#d4d4f5' }}>
+                
+            </Box>
         }
     }
 

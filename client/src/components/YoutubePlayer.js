@@ -41,8 +41,8 @@ export default function YouTubePlayer() {
                     console.log("WJAOIFFJIOEHIOUJGERSHIUJBGSRIUHEGHUIRSDGHUIRSHUIGSRHUIGIHUSRGUHISRGUIHRSUIHGUISHRGHIUSRGUHISRUIHG");
                     console.log(store.currentList.songs[0].youTubeId);
                     // console.log(player.getVideoData().video_id);
-                    player.loadVideoById(store.currentList.songs[0].youTubeId);
-                    player.playVideo();
+                    // player.loadVideoById(store.currentList.songs[0].youTubeId);
+                    // player.playVideo();
                 }
             }
         }
