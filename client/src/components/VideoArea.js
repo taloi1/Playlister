@@ -41,7 +41,7 @@ const VideoArea = () => {
     let videoAreaContent = <Box style={{ p: 0, width: '95%', height: '90%', position: 'relative', top: '8%', borderWidth: '3px', borderRadius: '10px', borderStyle: 'solid', borderColor: '#111111', backgroundColor: '#d4d4f5' }}>
         <YouTubePlayer />
     </Box>;
-    if (!store.currentList) {
+    if (!store.playingList) {
         videoAreaContent = <Box style={{ p: 0, width: '95%', height: '90%', position: 'relative', top: '8%', borderWidth: '3px', borderRadius: '10px', borderStyle: 'solid', borderColor: '#111111', backgroundColor: '#d4d4f5' }}></Box>;
     }
     let commentsArea = "";
@@ -55,14 +55,14 @@ const VideoArea = () => {
             value={text}>
         </TextField>
     }
-    if (commentsEnabled && store.currentList) {
-        if (store.currentList.isPublished) {
+    if (commentsEnabled && store.playingList) {
+        if (store.playingList.isPublished) {
             commentsArea =
                 <Box style={{ p: 0, width: '95%', height: '90%', position: 'absolute', top: '8%', borderWidth: '3px', borderRadius: '10px', borderStyle: 'solid', borderColor: 'ffff41', backgroundColor: '#d4d4f5' }}>
                     <List style={{ position: 'absolute', width: '100%', height: '95%', top: '0%' }}>
                         <List style={{ position: 'absolute', width: '96%', height: '80%', top: '2%', left: '2%', overflowY: "auto", }}>
                             {
-                                store.currentList.comments.map((comment) => (
+                                store.playingList.comments.map((comment) => (
                                     <CommentCard comment={comment}></CommentCard>
                                 ))
                             }
@@ -71,7 +71,7 @@ const VideoArea = () => {
                     </List>
                 </Box>
         }
-        if (!store.currentList.isPublished) {
+        if (!store.playingList.isPublished) {
             commentsArea =
                 <Box style={{ p: 0, width: '95%', height: '90%', position: 'absolute', top: '8%', borderWidth: '3px', borderRadius: '10px', borderStyle: 'solid', borderColor: 'ffff41', backgroundColor: '#d4d4f5' }}>
 

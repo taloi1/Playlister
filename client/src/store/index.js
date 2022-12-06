@@ -814,13 +814,22 @@ function GlobalStoreContextProvider(props) {
         tps.addTransaction(transaction);
     }
     store.addComment = function (content) {
-        let list = store.currentList;
-        console.log(list);
-        list.comments.push({
-            userName: auth.user.userName,
-            content: content
-        });
-        store.updateCurrentList();
+        async function asyncUpdatePlayingList() {
+            let list = store.playingList;
+            console.log(list);
+            list.comments.push({
+                userName: auth.user.userName,
+                content: content
+            });
+            const response = await api.updatePlaylistById(store.playingList._id, store.playingList);
+            if (response.data.success) {
+                storeReducer({
+                    type: GlobalStoreActionType.SET_PLAYING_LIST,
+                    payload: store.playingList
+                });
+            }
+        }
+        asyncUpdatePlayingList();
     }
     store.updateCurrentList = function () {
         async function asyncUpdateCurrentList() {
