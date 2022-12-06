@@ -51,7 +51,8 @@ function ListCard(props) {
         store.setCurrentList(id);
     }
 
-    function handleCloseList() {
+    function handleCloseList(event) {
+        event.stopPropagation();
         store.closeCurrentList();
     }
 
