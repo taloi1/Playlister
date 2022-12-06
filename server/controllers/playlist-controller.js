@@ -140,23 +140,18 @@ getPlaylistInfo = async (req, res) => {
 
                     // SORT FROM SELECTED SORT TYPE
                     if (req.query.sortType) {
-                        if (req.query.sortType === "NAME") {
-                            playlists.sort((a, b) => {
-                                const nameA = a.name.toLowerCase(); 
-                                const nameB = b.name.toLowerCase(); 
-                                if (nameA < nameB) {
-                                    return -1;
-                                }
-                                if (nameA > nameB) {
-                                    return 1;
-                                }
-    
-                                // names must be equal
-                                return 0;
-                            });
-                            console.log("NAME");
-                            console.log(playlists);
-                        }
+                        // sort by name no matter what, apply other sorts after
+                        playlists.sort((a, b) => {
+                            const nameA = a.name.toLowerCase();
+                            const nameB = b.name.toLowerCase();
+                            if (nameA < nameB) {
+                                return -1;
+                            }
+                            if (nameA > nameB) {
+                                return 1;
+                            }
+                            return 0;
+                        });
                         if (req.query.sortType === "PUBLISH_DATE") {
                             playlists.sort((a, b) => {
                                 if (a.publishDate > b.publishDate) {
@@ -223,7 +218,7 @@ getPlaylistInfo = async (req, res) => {
                             console.log(playlists);
                         }
                     }
-                    
+
                     // RETURN FILTERED AND SORTED PLAYLISTS
                     return res.status(200).json({ success: true, listInfo: playlists })
                 }
@@ -255,23 +250,20 @@ getPublishedPlaylists = async (req, res) => {
 
         // SORT FROM SELECTED SORT TYPE
         if (req.query.sortType) {
-            if (req.query.sortType === "NAME") {
-                playlists.sort((a, b) => {
-                    const nameA = a.name.toLowerCase(); 
-                    const nameB = b.name.toLowerCase(); 
-                    if (nameA < nameB) {
-                        return -1;
-                    }
-                    if (nameA > nameB) {
-                        return 1;
-                    }
-
-                    // names must be equal
-                    return 0;
-                });
-                console.log("NAME");
-                console.log(playlists);
-            }
+            // sort by name no matter what, apply other sorts after
+            playlists.sort((a, b) => {
+                const nameA = a.name.toLowerCase();
+                const nameB = b.name.toLowerCase();
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+            console.log("NAME");
+            console.log(playlists);
             if (req.query.sortType === "PUBLISH_DATE") {
                 playlists.sort((a, b) => {
                     if (a.publishDate > b.publishDate) {

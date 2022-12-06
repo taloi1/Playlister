@@ -897,7 +897,21 @@ function GlobalStoreContextProvider(props) {
                     type: GlobalStoreActionType.VIEW_AS_GUEST,
                     payload: { guest: true, listInfo: infoArray }
                 });
-            }   
+            }
+        }
+        asyncGuest();
+    }
+
+    store.logoutGuest = function () {
+        async function asyncGuest() {
+            let response = await api.getPublishedPlaylists("", CurrentHomeScreen.ALL_LISTS, SortType.NAME);
+            if (response.data.success) {
+                let infoArray = response.data.data;
+                storeReducer({
+                    type: GlobalStoreActionType.VIEW_AS_GUEST,
+                    payload: { guest: false, listInfo: infoArray }
+                });
+            }
         }
         asyncGuest();
     }

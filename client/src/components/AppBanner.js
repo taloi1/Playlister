@@ -29,13 +29,16 @@ export default function AppBanner() {
     };
 
     const handleLogout = () => {
+        store.logoutGuest();
         handleMenuClose();
         auth.logoutUser();
         store.closeCurrentList();
     }
 
     const handleCloseList = () => {
-        store.closeCurrentList();
+        if (store.guest) {
+            store.logoutGuest();
+        }
     }
 
     const menuId = 'primary-search-account-menu';

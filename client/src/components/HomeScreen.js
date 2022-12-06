@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { GlobalStoreContext } from '../store'
+import AuthContext from '../auth'
 import ListCard from './ListCard.js'
 import MUIDeleteModal from './MUIDeleteModal'
 import VideoArea from './VideoArea'
@@ -24,6 +25,7 @@ import Typography from '@mui/material/Typography'
 */
 const HomeScreen = () => {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext)
     const [anchorEl, setAnchorEl] = useState(null);
     const [text, setText] = useState("");
     const isMenuOpen = Boolean(anchorEl);
@@ -169,13 +171,13 @@ const HomeScreen = () => {
             </List>;
     }
 
-    let homeButton = <IconButton
-        onClick={handleChangeScreenHome}
-        aria-label='add'>
-        <HomeIcon style={{ fontSize: '30pt' }} sx={{ color: 'ffffff' }} />
-    </IconButton>;
-    if (store.guest) {
-        homeButton = "";
+    let homeButton = "";
+    if (auth.user) {
+        homeButton = <IconButton
+            onClick={handleChangeScreenHome}
+            aria-label='add'>
+            <HomeIcon style={{ fontSize: '30pt' }} sx={{ color: 'ffffff' }} />
+        </IconButton>;;
     }
 
     return (

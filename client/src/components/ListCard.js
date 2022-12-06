@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
+import AuthContext from '../auth'
 import SongCard from './SongCard'
 import MUIEditSongModal from './MUIEditSongModal'
 import MUIRemoveSongModal from './MUIRemoveSongModal'
@@ -27,6 +28,7 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 */
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
+    const { auth } = useContext(AuthContext);
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
     const [open, setOpen] = useState(false);
@@ -86,11 +88,17 @@ function ListCard(props) {
     }
 
     function handleLikeList(event, id) {
-        console.log("Like");
+        if (auth.user) {
+            console.log("Like");
+        }
+
     }
 
     function handleDislikeList(event, id) {
-        console.log("Dislike");
+        if (auth.user) {
+            console.log("Dislike");
+        }
+
         console.log(listInfo);
     }
 
@@ -180,7 +188,7 @@ function ListCard(props) {
     }
     let published = "";
     if (listInfo.publishDate && listInfo.isPublished) {
-        published = <Typography display="inline" style={{color: '#65b358', fontWeight: 'bold'}}> {listInfo.publishDate.slice(0, 10)} </Typography>;
+        published = <Typography display="inline" style={{ color: '#65b358', fontWeight: 'bold' }}> {listInfo.publishDate.slice(0, 10)} </Typography>;
     }
 
     let listensText = "";
@@ -189,7 +197,7 @@ function ListCard(props) {
     }
     let listens = "";
     if (listInfo.isPublished) {
-        listens = <Typography display="inline" style={{color: '#b33037', fontWeight: 'bold'}}> {listInfo.listens} </Typography>;
+        listens = <Typography display="inline" style={{ color: '#b33037', fontWeight: 'bold' }}> {listInfo.listens} </Typography>;
     }
 
     let likeDislikeArea = <Box sx={{ top: '0%', left: '55%', position: 'absolute' }}>
@@ -234,7 +242,7 @@ function ListCard(props) {
             sx={listItemStyle}
             id={listInfo._id}
             key={listInfo._id}
-            
+
         >
             <Box //TOP
                 sx={{ marginTop: '10px', display: 'flex', p: 1, paddingBottom: 0, paddingTop: 0 }}
@@ -242,8 +250,8 @@ function ListCard(props) {
                 onClick={handleToggleEdit}
             >
                 {listName}
-                <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '56%', left: '3%', position: 'absolute', fontSize: '15pt' }}> 
-                    By: <Typography display="inline" style={{color: '#1310ec', textDecoration: 'underline', fontWeight: 'bold'}}> {' '} {listInfo.ownerUserName}</Typography> </Box>
+                <Box sx={{ flexGrow: 1, overflowX: 'auto', top: '56%', left: '3%', position: 'absolute', fontSize: '15pt' }}>
+                    By: <Typography display="inline" style={{ color: '#1310ec', textDecoration: 'underline', fontWeight: 'bold' }}> {' '} {listInfo.ownerUserName}</Typography> </Box>
                 {likeDislikeArea}
             </Box>
 
