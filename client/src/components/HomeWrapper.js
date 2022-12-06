@@ -2,12 +2,15 @@ import { useContext } from 'react'
 import HomeScreen from './HomeScreen'
 import SplashScreen from './SplashScreen'
 import AuthContext from '../auth'
+import { GlobalStoreContext } from '../store'
 
 export default function HomeWrapper() {
     const { auth } = useContext(AuthContext);
+    const { store } = useContext(GlobalStoreContext);
     console.log("HomeWrapper auth.loggedIn: " + auth.loggedIn);
     
-    if (auth.loggedIn)
+    console.log(store.guest);
+    if (auth.loggedIn || store.guest)
         return <HomeScreen />
     else
         return <SplashScreen />

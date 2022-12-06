@@ -54,11 +54,11 @@ body {
   border-radius: 10px;
 }
 #splash-screen {
-  background-image: linear-gradient(to bottom, #08b8a1, #234367);
+  background-image: url("components/assets/Playlister Splash Screen.png");
+  background-repeat: no-repeat;
+  background-size:100% 100%;
   color: white;
   font-size: 5vw;
-  border-color: #123456;
-  border-radius: 15px;
   padding-top: 5%;
   padding-bottom: 5%;
   height:70%;

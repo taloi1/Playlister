@@ -15,6 +15,9 @@ function EditToolbar(props) {
     const { store } = useContext(GlobalStoreContext);
     const { auth } = useContext(AuthContext);
 
+    if (!auth.user) {
+        return;
+    }
 
     function handleUndo() {
         store.undo();
