@@ -37,9 +37,13 @@ const VideoArea = () => {
         setText(event.target.value);
     }
 
+
     let videoAreaContent = <Box style={{ p: 0, width: '95%', height: '90%', position: 'relative', top: '8%', borderWidth: '3px', borderRadius: '10px', borderStyle: 'solid', borderColor: '#111111', backgroundColor: '#d4d4f5' }}>
         <YouTubePlayer />
     </Box>;
+    if (!store.currentList) {
+        videoAreaContent = <Box style={{ p: 0, width: '95%', height: '90%', position: 'relative', top: '8%', borderWidth: '3px', borderRadius: '10px', borderStyle: 'solid', borderColor: '#111111', backgroundColor: '#d4d4f5' }}></Box>;
+    }
     let commentsArea = "";
     let commentTextField = "";
     if (!auth.user) {
@@ -75,13 +79,13 @@ const VideoArea = () => {
         }
     }
 
-    let playerButtonStyle = { position: 'absolute', width: '25%', height: '8%', bottom: '92%', backgroundColor: '#ffffff', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111'};
+    let playerButtonStyle = { position: 'absolute', width: '25%', height: '8%', bottom: '92%', backgroundColor: '#ffffff', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111' };
     if (commentsEnabled) {
         playerButtonStyle = { position: 'absolute', width: '25%', height: '8%', bottom: '92%', backgroundColor: '#cccccc', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111' };
     }
-    let commentsButtonStyle = { position: 'absolute', width: '25%', height: '8%', bottom: '92%', left: '25%', backgroundColor: '#ffffff', color: '#111111', fontWeight: 'bold',  borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111'};
+    let commentsButtonStyle = { position: 'absolute', width: '25%', height: '8%', bottom: '92%', left: '25%', backgroundColor: '#ffffff', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111' };
     if (!commentsEnabled) {
-        commentsButtonStyle = { position: 'absolute', width: '25%', height: '8%', bottom: '92%', left: '25%', backgroundColor: '#cccccc', color: '#111111', fontWeight: 'bold',  borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111'};
+        commentsButtonStyle = { position: 'absolute', width: '25%', height: '8%', bottom: '92%', left: '25%', backgroundColor: '#cccccc', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111' };
     }
 
     return (

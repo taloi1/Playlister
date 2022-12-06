@@ -53,11 +53,11 @@ function EditToolbar(props) {
     }
     let undoButtonStyle = { backgroundColor: '#dddddd', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111', borderRadius: '8px', marginRight: '2px' }
     if (!store.canUndo()) {
-        undoButtonStyle = { backgroundColor: '#777777', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111', borderRadius: '8px', marginRight: '2px' }
+        undoButtonStyle = { backgroundColor: '#aaaaaa', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111', borderRadius: '8px', marginRight: '2px' }
     }
     let redoButtonStyle = { backgroundColor: '#dddddd', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111', borderRadius: '8px', marginRight: '2px' }
     if (!store.canRedo()) {
-        redoButtonStyle = { backgroundColor: '#777777', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111', borderRadius: '8px', marginRight: '2px' }
+        redoButtonStyle = { backgroundColor: '#aaaaaa', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111', borderRadius: '8px', marginRight: '2px' }
     }
     
     let undoRedoBox = <Box style={{ position: 'absolute', left: '1%', width: 'auto', top: '0%'}}>
