@@ -37,7 +37,7 @@ const VideoArea = () => {
         setText(event.target.value);
     }
 
-    let videoAreaContent = <Box style={{ p: 0, width: '95%', height: '90%', position: 'relative', top: '8%', borderWidth: '3px', borderRadius: '10px', borderStyle: 'solid', borderColor: 'ffff41', backgroundColor: '#d4d4f5' }}>
+    let videoAreaContent = <Box style={{ p: 0, width: '95%', height: '90%', position: 'relative', top: '8%', borderWidth: '3px', borderRadius: '10px', borderStyle: 'solid', borderColor: '#111111', backgroundColor: '#d4d4f5' }}>
         <YouTubePlayer />
     </Box>;
     let commentsArea = "";
@@ -75,6 +75,15 @@ const VideoArea = () => {
         }
     }
 
+    let playerButtonStyle = { position: 'absolute', width: '30%', height: '8%', bottom: '92%', backgroundColor: '#ffffff', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111'};
+    if (commentsEnabled) {
+        playerButtonStyle = { position: 'absolute', width: '30%', height: '8%', bottom: '92%', backgroundColor: '#cccccc', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111' };
+    }
+    let commentsButtonStyle = { position: 'absolute', width: '30%', height: '8%', bottom: '92%', left: '30%', backgroundColor: '#ffffff', color: '#111111', fontWeight: 'bold',  borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111'};
+    if (!commentsEnabled) {
+        commentsButtonStyle = { position: 'absolute', width: '30%', height: '8%', bottom: '92%', left: '30%', backgroundColor: '#cccccc', color: '#111111', fontWeight: 'bold',  borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111' };
+    }
+
     return (
         <Box style={{
             position: 'absolute', left: '61%', top: '15%', width: '38%', height: '70%',
@@ -82,14 +91,14 @@ const VideoArea = () => {
         }}>
             <Button
                 id='close-button'
-                style={{ position: 'absolute', width: '30%', height: '8%', bottom: '92%' }}
+                style={playerButtonStyle}
                 onClick={handleChangePlayer}
                 variant="contained">
                 Player
             </Button>
             <Button
                 id='close-button'
-                style={{ position: 'absolute', width: '30%', height: '8%', bottom: '92%', left: '30%' }}
+                style={commentsButtonStyle}
                 onClick={handleChangeComments}
                 variant="contained">
                 Comments
