@@ -24,21 +24,21 @@ export default function SplashScreen() {
         <div id="splash-screen">
             <Box style={{ position: 'absolute', left: '67%', top: '44%', width: 'auto', display: 'flex', flexDirection: 'column', }}>
                 <Button
-                    style={{ fontSize: '18pt'}}
+                    style={{ fontSize: '18pt', backgroundColor: '#dddddd', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111', borderRadius: '8px'}}
                     onClick={handleRegisterButton}
                     id='guest-button'
                     variant="contained">
                     Create Account
                 </Button>
                 <Button
-                    style={{ marginTop: '25px', fontSize: '18pt' }}
+                    style={{ marginTop: '25px', fontSize: '18pt', backgroundColor: '#dddddd', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111', borderRadius: '8px' }}
                     onClick={handleLoginButton}
                     id='guest-button'
                     variant="contained">
                     Login
                 </Button>
                 <Button
-                    style={{ marginTop: '25px', fontSize: '18pt' }}
+                    style={{ marginTop: '25px', fontSize: '18pt', backgroundColor: '#dddddd', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111', borderRadius: '8px' }}
                     onClick={handleGuestButton}
                     id='guest-button'
                     variant="contained">

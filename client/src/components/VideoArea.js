@@ -75,13 +75,13 @@ const VideoArea = () => {
         }
     }
 
-    let playerButtonStyle = { position: 'absolute', width: '30%', height: '8%', bottom: '92%', backgroundColor: '#ffffff', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111'};
+    let playerButtonStyle = { position: 'absolute', width: '25%', height: '8%', bottom: '92%', backgroundColor: '#ffffff', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111'};
     if (commentsEnabled) {
-        playerButtonStyle = { position: 'absolute', width: '30%', height: '8%', bottom: '92%', backgroundColor: '#cccccc', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111' };
+        playerButtonStyle = { position: 'absolute', width: '25%', height: '8%', bottom: '92%', backgroundColor: '#cccccc', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111' };
     }
-    let commentsButtonStyle = { position: 'absolute', width: '30%', height: '8%', bottom: '92%', left: '30%', backgroundColor: '#ffffff', color: '#111111', fontWeight: 'bold',  borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111'};
+    let commentsButtonStyle = { position: 'absolute', width: '25%', height: '8%', bottom: '92%', left: '25%', backgroundColor: '#ffffff', color: '#111111', fontWeight: 'bold',  borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111'};
     if (!commentsEnabled) {
-        commentsButtonStyle = { position: 'absolute', width: '30%', height: '8%', bottom: '92%', left: '30%', backgroundColor: '#cccccc', color: '#111111', fontWeight: 'bold',  borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111' };
+        commentsButtonStyle = { position: 'absolute', width: '25%', height: '8%', bottom: '92%', left: '25%', backgroundColor: '#cccccc', color: '#111111', fontWeight: 'bold',  borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111'};
     }
 
     return (

@@ -40,38 +40,50 @@ function EditToolbar(props) {
             store.duplicateList(listInfo._id);
         }
     }
-
-    let deleteButton = <Button 
-    id='close-button'
-    onClick={handleDelete}
-    variant="contained">
+    let buttonStyle = { backgroundColor: '#dddddd', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111', borderRadius: '8px', marginLeft: '2px' }
+    let deleteButton = <Button
+        style={buttonStyle}
+        id='delete-button'
+        onClick={handleDelete}
+        variant="contained">
         Delete
     </Button>;
     if (auth.user.userName !== listInfo.ownerUserName) {
         deleteButton = "";
     }
-
-    let undoRedoBox = <Box style={{position:'absolute',left:'2%', width:'auto', top:'0%'}}>
-    <Button 
-        disabled={!store.canUndo()}
-        id='undo-button'
-        onClick={handleUndo}
-        variant="contained">
+    let undoButtonStyle = { backgroundColor: '#dddddd', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111', borderRadius: '8px', marginRight: '2px' }
+    if (!store.canUndo()) {
+        undoButtonStyle = { backgroundColor: '#777777', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111', borderRadius: '8px', marginRight: '2px' }
+    }
+    let redoButtonStyle = { backgroundColor: '#dddddd', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111', borderRadius: '8px', marginRight: '2px' }
+    if (!store.canRedo()) {
+        redoButtonStyle = { backgroundColor: '#777777', color: '#111111', fontWeight: 'bold', borderWidth: '2px', borderStyle: 'solid', borderColor: '#111111', borderRadius: '8px', marginRight: '2px' }
+    }
+    
+    let undoRedoBox = <Box style={{ position: 'absolute', left: '1%', width: 'auto', top: '0%'}}>
+        <Button
+            style={undoButtonStyle}
+            disabled={!store.canUndo()}
+            id='undo-button'
+            onClick={handleUndo}
+            variant="contained">
             Undo
-    </Button>
-    <Button 
-        disabled={!store.canRedo()}
-        id='redo-button'
-        onClick={handleRedo}
-        variant="contained">
+        </Button>
+        <Button
+            style={redoButtonStyle}
+            disabled={!store.canRedo()}
+            id='redo-button'
+            onClick={handleRedo}
+            variant="contained">
             Redo
-    </Button>
+        </Button>
     </Box>;
 
-    let publishButton = <Button 
-    id='close-button'
-    onClick={handlePublish}
-    variant="contained">
+    let publishButton = <Button
+        style={buttonStyle}
+        id='publish-button'
+        onClick={handlePublish}
+        variant="contained">
         Publish
     </Button>;
 
@@ -79,21 +91,22 @@ function EditToolbar(props) {
         undoRedoBox = "";
         publishButton = "";
     }
-    
-    
+
+
 
     return (
         <div id="edit-toolbar">
             {undoRedoBox}
-            <Box style={{position:'absolute', right:'2%', width:'auto'}}>
-            {publishButton}
-            {deleteButton}
-            <Button 
-                id='close-button'
-                onClick={handleDuplicate}
-                variant="contained">
+            <Box style={{ position: 'absolute', right: '1%', width: 'auto'}}>
+                {publishButton}
+                {deleteButton}
+                <Button
+                    style={buttonStyle}
+                    id='duplicate-button'
+                    onClick={handleDuplicate}
+                    variant="contained">
                     Duplicate
-            </Button>
+                </Button>
             </Box>
         </div>
     )

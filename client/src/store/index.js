@@ -349,7 +349,7 @@ function GlobalStoreContextProvider(props) {
             case GlobalStoreActionType.VIEW_AS_GUEST: {
                 return setStore({
                     currentModal: CurrentModal.NONE,
-                    currentHomeScreen: store.ALL_LISTS,
+                    currentHomeScreen: payload.screen,
                     sortType: store.sortType,
                     listInfo: payload.listInfo,
                     currentList: null,
@@ -895,7 +895,7 @@ function GlobalStoreContextProvider(props) {
                 let infoArray = response.data.data;
                 storeReducer({
                     type: GlobalStoreActionType.VIEW_AS_GUEST,
-                    payload: { guest: true, listInfo: infoArray }
+                    payload: { guest: true, listInfo: infoArray, screen: CurrentHomeScreen.ALL_LISTS }
                 });
             }
         }
@@ -909,7 +909,7 @@ function GlobalStoreContextProvider(props) {
                 let infoArray = response.data.data;
                 storeReducer({
                     type: GlobalStoreActionType.VIEW_AS_GUEST,
-                    payload: { guest: false, listInfo: infoArray }
+                    payload: { guest: false, listInfo: infoArray, screen: CurrentHomeScreen.HOME }
                 });
             }
         }
