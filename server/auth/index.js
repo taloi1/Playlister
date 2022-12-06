@@ -8,16 +8,12 @@ function authManager() {
         try {
             const token = req.cookies.token;
             if (!token) {
-                return res.status(401).json({
-                    loggedIn: false,
-                    user: null,
-                    errorMessage: "Unauthorized"
-                })
+                req.userId = null;
+            } else {
+                const verified = jwt.verify(token, process.env.JWT_SECRET)
+                console.log("verified.userId: " + verified.userId);
+                req.userId = verified.userId;
             }
-
-            const verified = jwt.verify(token, process.env.JWT_SECRET)
-            console.log("verified.userId: " + verified.userId);
-            req.userId = verified.userId;
 
             next();
         } catch (err) {
@@ -36,7 +32,7 @@ function authManager() {
             if (!token) {
                 return null;
             }
-
+            
             const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
             return decodedToken.userId;
         } catch (err) {

@@ -15,7 +15,7 @@ export default function YouTubePlayer() {
     const [listData, setListData] = useState({ name: "", songNum: "", title: "", artist: "" });
     const [player, setPlayer] = useState(null);
     const [currentSong, setCurrentSong] = useState(0);
-    const [currentList, setCurrentList] = useState(null);
+    const [playingList, setplayingList] = useState(null);
     const [, forceUpdate] = useReducer(x => x + 1, 0);
     // THIS EXAMPLE DEMONSTRATES HOW TO DYNAMICALLY MAKE A
     // YOUTUBE PLAYER AND EMBED IT IN YOUR SITE. IT ALSO
@@ -23,52 +23,53 @@ export default function YouTubePlayer() {
     // FROM ONE SONG TO THE NEXT
 
     let playlist = null;
-    if (currentList) {
-        if (currentList.songs.length !== 0) {
-            playlist = currentList.songs.map(song => song.youTubeId);
+    if (playingList) {
+        if (playingList.songs.length !== 0) {
+            playlist = playingList.songs.map(song => song.youTubeId);
             // console.log("AADSADAFYGEYUIGEUHYIGESUIHGESIUHGHESUI");
             // console.log(playlist);
         }
     }
     // THIS HAS THE YOUTUBE IDS FOR THE SONGS IN OUR PLAYLIST
 
-    if (currentList !== store.currentList && store.currentList) {
-        console.log(currentList);
-        console.log(store.currentList);
-        if (store.currentList.songs) {
-            if (store.currentList.songs.length >= 1 && playlist) {
-                if (store.currentList.songs[0].youTubeId === playlist[currentSong]) {
+    if (playingList !== store.playingList && store.playingList) {
+        console.log(playingList);
+        console.log(store.playingList);
+        if (store.playingList.songs) {
+            if (store.playingList.songs.length >= 1 && playlist) {
+                if (store.playingList.songs[0].youTubeId === playlist[currentSong]) {
                     console.log("WJAOIFFJIOEHIOUJGERSHIUJBGSRIUHEGHUIRSDGHUIRSHUIGSRHUIGIHUSRGUHISRGUIHRSUIHGUISHRGHIUSRGUHISRUIHG");
-                    console.log(store.currentList.songs[0].youTubeId);
+                    console.log(store.playingList.songs[0].youTubeId);
+                    //sloadAndPlayCurrentSong(player)
                     // console.log(player.getVideoData().video_id);
-                    // player.loadVideoById(store.currentList.songs[0].youTubeId);
+                    // player.loadVideoById(store.playingList.songs[0].youTubeId);
                     // player.playVideo();
                 }
             }
         }
 
 
-        setCurrentList(store.currentList);
+        setplayingList(store.playingList);
         let asyncChangeList = async function () {
-            let list = store.currentList
-            await setCurrentList(list);
+            let list = store.playingList
+            await setplayingList(list);
             setListData({
-                name: currentList.name,
+                name: playingList.name,
                 songNum: currentSong + 1,
-                title: currentList.songs[currentSong].title,
-                artist: currentList.songs[currentSong].artist
+                title: playingList.songs[currentSong].title,
+                artist: playingList.songs[currentSong].artist
             })
             forceUpdate();
         }
         asyncChangeList();
         setCurrentSong(0);
-        if (currentList) {
-            if (currentList.songs.length >=1) {
+        if (playingList) {
+            if (playingList.songs.length >=1) {
                 setListData({
-                    name: currentList.name,
+                    name: playingList.name,
                     songNum: currentSong + 1,
-                    title: currentList.songs[currentSong].title,
-                    artist: currentList.songs[currentSong].artist
+                    title: playingList.songs[currentSong].title,
+                    artist: playingList.songs[currentSong].artist
                 })
             }
         }
@@ -95,10 +96,10 @@ export default function YouTubePlayer() {
         player.loadVideoById(song);
         player.playVideo();
         setListData({
-            name: currentList.name,
+            name: playingList.name,
             songNum: currentSong + 1,
-            title: currentList.songs[currentSong].title,
-            artist: currentList.songs[currentSong].artist
+            title: playingList.songs[currentSong].title,
+            artist: playingList.songs[currentSong].artist
         })
     }
 
@@ -130,7 +131,7 @@ export default function YouTubePlayer() {
     function onPlayerStateChange(event) {
         let playerStatus = event.data;
         setPlayer(event.target);
-        playerStateChange(playerStatus)
+        playerStateChange(playerStatus);
     }
 
     function playerStateChange(playerStatus) {
@@ -163,10 +164,10 @@ export default function YouTubePlayer() {
         player.loadVideoById(song);
         player.playVideo();
         setListData({
-            name: currentList.name,
+            name: playingList.name,
             songNum: currentSong + 1,
-            title: currentList.songs[currentSong].title,
-            artist: currentList.songs[currentSong].artist
+            title: playingList.songs[currentSong].title,
+            artist: playingList.songs[currentSong].artist
         })
     }
     function handlePause() {

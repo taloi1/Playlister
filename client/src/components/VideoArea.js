@@ -46,8 +46,8 @@ const VideoArea = () => {
     }
     let commentsArea = "";
     let commentTextField = "";
-    if (!auth.user) {
-        <TextField
+    if (auth.user) {
+        commentTextField =<TextField
             label={'Add Comment'}
             style={{ width: '96%', marginLeft: '2%', backgroundColor: '#ffffff', borderRadius: '4px', position: 'absolute', bottom: '0%' }}
             onKeyPress={handleKeyPress}

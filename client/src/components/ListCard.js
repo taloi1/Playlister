@@ -31,15 +31,10 @@ function ListCard(props) {
     const { auth } = useContext(AuthContext);
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
-    const [open, setOpen] = useState(false);
     const { listInfo, selected } = props;
 
-    // if (open === true && store.currentList && store.currentList._id !== listInfo._id) {
-    //     setOpen(false);
-    // }
 
     function handleOpenList(event) {
-        setOpen(true);
         handleLoadList(event, listInfo._id);
     }
 
@@ -57,12 +52,12 @@ function ListCard(props) {
     }
 
     function handleCloseList() {
-        setOpen(false);
+        store.closeCurrentList();
     }
 
     function handleToggleEdit(event) {
         event.stopPropagation();
-        handleLoadList(event, listInfo._id)
+        store.setPlayingList(listInfo._id);
         if (event.detail === 2 && !listInfo.isPublished) {
             toggleEdit();
         }
@@ -103,7 +98,7 @@ function ListCard(props) {
     }
 
     let cardCenter = "";
-    if (store.currentList && store.currentList._id === listInfo._id && open) {
+    if (store.currentList && store.currentList._id === listInfo._id) {
         cardCenter =
             <Box sx={{
                 width: '100%', backgroundColor: "#fffff1", height: "35vh", overflowY: "auto",
@@ -130,7 +125,7 @@ function ListCard(props) {
     }
 
     let editToolbar = "";
-    if (store.currentList && store.currentList._id === listInfo._id && open) {
+    if (store.currentList && store.currentList._id === listInfo._id) {
         editToolbar = <Box style={{ width: '100%', marginTop: '2%', marginBottom: '2%' }}><EditToolbar listInfo={listInfo}></EditToolbar></Box>
     }
 
@@ -143,17 +138,15 @@ function ListCard(props) {
     }
 
     let listOpenCloseButton = "";
-    if (store.currentList && store.currentList._id === listInfo._id && open) {
+    if (store.currentList && store.currentList._id === listInfo._id) {
         listOpenCloseButton = <IconButton onClick={(event) => {
             handleCloseList(event, listInfo._id)
-            setOpen(false);
         }} aria-label='close'
         >
             <KeyboardDoubleArrowUpIcon style={{ fontSize: '32pt' }} />
         </IconButton>
     } else {
         listOpenCloseButton = <IconButton onClick={(event) => {
-            setOpen(true);
             handleOpenList(event);
         }} aria-label='open'
         >
@@ -174,10 +167,10 @@ function ListCard(props) {
     if (listInfo.isPublished) {
         listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px", borderWidth: "2px", backgroundColor: "#d4d4f5", marginTop: '2%' };
     }
-    if (store.currentList && store.currentList._id === listInfo._id && listInfo.isPublished) {
+    if (store.playingList && store.playingList._id === listInfo._id && listInfo.isPublished) {
         listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px", borderWidth: "4px", backgroundColor: "#d4af37", marginTop: '2%' };
     }
-    if (store.currentList && store.currentList._id === listInfo._id && !listInfo.isPublished) {
+    if (store.playingList && store.playingList._id === listInfo._id && !listInfo.isPublished) {
         listItemStyle = { flexDirection: 'column', borderStyle: "solid", borderRadius: "10px", borderWidth: "4px", backgroundColor: "#fffff1", marginTop: '2%' };
     }
 
