@@ -15,9 +15,9 @@ const style = {
 
 export default function MUIEditSongModal() {
     const { store } = useContext(GlobalStoreContext);
-    const [ title, setTitle ] = useState(store.currentSong.title);
-    const [ artist, setArtist ] = useState(store.currentSong.artist);
-    const [ youTubeId, setYouTubeId ] = useState(store.currentSong.youTubeId);
+    const [title, setTitle] = useState(store.currentSong.title);
+    const [artist, setArtist] = useState(store.currentSong.artist);
+    const [youTubeId, setYouTubeId] = useState(store.currentSong.youTubeId);
 
     function handleConfirmEditSong() {
         let newSongData = {
@@ -25,7 +25,7 @@ export default function MUIEditSongModal() {
             artist: artist,
             youTubeId: youTubeId
         };
-        store.addUpdateSongTransaction(store.currentSongIndex, newSongData);        
+        store.addUpdateSongTransaction(store.currentSongIndex, newSongData);
     }
 
     function handleCancelEditSong() {
@@ -47,73 +47,74 @@ export default function MUIEditSongModal() {
     return (
         <Modal
             open={store.currentSong !== null}
+            BackdropProps={{ style: { backgroundColor: "rgba(0, 0, 0, .05)" } }}
         >
             <Box sx={style}>
-            <div
-            id="edit-song-modal"
-            className="modal is-visible"
-            data-animation="slideInOutLeft">
-            <div
-                id='edit-song-root'
-                className="modal-dialog">
                 <div
-                    id="edit-song-modal-header"
-                    className="modal-header">Edit Song</div>
-                <div
-                    id="edit-song-modal-content"
-                    className="modal-center">
-                        <form>
+                    id="edit-song-modal"
+                    className="modal is-visible"
+                    data-animation="slideInOutLeft">
+                    <div
+                        id='edit-song-root'
+                        className="modal-dialog">
+                        <div
+                            id="edit-song-modal-header"
+                            className="modal-header">Edit Song</div>
+                        <div
+                            id="edit-song-modal-content"
+                            className="modal-center">
+                            <form>
                                 <div className="col-left">
                                     <label htmlFor="edit-song-modal-title">Title:</label>
-                                </div> 
+                                </div>
                                 <div className="col-right">
-                                <input 
-                                    id="edit-song-modal-title-textfield" 
-                                    className='modal-textfield' 
-                                    type="text" 
-                                    defaultValue={title} 
-                                    onChange={handleUpdateTitle} /><br/>
+                                    <input
+                                        id="edit-song-modal-title-textfield"
+                                        className='modal-textfield'
+                                        type="text"
+                                        defaultValue={title}
+                                        onChange={handleUpdateTitle} /><br />
                                 </div>
                                 <div className="col-left">
                                     <label htmlFor="edit-song-modal-artist">Artist:</label>
-                                </div> 
+                                </div>
                                 <div className="col-right">
-                                <input 
-                                    id="edit-song-modal-artist-textfield" 
-                                    className='modal-textfield' 
-                                    type="text" 
-                                    defaultValue={artist} 
-                                    onChange={handleUpdateArtist} /><br/>
+                                    <input
+                                        id="edit-song-modal-artist-textfield"
+                                        className='modal-textfield'
+                                        type="text"
+                                        defaultValue={artist}
+                                        onChange={handleUpdateArtist} /><br />
                                 </div>
                                 <div className="col-left">
                                     <label htmlFor="edit-song-modal-youtube-id">Youtube Id:</label>
-                                </div> 
+                                </div>
                                 <div className="col-right">
-                                <input 
-                                    id="edit-song-modal-youTubeId-textfield" 
-                                    className='modal-textfield' 
-                                    type="text" 
-                                    defaultValue={youTubeId} 
-                                    onChange={handleUpdateYouTubeId} /><br/>
+                                    <input
+                                        id="edit-song-modal-youTubeId-textfield"
+                                        className='modal-textfield'
+                                        type="text"
+                                        defaultValue={youTubeId}
+                                        onChange={handleUpdateYouTubeId} /><br />
                                 </div>
                             </form>
+                        </div>
+                        <div className="modal-south">
+                            <input
+                                type="button"
+                                id="edit-song-confirm-button"
+                                className="modal-button"
+                                value='Confirm'
+                                onClick={handleConfirmEditSong} />
+                            <input
+                                type="button"
+                                id="edit-song-cancel-button"
+                                className="modal-button"
+                                value='Cancel'
+                                onClick={handleCancelEditSong} />
+                        </div>
+                    </div>
                 </div>
-                <div className="modal-south">
-                    <input 
-                        type="button" 
-                        id="edit-song-confirm-button" 
-                        className="modal-button" 
-                        value='Confirm' 
-                        onClick={handleConfirmEditSong} />
-                    <input 
-                        type="button" 
-                        id="edit-song-cancel-button" 
-                        className="modal-button" 
-                        value='Cancel' 
-                        onClick={handleCancelEditSong} />
-                </div>
-            </div>
-        </div>
             </Box>
         </Modal>
     );

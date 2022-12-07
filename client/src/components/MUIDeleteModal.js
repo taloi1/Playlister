@@ -29,6 +29,7 @@ export default function MUIDeleteModal() {
     return (
         <Modal
             open={store.listMarkedForDeletion !== null}
+            BackdropProps={{ style: { backgroundColor: "rgba(0, 0, 0, .6)" } }}
         >
             <Box sx={style}>
                 <div className="modal-dialog">
@@ -36,17 +37,17 @@ export default function MUIDeleteModal() {
                         Delete the {name} Playlist?
                     </header>
                     <div id="modal-south">
-                        <input 
-                            type="button" 
-                            id="delete-list-confirm-button" 
-                            className="modal-button" 
-                            value='Confirm' 
+                        <input
+                            type="button"
+                            id="delete-list-confirm-button"
+                            className="modal-button"
+                            value='Confirm'
                             onClick={handleDeleteList} />
-                        <input 
-                            type="button" 
-                            id="delete-list-cancel-button" 
-                            className="modal-button" 
-                            value='Cancel' 
+                        <input
+                            type="button"
+                            id="delete-list-cancel-button"
+                            className="modal-button"
+                            value='Cancel'
                             onClick={handleCloseModal} />
                     </div>
                 </div>

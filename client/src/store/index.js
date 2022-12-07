@@ -170,7 +170,7 @@ function GlobalStoreContextProvider(props) {
                 return setStore({
                     currentModal: store.currentModal,
                     currentHomeScreen: store.currentHomeScreen,
-                    sortType: store.SortType,
+                    sortType: store.sortType,
                     listInfo: payload,
                     currentList: store.currentList,
                     currentSongIndex: store.currentSongIndex,
@@ -774,7 +774,10 @@ function GlobalStoreContextProvider(props) {
                 }
             }
         }
-        asyncSetPlayingList(id);
+        if (store.playingList === null || id !== store.playingList._id) {
+            asyncSetPlayingList(id);
+        }
+
     }
 
     store.setPlayingSong = function (index) {

@@ -119,7 +119,6 @@ function ListCard(props) {
             <Box sx={cardCenterStyle}>
                 <List
                     id="playlist-cards"
-
                 >
                     {
                         store.currentList.songs.map((song, index) => (
