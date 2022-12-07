@@ -171,14 +171,26 @@ const HomeScreen = () => {
     }
 
     let homeButton = "";
+    let homeButtonStyle = { fontSize: '30pt', color: '#555555' };
+    if (store.currentHomeScreen === "HOME") {
+        homeButtonStyle = { fontSize: '30pt', color: '#222222' };
+    }
     if (auth.user) {
         homeButton = <IconButton
             onClick={handleChangeScreenHome}
             aria-label='add'>
-            <HomeIcon style={{ fontSize: '30pt' }} sx={{ color: 'ffffff' }} />
+            <HomeIcon style={homeButtonStyle} />
         </IconButton>;;
     }
 
+    let listsButtonStyle = { fontSize: '30pt', color: '#555555' };
+    if (store.currentHomeScreen === "ALL_LISTS") {
+        listsButtonStyle = { fontSize: '30pt', color: '#222222' };
+    }
+    let usersButtonStyle = { fontSize: '30pt', color: '#555555' };
+    if (store.currentHomeScreen === "USERS") {
+        usersButtonStyle = { fontSize: '30pt', color: '#222222' };
+    }
     return (
         <div id="playlist-selector">
             <div id="home-banner">
@@ -187,12 +199,12 @@ const HomeScreen = () => {
                     <IconButton
                         onClick={handleChangeScreenAllLists}
                         aria-label='add'>
-                        <GroupsOutlinedIcon style={{ fontSize: '30pt' }} sx={{ color: 'ffffff' }} />
+                        <GroupsOutlinedIcon style={listsButtonStyle} />
                     </IconButton>
                     <IconButton
                         onClick={handleChangeScreenUsers}
                         aria-label='add'>
-                        <PersonOutlineIcon style={{ fontSize: '30pt' }} sx={{ color: 'ffffff' }} />
+                        <PersonOutlineIcon style={usersButtonStyle}/>
                     </IconButton>
                 </Box>
 

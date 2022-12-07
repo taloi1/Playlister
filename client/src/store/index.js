@@ -779,7 +779,6 @@ function GlobalStoreContextProvider(props) {
 
     store.setPlayingSong = function (index) {
         async function asyncSetPlayingSong(index) {
-
             if (store.currentHomeScreen === CurrentHomeScreen.HOME) {
                 const response = await api.getUserPlaylistInfo(store.searchBar, store.currentHomeScreen, store.sortType);
                 if (response.data.success) {
@@ -1072,7 +1071,7 @@ function GlobalStoreContextProvider(props) {
 
     store.setHomeScreenHome = function () {
         async function asyncSetHomeScreenHome() {
-            let response = await api.getUserPlaylistInfo("", CurrentHomeScreen.HOME, store.sortType);
+            let response = await api.getUserPlaylistInfo("", CurrentHomeScreen.HOME, SortType.NAME);
             if (response.data.success) {
                 console.log(response.data);
                 storeReducer({
@@ -1085,7 +1084,7 @@ function GlobalStoreContextProvider(props) {
     }
     store.setHomeScreenAllLists = function () {
         async function asyncSetHomeScreenAllLists() {
-            let response = await api.getPublishedPlaylists("", CurrentHomeScreen.ALL_LISTS, store.sortType);
+            let response = await api.getPublishedPlaylists("", CurrentHomeScreen.ALL_LISTS, SortType.NAME);
             if (response.data.success) {
                 console.log(response.data);
                 storeReducer({
@@ -1098,7 +1097,7 @@ function GlobalStoreContextProvider(props) {
     }
     store.setHomeScreenUsers = function () {
         async function asyncSetHomeScreenUsers() {
-            let response = await api.getPublishedPlaylists("", CurrentHomeScreen.USERS, store.sortType);
+            let response = await api.getPublishedPlaylists("", CurrentHomeScreen.USERS, SortType.NAME);
             if (response.data.success) {
                 console.log(response.data);
                 storeReducer({
