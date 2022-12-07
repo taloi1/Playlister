@@ -247,6 +247,14 @@ body {
   color: #d4af37;
 }
 
+.playing-song {
+  color: #d38137
+}
+
+.playing-song-unpublished {
+  background-color: #d4af37
+}
+
 .list-card-button {
   float: right;
   transform: scale(2);

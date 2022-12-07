@@ -65,6 +65,20 @@ function SongCard(props) {
     if (store.currentList.isPublished) {
         cardClass = "list-card published-list-card";
     }
+
+    if (store.currentList && store.playingList) {
+        if (store.currentList._id === store.playingList._id) {
+            if (store.playingSong) {
+                if (store.playingSong === index) {
+                    if (store.currentList.isPublished) {
+                        cardClass += " playing-song";
+                    } else {
+                        cardClass += " playing-song-unpublished";
+                    }
+                }
+            }
+        }
+    }
     
     return (
         <div

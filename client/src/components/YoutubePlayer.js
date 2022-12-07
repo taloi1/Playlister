@@ -63,6 +63,7 @@ export default function YouTubePlayer() {
         }
         asyncChangeList();
         setCurrentSong(0);
+        store.setPlayingSong(0);
         if (playingList) {
             if (playingList.songs.length >=1) {
                 setListData({
@@ -109,6 +110,7 @@ export default function YouTubePlayer() {
         if (currentSong >= (playlist.length - 1)) {
             setCurrentSong(0);
         }
+        store.setPlayingSong(currentSong);
     }
 
     function decSong() {
@@ -117,6 +119,7 @@ export default function YouTubePlayer() {
         if (currentSong <= 0) {
             setCurrentSong(playlist.length - 1);
         }
+        store.setPlayingSong(currentSong);
     }
 
     function onPlayerReady(event) {
