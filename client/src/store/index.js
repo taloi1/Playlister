@@ -774,8 +774,13 @@ function GlobalStoreContextProvider(props) {
                 }
             }
         }
-        if (store.playingList === null || id !== store.playingList._id) {
+        if (store.playingList === null || !store.playingList) {
             asyncSetPlayingList(id);
+        }
+        if (store.playingList) {
+            if (id !== store.playingList._id) {
+                asyncSetPlayingList(id);
+            }
         }
 
     }
