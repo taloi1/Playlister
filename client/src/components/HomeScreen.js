@@ -215,7 +215,7 @@ const HomeScreen = () => {
                     onChange={handleUpdateText}>
                 </TextField>
 
-                <Box sx={{ pt: 1, pl: 1 }} style={{ right: '2%', position: 'absolute', fontWeight: 'bold', fontSize: 25, fontStyle: 'oblique' }}>
+                <Box sx={{ pt: 1, pl: 1 }} style={{ right: '2%', position: 'absolute', fontWeight: 'bold', fontSize: 25, }}>
                     SORT BY
                     <IconButton
                         onClick={handleSortMenuOpen}

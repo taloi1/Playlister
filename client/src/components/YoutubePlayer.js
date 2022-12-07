@@ -12,7 +12,6 @@ import FastRewindIcon from '@mui/icons-material/FastRewind';
 
 export default function YouTubePlayer() {
     const { store } = useContext(GlobalStoreContext);
-    const [listData, setListData] = useState({ name: "", songNum: "", title: "", artist: "" });
     const [player, setPlayer] = useState(null);
     const [currentSong, setCurrentSong] = useState(0);
     const [playingList, setplayingList] = useState(null);
@@ -42,8 +41,8 @@ export default function YouTubePlayer() {
                     console.log(store.playingList.songs[0].youTubeId);
                     //sloadAndPlayCurrentSong(player)
                     // console.log(player.getVideoData().video_id);
-                    // player.loadVideoById(store.playingList.songs[0].youTubeId);
-                    // player.playVideo();
+                    player.loadVideoById(store.playingList.songs[0].youTubeId);
+                    player.playVideo();
                 }
             }
         }
@@ -53,27 +52,11 @@ export default function YouTubePlayer() {
         let asyncChangeList = async function () {
             let list = store.playingList
             await setplayingList(list);
-            setListData({
-                name: playingList.name,
-                songNum: currentSong + 1,
-                title: playingList.songs[currentSong].title,
-                artist: playingList.songs[currentSong].artist
-            })
             forceUpdate();
         }
         asyncChangeList();
         setCurrentSong(0);
         store.setPlayingSong(0);
-        if (playingList) {
-            if (playingList.songs.length >=1) {
-                setListData({
-                    name: playingList.name,
-                    songNum: currentSong + 1,
-                    title: playingList.songs[currentSong].title,
-                    artist: playingList.songs[currentSong].artist
-                })
-            }
-        }
 
 
         console.log("?????????????????????????????????????????????? ?????????????????????????????");
@@ -96,12 +79,6 @@ export default function YouTubePlayer() {
         let song = playlist[currentSong];
         player.loadVideoById(song);
         player.playVideo();
-        setListData({
-            name: playingList.name,
-            songNum: currentSong + 1,
-            title: playingList.songs[currentSong].title,
-            artist: playingList.songs[currentSong].artist
-        })
     }
 
     // THIS FUNCTION INCREMENTS THE PLAYLIST SONG TO THE NEXT ONE
@@ -166,12 +143,6 @@ export default function YouTubePlayer() {
         let song = playlist[currentSong];
         player.loadVideoById(song);
         player.playVideo();
-        setListData({
-            name: playingList.name,
-            songNum: currentSong + 1,
-            title: playingList.songs[currentSong].title,
-            artist: playingList.songs[currentSong].artist
-        })
     }
     function handlePause() {
         player.pauseVideo();
@@ -184,11 +155,22 @@ export default function YouTubePlayer() {
     }
 
     let songInfo = <Box style={{ left: '5%', position: 'absolute' }}>
-        <Typography style={{ fontWeight: 'bold' }}>Playlist: {' '} {listData.name}</Typography>
-        <Typography style={{ fontWeight: 'bold' }}>Song #: {' '} {listData.songNum}</Typography>
-        <Typography style={{ fontWeight: 'bold' }}>Title: {' '} {listData.title}</Typography>
-        <Typography style={{ fontWeight: 'bold' }}>Artist: {' '} {listData.artist}</Typography>
+        <Typography style={{ fontWeight: 'bold' }}>Playlist: </Typography>
+        <Typography style={{ fontWeight: 'bold' }}>Song #: </Typography>
+        <Typography style={{ fontWeight: 'bold' }}>Title:</Typography>
+        <Typography style={{ fontWeight: 'bold' }}>Artist:</Typography>
     </Box>
+    if (playingList) {
+        if (playingList.songs.length !== 0) {
+            songInfo = <Box style={{ left: '5%', position: 'absolute' }}>
+            <Typography style={{ fontWeight: 'bold' }}>Playlist: {' '} {playingList.name}</Typography>
+            <Typography style={{ fontWeight: 'bold' }}>Song #: {' '} {currentSong + 1}</Typography>
+            <Typography style={{ fontWeight: 'bold' }}>Title: {' '} {playingList.songs[currentSong].title}</Typography>
+            <Typography style={{ fontWeight: 'bold' }}>Artist: {' '} {playingList.songs[currentSong].artist}</Typography>
+        </Box>
+        }
+
+    }
 
     if (playlist !== null) {
         return <div>

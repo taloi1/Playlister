@@ -86,7 +86,7 @@ function GlobalStoreContextProvider(props) {
         searchBar: null,
         guest: false,
         playingList: null,
-        playingSong: null,
+        playingSong: 0,
     });
     const history = useHistory();
 
@@ -319,7 +319,7 @@ function GlobalStoreContextProvider(props) {
                     searchBar: null,
                     guest: store.guest,
                     playingList: null,
-                    playingSong: null,
+                    playingSong: 0,
                 });
             }
             case GlobalStoreActionType.CHANGE_SORT_TYPE: {

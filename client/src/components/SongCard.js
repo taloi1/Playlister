@@ -1,10 +1,15 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { GlobalStoreContext } from '../store'
 
 function SongCard(props) {
     const { store } = useContext(GlobalStoreContext);
-    const [ draggedTo, setDraggedTo ] = useState(0);
+    const [draggedTo, setDraggedTo] = useState(0);
     const { song, index } = props;
+
+    let currentSong = (index === store.playingSong);
+    useEffect(() => {
+        currentSong = (index === store.playingSong);
+    }, []);
 
     function handleDragStart(event) {
         event.dataTransfer.setData("song", index);
@@ -40,6 +45,9 @@ function SongCard(props) {
     }
     function handleClick(event) {
         // DOUBLE CLICK IS FOR SONG EDITING
+        console.log(index + " INDEXXXXXXXXXXXXXXXXXXX");
+        console.log(store.playingSong + " SONGGG");
+        currentSong = (index === store.playingSong);
         if (event.detail === 2 && store.currentList.isPublished === false) {
             store.showEditSongModal(index, song);
         }
@@ -51,11 +59,11 @@ function SongCard(props) {
     }
 
     let deleteSongButton = <input
-    type="button"
-    id={"remove-song-" + index}
-    className="list-card-button"
-    value={"\u2715"}
-    onClick={handleRemoveSong}
+        type="button"
+        id={"remove-song-" + index}
+        className="list-card-button"
+        value={"\u2715"}
+        onClick={handleRemoveSong}
     />
     if (store.currentList.isPublished === true) {
         deleteSongButton = "";
@@ -68,18 +76,17 @@ function SongCard(props) {
 
     if (store.currentList && store.playingList) {
         if (store.currentList._id === store.playingList._id) {
-            if (store.playingSong) {
-                if (store.playingSong === index) {
-                    if (store.currentList.isPublished) {
-                        cardClass += " playing-song";
-                    } else {
-                        cardClass += " playing-song-unpublished";
-                    }
+            if (currentSong) {
+                console.log("PLAYING SONG: " + store.playingSong);
+                if (store.currentList.isPublished) {
+                    cardClass += " playing-song";
+                } else {
+                    cardClass += " playing-song-unpublished";
                 }
             }
         }
     }
-    
+
     return (
         <div
             key={index}
@@ -97,7 +104,7 @@ function SongCard(props) {
             <a
                 id={'song-' + index + '-link'}
                 className="song-link"
-                >
+            >
                 {song.title} by {song.artist}
             </a>
             {deleteSongButton}
