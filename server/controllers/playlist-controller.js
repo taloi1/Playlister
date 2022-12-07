@@ -156,6 +156,12 @@ getPlaylistInfo = async (req, res) => {
                         console.log(playlists);
                         if (req.query.sortType === "PUBLISH_DATE") {
                             playlists.sort((a, b) => {
+                                if (a.publishDate && !b.publishDate) {
+                                    return -1;
+                                }
+                                if (!a.publishDate && b.publishDate) {
+                                    return 1;
+                                }
                                 if (a.publishDate > b.publishDate) {
                                     return -1;
                                 }
