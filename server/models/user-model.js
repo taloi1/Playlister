@@ -10,8 +10,6 @@ const UserSchema = new Schema(
         email: { type: String, required: true },
         passwordHash: { type: String, required: true },
         playlists: [{type: ObjectId, ref: 'Playlist'}],
-        likedPlaylists: [{type: ObjectId, ref: 'Playlist'}],
-        dislikedPlaylists: [{type: ObjectId, ref: 'Playlist'}]
     },
     { timestamps: true },
 )

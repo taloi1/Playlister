@@ -84,6 +84,7 @@ function ListCard(props) {
     }
 
     function handleLikeList(event, id) {
+        event.stopPropagation();
         if (auth.user) {
             console.log("Like");
         }
@@ -91,6 +92,7 @@ function ListCard(props) {
     }
 
     function handleDislikeList(event, id) {
+        event.stopPropagation();
         if (auth.user) {
             console.log("Dislike");
         }

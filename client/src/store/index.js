@@ -385,7 +385,7 @@ function GlobalStoreContextProvider(props) {
                     currentModal: CurrentModal.NONE,
                     currentHomeScreen: store.currentHomeScreen,
                     sortType: store.sortType,
-                    listInfo: store.listInfo,
+                    listInfo: payload.listInfo,
                     currentList: store.currentList,
                     currentSongIndex: -1,
                     currentSong: null,
@@ -395,7 +395,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null,
                     searchBar: store.searchBar,
                     guest: store.guest,
-                    playingList: payload,
+                    playingList: payload.list,
                 });
             }
             default:
@@ -446,6 +446,11 @@ function GlobalStoreContextProvider(props) {
             let response = await api.getPlaylistById(id);
             if (response.data.success) {
                 let playlist = response.data.playlist;
+                store.listInfo.forEach(list => {
+                    if (list.name === newName && list._id !== playlist._id) {
+                        newName += " (1)";
+                    }
+                })
                 playlist.name = newName;
                 async function updateList(playlist) {
                     response = await api.updatePlaylistById(playlist._id, playlist);
@@ -545,7 +550,12 @@ function GlobalStoreContextProvider(props) {
 
     // THIS FUNCTION CREATES A NEW LIST
     store.createNewList = async function () {
-        let newListName = "Untitled" + store.newListCounter;
+        let newListName = "Untitled";
+            store.listInfo.forEach(list => {
+                if (list.name === newListName) {
+                    newListName += " (1)";
+                }
+            });
         const response = await api.createPlaylist(newListName, auth.user.email, auth.user.userName, 0, 0, 0, false, [], []);
         if (response.status === 201) {
             tps.clearAllTransactions();
@@ -565,7 +575,13 @@ function GlobalStoreContextProvider(props) {
     store.duplicateList = async function (id) {
         let getResponse = await api.getPlaylistById(id);
         if (getResponse.data.success) {
-            const response = await api.createPlaylist(store.currentList.name, auth.user.email, auth.user.userName, 0, 0, 0, false, [], store.currentList.songs);
+            let newName = store.currentList.name;
+            store.listInfo.forEach(list => {
+                if (list.name === newName) {
+                    newName += " (1)";
+                }
+            });
+            const response = await api.createPlaylist(newName, auth.user.email, auth.user.userName, 0, 0, 0, false, [], store.currentList.songs);
             if (response.status === 201) {
                 tps.clearAllTransactions();
                 let newList = response.data.playlist;
@@ -674,13 +690,29 @@ function GlobalStoreContextProvider(props) {
             let response = await api.getPlaylistById(id);
             if (response.data.success) {
                 let playlist = response.data.playlist;
-
+                playlist.listens += 1;
                 response = await api.updatePlaylistById(playlist._id, playlist);
                 if (response.data.success) {
-                    storeReducer({
-                        type: GlobalStoreActionType.SET_PLAYING_LIST,
-                        payload: playlist
-                    });
+                    if (store.currentHomeScreen === CurrentHomeScreen.HOME) {
+                        const response = await api.getUserPlaylistInfo(store.searchBar, store.currentHomeScreen, store.sortType);
+                        if (response.data.success) {
+                            let infoArray = response.data.listInfo;
+                            storeReducer({
+                                type: GlobalStoreActionType.SET_PLAYING_LIST,
+                                payload: {list: playlist, listInfo: infoArray}
+                            });
+                        }
+                    } else {
+                        let response = await api.getPublishedPlaylists(store.searchBar, store.currentHomeScreen, store.sortType);
+                        if (response.data.success) {
+                            let infoArray = response.data.data;
+                            storeReducer({
+                                type: GlobalStoreActionType.SET_PLAYING_LIST,
+                                payload: {list: playlist, listInfo: infoArray}
+                            });
+                        }
+                    }
+
                     //history.push("/playlist/" + playlist._id);
                 }
             }
@@ -825,7 +857,7 @@ function GlobalStoreContextProvider(props) {
             if (response.data.success) {
                 storeReducer({
                     type: GlobalStoreActionType.SET_PLAYING_LIST,
-                    payload: store.playingList
+                    payload: {list: store.playingList, listInfo: store.listInfo}
                 });
             }
         }

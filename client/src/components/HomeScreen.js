@@ -52,7 +52,6 @@ const HomeScreen = () => {
         setAnchorEl(event.currentTarget);
     }
     const handleMenuClose = () => {
-        store.closeCurrentList();
         setAnchorEl(null);
     };
 
