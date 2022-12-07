@@ -745,9 +745,9 @@ function GlobalStoreContextProvider(props) {
             if (response.data.success) {
                 let playlist = response.data.playlist;
                 if (playlist.likedUsers) {
-                    const index = playlist.likedUsers.indexOf(auth.user.userName)
+                    const index = playlist.likedUsers.indexOf(auth.user.userName);
                     if (index > -1) {
-                        playlist.likedUsers.splice(index, 1)
+                        playlist.likedUsers.splice(index, 1);
                         playlist.likes = playlist.likedUsers.length;
                     } else {
                         playlist.likedUsers.push(auth.user.userName);
@@ -756,6 +756,13 @@ function GlobalStoreContextProvider(props) {
                 } else {
                     playlist.likedUsers.push(auth.user.userName);
                     playlist.likes = playlist.likedUsers.length;
+                }
+                if (playlist.dislikedUsers) {
+                    const index = playlist.dislikedUsers.indexOf(auth.user.userName);
+                    if (index > -1) {
+                        playlist.dislikedUsers.splice(index, 1);
+                        playlist.dislikes = playlist.dislikedUsers.length;
+                    }
                 }
                 response = await api.updatePlaylistById(id, playlist);
                 if (response.data.success) {
@@ -801,6 +808,13 @@ function GlobalStoreContextProvider(props) {
                 } else {
                     playlist.dislikedUsers.push(auth.user.userName);
                     playlist.dislikes = playlist.dislikedUsers.length;
+                }
+                if (playlist.likedUsers) {
+                    const index = playlist.likedUsers.indexOf(auth.user.userName);
+                    if (index > -1) {
+                        playlist.likedUsers.splice(index, 1);
+                        playlist.likes = playlist.likedUsers.length;
+                    }
                 }
                 response = await api.updatePlaylistById(id, playlist);
                 if (response.data.success) {
