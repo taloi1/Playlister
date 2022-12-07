@@ -103,12 +103,20 @@ function ListCard(props) {
     }
 
     let cardCenter = "";
+    let cardCenterStyle = {
+        width: '100%', backgroundColor: "#fffff1", height: "35vh", overflowY: "auto",
+        borderStyle: "solid", borderWidth: "2px", borderRadius: '10pt'};
+    if (store.currentList) {
+        if (store.currentList.isPublished) {
+            cardCenterStyle = {
+                width: '100%', backgroundColor: "#2c2f70", height: "35vh", overflowY: "auto",
+                borderStyle: "solid", borderWidth: "2px", borderRadius: '10pt'};
+        }
+    }
+
     if (store.currentList && store.currentList._id === listInfo._id) {
         cardCenter =
-            <Box sx={{
-                width: '100%', backgroundColor: "#fffff1", height: "35vh", overflowY: "auto",
-                borderStyle: "solid", borderWidth: "2px", borderRadius: '10pt'
-            }}>
+            <Box sx={cardCenterStyle}>
                 <List
                     id="playlist-cards"
 
@@ -186,7 +194,8 @@ function ListCard(props) {
     }
     let published = "";
     if (listInfo.publishDate && listInfo.isPublished) {
-        published = <Typography display="inline" style={{ color: '#65b358', fontWeight: 'bold' }}> {listInfo.publishDate.slice(0, 10)} </Typography>;
+        let dateText = listInfo.publishDate.slice(0, 10);
+        published = <Typography display="inline" style={{ color: '#65b358', fontWeight: 'bold' }}> {dateText} </Typography>;
     }
 
     let listensText = "";
@@ -199,14 +208,14 @@ function ListCard(props) {
     }
 
     let likeButton = <ThumbUpOffAltIcon style={{ fontSize: '40pt' }}> </ThumbUpOffAltIcon>
-    if (listInfo.likedUsers) {
+    if (listInfo.likedUsers && auth.user) {
         if (listInfo.likedUsers.indexOf(auth.user.userName) !== -1) {
             likeButton = <ThumbUpAltIcon style={{ fontSize: '40pt' }}> </ThumbUpAltIcon>
         }
     }
 
     let dislikeButton = <ThumbDownOffAltIcon style={{ fontSize: '40pt' }} />
-    if (listInfo.dislikedUsers) {
+    if (listInfo.dislikedUsers && auth.user) {
         if (listInfo.dislikedUsers.indexOf(auth.user.userName) !== -1) {
             dislikeButton = <ThumbDownAltIcon style={{ fontSize: '40pt' }}> </ThumbDownAltIcon>
         }

@@ -62,6 +62,10 @@ function SongCard(props) {
     }
 
     let cardClass = "list-card unselected-list-card";
+    if (store.currentList.isPublished) {
+        cardClass = "list-card published-list-card";
+    }
+    
     return (
         <div
             key={index}
@@ -75,7 +79,7 @@ function SongCard(props) {
             draggable={cardDraggable}
             onClick={handleClick}
         >
-            {index + 1}.
+            {index + 1}. {' '}
             <a
                 id={'song-' + index + '-link'}
                 className="song-link"

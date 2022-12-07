@@ -128,7 +128,7 @@ getPlaylistInfo = async (req, res) => {
                 }
                 else {
 
-                    console.log("HERE!!!!!!!!!!!!");
+                    console.log("HERE");
                     console.log(playlists);
                     console.log(req.query);
                     console.log("HERE????");
@@ -152,6 +152,8 @@ getPlaylistInfo = async (req, res) => {
                             }
                             return 0;
                         });
+                        console.log("NAME");
+                        console.log(playlists);
                         if (req.query.sortType === "PUBLISH_DATE") {
                             playlists.sort((a, b) => {
                                 if (a.publishDate > b.publishDate) {
@@ -218,7 +220,6 @@ getPlaylistInfo = async (req, res) => {
                             console.log(playlists);
                         }
                     }
-
                     // RETURN FILTERED AND SORTED PLAYLISTS
                     return res.status(200).json({ success: true, listInfo: playlists })
                 }

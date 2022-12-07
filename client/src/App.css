@@ -8,7 +8,7 @@
     */
   --swatch-foundation: #eeeedd;
   --swatch-primary: #c8c4c4;
-  --swatch-complement: #e1e4cb;
+  --swatch-complement: #2c2f70;
   --swatch-contrast: #111111;
   --swatch-accent: #669966;
   --swatch-status: #123456;
@@ -239,6 +239,12 @@ body {
 
 .unselected-list-card {
   background-color: var(--swatch-complement);
+  color: white;
+}
+
+.published-list-card {
+  background-color: var(--swatch-complement);
+  color: #d4af37;
 }
 
 .list-card-button {
