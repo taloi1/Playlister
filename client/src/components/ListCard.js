@@ -198,13 +198,27 @@ function ListCard(props) {
         listens = <Typography display="inline" style={{ color: '#b33037', fontWeight: 'bold' }}> {listInfo.listens} </Typography>;
     }
 
+    let likeButton = <ThumbUpOffAltIcon style={{ fontSize: '40pt' }}> </ThumbUpOffAltIcon>
+    if (listInfo.likedUsers) {
+        if (listInfo.likedUsers.indexOf(auth.user.userName) !== -1) {
+            likeButton = <ThumbUpAltIcon style={{ fontSize: '40pt' }}> </ThumbUpAltIcon>
+        }
+    }
+
+    let dislikeButton = <ThumbDownOffAltIcon style={{ fontSize: '40pt' }} />
+    if (listInfo.dislikedUsers) {
+        if (listInfo.dislikedUsers.indexOf(auth.user.userName) !== -1) {
+            dislikeButton = <ThumbDownAltIcon style={{ fontSize: '40pt' }}> </ThumbDownAltIcon>
+        }
+    }
+
     let likeDislikeArea = <Box sx={{ top: '0%', left: '55%', position: 'absolute' }}>
         <IconButton onClick={handleLikeList} aria-label='like'>
-            <ThumbUpAltIcon style={{ fontSize: '40pt' }}> </ThumbUpAltIcon>
+            {likeButton}
         </IconButton>
         {listInfo.likes}
         <IconButton onClick={handleDislikeList} aria-label='dislike' style={{ marginLeft: '1pt' }}>
-            <ThumbDownAltIcon style={{ fontSize: '40pt' }} />
+            {dislikeButton}
         </IconButton>
         {listInfo.dislikes}
     </Box>;
