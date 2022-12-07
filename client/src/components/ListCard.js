@@ -83,17 +83,19 @@ function ListCard(props) {
         setText(event.target.value);
     }
 
-    function handleLikeList(event, id) {
+    function handleLikeList(event) {
         event.stopPropagation();
         if (auth.user) {
+            store.likePlaylist(listInfo._id);
             console.log("Like");
         }
 
     }
 
-    function handleDislikeList(event, id) {
+    function handleDislikeList(event) {
         event.stopPropagation();
         if (auth.user) {
+            store.dislikePlaylist(listInfo._id);
             console.log("Dislike");
         }
 
@@ -201,9 +203,7 @@ function ListCard(props) {
             <ThumbUpAltIcon style={{ fontSize: '40pt' }}> </ThumbUpAltIcon>
         </IconButton>
         {listInfo.likes}
-        <IconButton onClick={(event) => {
-            handleDislikeList()
-        }} aria-label='dislike' style={{ marginLeft: '1pt' }}>
+        <IconButton onClick={handleDislikeList} aria-label='dislike' style={{ marginLeft: '1pt' }}>
             <ThumbDownAltIcon style={{ fontSize: '40pt' }} />
         </IconButton>
         {listInfo.dislikes}

@@ -372,6 +372,8 @@ updatePlaylist = async (req, res) => {
                 if (list.isPublished === true) {
                     list.likes = body.playlist.likes;
                     list.dislikes = body.playlist.dislikes;
+                    list.likedUsers = body.playlist.likedUsers;
+                    list.dislikedUsers = body.playlist.dislikedUsers;
                     list.listens = body.playlist.listens;
                 }
                 list.comments = body.playlist.comments;

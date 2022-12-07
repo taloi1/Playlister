@@ -37,6 +37,7 @@ export const GlobalStoreActionType = {
     CHANGE_SEARCH_BAR: "CHANGE_SEARCH_BAR",
     VIEW_AS_GUEST: "VIEW_AS_GUEST",
     SET_PLAYING_LIST: "SET_PLAYING_LIST",
+    LIKE_DISLIKE: "LIKE_DISLIKE",
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -398,6 +399,24 @@ function GlobalStoreContextProvider(props) {
                     playingList: payload.list,
                 });
             }
+            case GlobalStoreActionType.LIKE_DISLIKE: {
+                return setStore({
+                    currentModal: CurrentModal.NONE,
+                    currentHomeScreen: store.currentHomeScreen,
+                    sortType: store.sortType,
+                    listInfo: payload.listInfo,
+                    currentList: store.currentList,
+                    currentSongIndex: -1,
+                    currentSong: null,
+                    newListCounter: store.newListCounter,
+                    listNameActive: false,
+                    listIdMarkedForDeletion: null,
+                    listMarkedForDeletion: null,
+                    searchBar: store.searchBar,
+                    guest: store.guest,
+                    playingList: store.playingList,
+                });
+            }
             default:
                 return store;
         }
@@ -551,11 +570,11 @@ function GlobalStoreContextProvider(props) {
     // THIS FUNCTION CREATES A NEW LIST
     store.createNewList = async function () {
         let newListName = "Untitled";
-            store.listInfo.forEach(list => {
-                if (list.name === newListName) {
-                    newListName += " (1)";
-                }
-            });
+        store.listInfo.forEach(list => {
+            if (list.name === newListName) {
+                newListName += " (1)";
+            }
+        });
         const response = await api.createPlaylist(newListName, auth.user.email, auth.user.userName, 0, 0, 0, false, [], []);
         if (response.status === 201) {
             tps.clearAllTransactions();
@@ -699,7 +718,7 @@ function GlobalStoreContextProvider(props) {
                             let infoArray = response.data.listInfo;
                             storeReducer({
                                 type: GlobalStoreActionType.SET_PLAYING_LIST,
-                                payload: {list: playlist, listInfo: infoArray}
+                                payload: { list: playlist, listInfo: infoArray }
                             });
                         }
                     } else {
@@ -708,7 +727,7 @@ function GlobalStoreContextProvider(props) {
                             let infoArray = response.data.data;
                             storeReducer({
                                 type: GlobalStoreActionType.SET_PLAYING_LIST,
-                                payload: {list: playlist, listInfo: infoArray}
+                                payload: { list: playlist, listInfo: infoArray }
                             });
                         }
                     }
@@ -720,23 +739,94 @@ function GlobalStoreContextProvider(props) {
         asyncSetPlayingList(id);
     }
 
-    store.addListen = function (id) {
-        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        console.log(id);
-        async function asyncaddListen(id) {
-            console.log("BBBBBBBBBBBBBBBBBBBBB");
+    store.likePlaylist = function (id) {
+        async function asyncLike(id) {
             let response = await api.getPlaylistById(id);
             if (response.data.success) {
-                console.log("CCCCCCCCCCCCCCCCC");
                 let playlist = response.data.playlist;
-                playlist.listens++;
+                if (playlist.likedUsers) {
+                    const index = playlist.likedUsers.indexOf(auth.user.userName)
+                    if (index > -1) {
+                        playlist.likedUsers.splice(index, 1)
+                        playlist.likes = playlist.likedUsers.length;
+                    } else {
+                        playlist.likedUsers.push(auth.user.userName);
+                        playlist.likes = playlist.likedUsers.length;
+                    }
+                } else {
+                    playlist.likedUsers.push(auth.user.userName);
+                    playlist.likes = playlist.likedUsers.length;
+                }
                 response = await api.updatePlaylistById(id, playlist);
                 if (response.data.success) {
-                    //store.loadListInfo();
+                    if (store.currentHomeScreen === CurrentHomeScreen.HOME) {
+                        const response = await api.getUserPlaylistInfo(store.searchBar, store.currentHomeScreen, store.sortType);
+                        if (response.data.success) {
+                            let infoArray = response.data.listInfo;
+                            storeReducer({
+                                type: GlobalStoreActionType.SET_PLAYING_LIST,
+                                payload: { listInfo: infoArray }
+                            });
+                        }
+                    } else {
+                        let response = await api.getPublishedPlaylists(store.searchBar, store.currentHomeScreen, store.sortType);
+                        if (response.data.success) {
+                            let infoArray = response.data.data;
+                            storeReducer({
+                                type: GlobalStoreActionType.SET_PLAYING_LIST,
+                                payload: { listInfo: infoArray }
+                            });
+                        }
+                    }
                 }
             }
         }
-        asyncaddListen(id);
+        asyncLike(id);
+    }
+
+    store.dislikePlaylist = function (id) {
+        async function asyncDislike(id) {
+            let response = await api.getPlaylistById(id);
+            if (response.data.success) {
+                let playlist = response.data.playlist;
+                if (playlist.dislikedUsers) {
+                    const index = playlist.dislikedUsers.indexOf(auth.user.userName)
+                    if (index > -1) {
+                        playlist.dislikedUsers.splice(index, 1)
+                        playlist.dislikes = playlist.dislikedUsers.length;
+                    } else {
+                        playlist.dislikedUsers.push(auth.user.userName);
+                        playlist.dislikes = playlist.dislikedUsers.length;
+                    }
+                } else {
+                    playlist.dislikedUsers.push(auth.user.userName);
+                    playlist.dislikes = playlist.dislikedUsers.length;
+                }
+                response = await api.updatePlaylistById(id, playlist);
+                if (response.data.success) {
+                    if (store.currentHomeScreen === CurrentHomeScreen.HOME) {
+                        const response = await api.getUserPlaylistInfo(store.searchBar, store.currentHomeScreen, store.sortType);
+                        if (response.data.success) {
+                            let infoArray = response.data.listInfo;
+                            storeReducer({
+                                type: GlobalStoreActionType.SET_PLAYING_LIST,
+                                payload: { listInfo: infoArray }
+                            });
+                        }
+                    } else {
+                        let response = await api.getPublishedPlaylists(store.searchBar, store.currentHomeScreen, store.sortType);
+                        if (response.data.success) {
+                            let infoArray = response.data.data;
+                            storeReducer({
+                                type: GlobalStoreActionType.SET_PLAYING_LIST,
+                                payload: { listInfo: infoArray }
+                            });
+                        }
+                    }
+                }
+            }
+        }
+        asyncDislike(id);
     }
 
     store.getPlaylist = function (id) {
@@ -857,7 +947,7 @@ function GlobalStoreContextProvider(props) {
             if (response.data.success) {
                 storeReducer({
                     type: GlobalStoreActionType.SET_PLAYING_LIST,
-                    payload: {list: store.playingList, listInfo: store.listInfo}
+                    payload: { list: store.playingList, listInfo: store.listInfo }
                 });
             }
         }
