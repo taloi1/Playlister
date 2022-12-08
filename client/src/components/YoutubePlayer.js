@@ -83,20 +83,22 @@ export default function YouTubePlayer() {
 
     // THIS FUNCTION INCREMENTS THE PLAYLIST SONG TO THE NEXT ONE
     function incSong() {
+        store.setPlayingSong(currentSong + 1);
         setCurrentSong(currentSong + 1);
         if (currentSong >= (playlist.length - 1)) {
+            store.setPlayingSong(0);
             setCurrentSong(0);
         }
-        store.setPlayingSong(currentSong);
     }
 
     function decSong() {
+        store.setPlayingSong(currentSong - 1);
         setCurrentSong(currentSong - 1);
         console.log(currentSong);
         if (currentSong <= 0) {
+            store.setPlayingSong(playlist.length - 1);
             setCurrentSong(playlist.length - 1);
         }
-        store.setPlayingSong(currentSong);
     }
 
     function onPlayerReady(event) {
@@ -163,11 +165,11 @@ export default function YouTubePlayer() {
     if (playingList) {
         if (playingList.songs.length !== 0) {
             songInfo = <Box style={{ left: '5%', position: 'absolute' }}>
-            <Typography style={{ fontWeight: 'bold' }}>Playlist: {' '} {playingList.name}</Typography>
-            <Typography style={{ fontWeight: 'bold' }}>Song #: {' '} {currentSong + 1}</Typography>
-            <Typography style={{ fontWeight: 'bold' }}>Title: {' '} {playingList.songs[currentSong].title}</Typography>
-            <Typography style={{ fontWeight: 'bold' }}>Artist: {' '} {playingList.songs[currentSong].artist}</Typography>
-        </Box>
+                <Typography style={{ fontWeight: 'bold' }}>Playlist: {' '} {playingList.name}</Typography>
+                <Typography style={{ fontWeight: 'bold' }}>Song #: {' '} {currentSong + 1}</Typography>
+                <Typography style={{ fontWeight: 'bold' }}>Title: {' '} {playingList.songs[currentSong].title}</Typography>
+                <Typography style={{ fontWeight: 'bold' }}>Artist: {' '} {playingList.songs[currentSong].artist}</Typography>
+            </Box>
         }
 
     }
