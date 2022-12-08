@@ -105,12 +105,14 @@ function ListCard(props) {
     let cardCenter = "";
     let cardCenterStyle = {
         width: '100%', backgroundColor: "#fffff1", height: "35vh", overflowY: "auto",
-        borderStyle: "solid", borderWidth: "2px", borderRadius: '10pt'};
+        borderStyle: "solid", borderWidth: "2px", borderRadius: '10pt'
+    };
     if (store.currentList) {
         if (store.currentList.isPublished) {
             cardCenterStyle = {
                 width: '100%', backgroundColor: "#2c2f70", height: "35vh", overflowY: "auto",
-                borderStyle: "solid", borderWidth: "2px", borderRadius: '10pt'};
+                borderStyle: "solid", borderWidth: "2px", borderRadius: '10pt'
+            };
         }
     }
 
@@ -194,7 +196,9 @@ function ListCard(props) {
     let published = "";
     if (listInfo.publishDate && listInfo.isPublished) {
         let dateText = listInfo.publishDate.slice(0, 10);
-        published = <Typography display="inline" style={{ color: '#65b358', fontWeight: 'bold' }}> {dateText} </Typography>;
+        let dateArray = dateText.split("-")
+        let publishDateText = dateArray[1] + "/" + dateArray[2] + "/" + dateArray[0]
+        published = <Typography display="inline" style={{ color: '#65b358', fontWeight: 'bold' }}> {publishDateText} </Typography>;
     }
 
     let listensText = "";

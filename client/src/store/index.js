@@ -633,11 +633,14 @@ function GlobalStoreContextProvider(props) {
         let getResponse = await api.getPlaylistById(id);
         if (getResponse.data.success) {
             let newName = store.currentList.name;
-            store.listInfo.forEach(list => {
-                if (list.name === newName) {
-                    newName += " (1)";
-                }
-            });
+            if (store.currentHomeScreen === CurrentHomeScreen.HOME) {
+                store.listInfo.forEach(list => {
+                    if (list.name === newName) {
+                        newName += " (1)";
+                    }
+                });
+            }
+
             const response = await api.createPlaylist(newName, auth.user.email, auth.user.userName, 0, 0, 0, false, [], store.currentList.songs);
             if (response.status === 201) {
                 tps.clearAllTransactions();
