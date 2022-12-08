@@ -191,6 +191,7 @@ const HomeScreen = () => {
     if (store.currentHomeScreen === "USERS") {
         usersButtonStyle = { fontSize: '30pt', color: '#222222' };
     }
+    
     return (
         <div id="playlist-selector">
             <div id="home-banner">
@@ -212,7 +213,8 @@ const HomeScreen = () => {
                     label={'Search'}
                     style={{ width: '55%', marginLeft: '7%', marginTop: '5px', backgroundColor: '#ffffff', borderRadius: '4px' }}
                     onKeyPress={handleKeyPress}
-                    onChange={handleUpdateText}>
+                    onChange={handleUpdateText}
+                    >
                 </TextField>
 
                 <Box sx={{ pt: 1, pl: 1 }} style={{ right: '2%', position: 'absolute', fontWeight: 'bold', fontSize: 25, }}>
