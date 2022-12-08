@@ -62,6 +62,7 @@ export default function RegisterScreen() {
                                     label="User Name"
                                     name="userName"
                                     autoComplete="username"
+                                    autoFocus
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -82,7 +83,6 @@ export default function RegisterScreen() {
                                     fullWidth
                                     id="firstName"
                                     label="First Name"
-                                    autoFocus
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>

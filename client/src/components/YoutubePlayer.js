@@ -37,16 +37,11 @@ export default function YouTubePlayer() {
         if (store.playingList.songs) {
             if (store.playingList.songs.length >= 1 && playlist) {
                 if (store.playingList.songs[0].youTubeId === playlist[currentSong]) {
-                    console.log("WJAOIFFJIOEHIOUJGERSHIUJBGSRIUHEGHUIRSDGHUIRSHUIGSRHUIGIHUSRGUHISRGUIHRSUIHGUISHRGHIUSRGUHISRUIHG");
-                    console.log(store.playingList.songs[0].youTubeId);
-                    //sloadAndPlayCurrentSong(player)
-                    // console.log(player.getVideoData().video_id);
                     player.loadVideoById(store.playingList.songs[0].youTubeId);
                     player.playVideo();
                 }
             }
         }
-
 
         setplayingList(store.playingList);
         let asyncChangeList = async function () {
@@ -57,10 +52,8 @@ export default function YouTubePlayer() {
         asyncChangeList();
         setCurrentSong(0);
         store.setPlayingSong(0);
-
-
-        console.log("?????????????????????????????????????????????? ?????????????????????????????");
-        console.log(player);
+        
+        //console.log(player);
         forceUpdate();
     }
 
